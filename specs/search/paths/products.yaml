@@ -1,0 +1,27 @@
+get:
+  security: []
+  operationId: searchProducts
+  tags: [Search]
+  summary: Search products with filters and sorting
+  parameters:
+    - $ref: ../openapi.yaml#/components/parameters/Query
+    - $ref: ../openapi.yaml#/components/parameters/Page
+    - $ref: ../openapi.yaml#/components/parameters/Limit
+    - name: category
+      in: query
+      schema:
+        type: string
+    - name: sort
+      in: query
+      schema:
+        type: string
+        enum: [relevance, price_asc, price_desc, newest]
+  responses:
+    "200":
+      description: Search results
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/SearchResult.yaml
+    "400":
+      $ref: ../../shared/components/responses/BadRequest.yaml

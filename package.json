@@ -1,0 +1,61 @@
+{
+  "name": "@octalmesh/ows-contracts",
+  "version": "1.0.0",
+  "description": "OpenAPI contracts for the OctalMesh Web Shop module",
+  "author": "OctalMesh <contact@octalmesh.com> (https://octalmesh.com)",
+  "license": "MIT",
+  "homepage": "https://github.com/OctalMesh/ows-contracts",
+  "type": "module",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OctalMesh/ows-contracts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OctalMesh/ows-contracts/issues",
+    "email": "security@octalmesh.com"
+  },
+  "packageManager": "pnpm@11.17.0",
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=11.0.0"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^24.0.0",
+      "onFail": "warn"
+    }
+  },
+  "scripts": {
+    "clean": "pnpm --prefix tools run clean",
+    "typecheck": "pnpm --prefix tools run typecheck",
+    "build": "pnpm --prefix tools run build",
+    "build:all": "pnpm run build && pnpm run docs",
+    "docs": "pnpm --prefix tools run docs",
+    "docs:build": "pnpm run build && pnpm run docs",
+    "docs:serve": "pnpm --prefix tools run docs:serve",
+    "docs:preview": "pnpm run docs:build && pnpm run docs:serve",
+    "generate": "pnpm --prefix tools run generate",
+    "lint": "pnpm --prefix tools run lint",
+    "contracts": "pnpm run lint && pnpm run build && pnpm run generate",
+    "contracts:all": "pnpm run contracts && pnpm run docs",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "deps": "ncu -i --format group",
+    "deps:check": "ncu --format group",
+    "deps:minor": "ncu -i --target minor",
+    "deps:patch": "ncu -i --target patch",
+    "deps:doctor": "ncu --doctor -u",
+    "deps:peer": "ncu --peer",
+    "tree": "treee -I \"node_modules|.git|.idea|target|build|dist|dev-dist|bin|.project-structure.txt\" -a --dirs-first",
+    "tree:export": "pnpm run tree --silent > .project-structure.txt"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@types/node": "^26.4.0",
+    "npm-check-updates": "^23.1.0",
+    "prettier": "^3.9.6",
+    "tree-node-cli": "^3.0.0"
+  }
+}

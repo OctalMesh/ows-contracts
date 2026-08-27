@@ -1,0 +1,26 @@
+openapi: 3.1.0
+info:
+  title: Search Service API
+  version: 1.0.0
+  license:
+    name: Proprietary
+    identifier: proprietary
+servers:
+  - url: /api/search
+tags:
+  - name: Search
+    description: Full-text product search, filtering, and sorting.
+paths:
+  /products:
+    $ref: ./paths/products.yaml
+components:
+  schemas:
+    SearchResult:
+      $ref: ./components/schemas/SearchResult.yaml
+  parameters:
+    Query:
+      $ref: ./components/parameters/QueryParam.yaml
+    Limit:
+      $ref: ../shared/components/parameters/LimitParam.yaml
+    Page:
+      $ref: ../shared/components/parameters/PageParam.yaml

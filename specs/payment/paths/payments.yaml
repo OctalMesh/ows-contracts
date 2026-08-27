@@ -1,0 +1,23 @@
+post:
+  operationId: createPayment
+  tags: [Payments]
+  summary: Create a payment for an order
+  security:
+    - BearerAuth: []
+  parameters:
+    - $ref: ../openapi.yaml#/components/parameters/IdempotencyKey
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/PaymentRequest.yaml
+  responses:
+    "201":
+      description: Payment created
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Payment.yaml
+    "400":
+      $ref: ../../shared/components/responses/BadRequest.yaml

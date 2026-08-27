@@ -1,0 +1,29 @@
+{
+  "name": "@octalmesh/ows-contracts-tools",
+  "description": "Tools for generating and managing OpenAPI contracts for the OctalMesh Web Shop module",
+  "author": "OctalMesh <contact@octalmesh.com> (https://octalmesh.com)",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "clean": "tsx scripts/clean.mts",
+    "typecheck": "tsc --noEmit",
+    "build": "tsx scripts/bundle.mts",
+    "docs": "tsx scripts/docs.mts",
+    "docs:serve": "tsx scripts/serve.mts",
+    "generate": "tsx scripts/generate-clients.mts && tsx scripts/generate-servers.mts",
+    "lint": "tsx scripts/lint.mts"
+  },
+  "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.41.0",
+    "@redocly/cli": "^2.48.0",
+    "@types/node": "^26.4.0",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "@scalar/api-reference": "^1.66.1",
+    "@stoplight/spectral-cli": "^6.16.3",
+    "@stoplight/spectral-functions": "^1.10.5"
+  }
+}

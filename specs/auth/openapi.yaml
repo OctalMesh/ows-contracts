@@ -1,0 +1,30 @@
+openapi: 3.1.0
+info:
+  title: Auth Service API
+  version: 1.0.0
+  license:
+    name: Proprietary
+    identifier: proprietary
+servers:
+  - url: /api/auth
+tags:
+  - name: Auth
+    description: Authentication and user profile operations.
+paths:
+  /login:
+    $ref: "./paths/login.yaml"
+  /register:
+    $ref: "./paths/register.yaml"
+  /me:
+    $ref: "./paths/me.yaml"
+components:
+  schemas:
+    User:
+      $ref: "./components/schemas/User.yaml"
+    Token:
+      $ref: "./components/schemas/Token.yaml"
+    LoginRequest:
+      $ref: "./components/schemas/LoginRequest.yaml"
+  securitySchemes:
+    BearerAuth:
+      $ref: ../shared/components/security/bearerAuth.yaml

@@ -1,0 +1,18 @@
+type: object
+required: [id, status, items, total, createdAt]
+properties:
+  id:
+    type: string
+    format: uuid
+  status:
+    type: string
+    enum: [pending, paid, shipped, completed, cancelled]
+  items:
+    type: array
+    items:
+      $ref: ./CartItem.yaml
+  total:
+    $ref: ../../../shared/components/schemas/Money.yaml
+  createdAt:
+    type: string
+    format: date-time

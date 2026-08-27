@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  title: Order Service API
+  version: 1.0.0
+  license:
+    name: Proprietary
+    identifier: proprietary
+servers:
+  - url: /api/order
+tags:
+  - name: Orders
+    description: Shopping cart and order lifecycle operations.
+paths:
+  /cart:
+    $ref: ./paths/cart.yaml
+  /orders:
+    $ref: ./paths/orders.yaml
+components:
+  securitySchemes:
+    BearerAuth:
+      $ref: ../shared/components/security/bearerAuth.yaml
+  schemas:
+    Cart:
+      $ref: ./components/schemas/Cart.yaml
+    Order:
+      $ref: ./components/schemas/Order.yaml
+    OrderPage:
+      $ref: ./components/schemas/OrderPage.yaml
+  parameters:
+    IdempotencyKey:
+      $ref: ../shared/components/parameters/IdempotencyKeyHeader.yaml
+    Page:
+      $ref: ../shared/components/parameters/PageParam.yaml
+    Limit:
+      $ref: ../shared/components/parameters/LimitParam.yaml

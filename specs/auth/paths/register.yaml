@@ -1,0 +1,20 @@
+post:
+  operationId: registerUser
+  tags: [Auth]
+  summary: Register a new user
+  security: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/RegisterRequest.yaml
+  responses:
+    "201":
+      description: User registered
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/User.yaml
+    "409":
+      $ref: ../../shared/components/responses/Conflict.yaml

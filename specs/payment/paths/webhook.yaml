@@ -1,0 +1,16 @@
+post:
+  security: []
+  operationId: receivePaymentWebhook
+  tags: [Webhooks]
+  summary: Receive a payment provider callback
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/WebhookEvent.yaml
+  responses:
+    "204":
+      description: Webhook accepted
+    "400":
+      $ref: ../../shared/components/responses/BadRequest.yaml

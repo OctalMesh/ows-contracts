@@ -1,0 +1,14 @@
+type: object
+required: [id, orderId, amount, status]
+properties:
+  id:
+    type: string
+    format: uuid
+  orderId:
+    type: string
+    format: uuid
+  amount:
+    $ref: ../../../shared/components/schemas/Money.yaml
+  status:
+    type: string
+    enum: [pending, authorized, captured, failed, refunded]

@@ -1,0 +1,29 @@
+openapi: 3.1.0
+info:
+  title: Catalog Service API
+  version: 1.0.0
+  license:
+    name: Proprietary
+    identifier: proprietary
+servers:
+  - url: /api/catalog
+tags:
+  - name: Products
+    description: Product catalog and inventory status.
+paths:
+  /products:
+    $ref: ./paths/products.yaml
+components:
+  schemas:
+    Product:
+      $ref: ./components/schemas/Product.yaml
+    ProductPage:
+      $ref: ./components/schemas/ProductPage.yaml
+  parameters:
+    Limit:
+      $ref: ../shared/components/parameters/LimitParam.yaml
+    Page:
+      $ref: ../shared/components/parameters/PageParam.yaml
+  responses:
+    BadRequest:
+      $ref: ../shared/components/responses/BadRequest.yaml

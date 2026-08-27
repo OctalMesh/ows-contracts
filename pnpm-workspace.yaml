@@ -1,0 +1,15 @@
+allowBuilds:
+  "@openapitools/openapi-generator-cli": true
+  "@scarf/scarf": true
+  core-js: true
+  esbuild: true
+  protobufjs: true
+  vue-demi: true
+
+minimumReleaseAgeExclude:
+  - "@types/node@26.4.0"
+
+packages:
+  - tools
+  - clients/ts
+  - clients/ts/*-client

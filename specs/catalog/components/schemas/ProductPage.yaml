@@ -1,0 +1,9 @@
+type: object
+required: [items, pagination]
+properties:
+  items:
+    type: array
+    items:
+      $ref: ./Product.yaml
+  pagination:
+    $ref: ../../../shared/components/schemas/Pagination.yaml

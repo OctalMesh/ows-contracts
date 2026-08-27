@@ -1,0 +1,11 @@
+type: object
+required: [productId, quantity, unitPrice]
+properties:
+  productId:
+    type: string
+    format: uuid
+  quantity:
+    type: integer
+    minimum: 1
+  unitPrice:
+    $ref: ../../../shared/components/schemas/Money.yaml

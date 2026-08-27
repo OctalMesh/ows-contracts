@@ -1,0 +1,10 @@
+type: object
+required: [amount, currency]
+properties:
+  amount:
+    type: integer
+    format: int64
+    description: Amount in the smallest currency unit.
+  currency:
+    type: string
+    pattern: "^[A-Z]{3}$"

@@ -1,0 +1,20 @@
+post:
+  security: []
+  operationId: "login"
+  tags: ["Auth"]
+  summary: "Authenticate user and issue tokens"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/LoginRequest.yaml"
+  responses:
+    "200":
+      description: "Successful authentication"
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/Token.yaml"
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"

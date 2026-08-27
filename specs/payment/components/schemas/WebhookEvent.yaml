@@ -1,0 +1,11 @@
+type: object
+required: [eventId, type, paymentId]
+properties:
+  eventId:
+    type: string
+  type:
+    type: string
+    enum: [payment.authorized, payment.captured, payment.failed]
+  paymentId:
+    type: string
+    format: uuid

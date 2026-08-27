@@ -1,0 +1,31 @@
+openapi: 3.1.0
+info:
+  title: Payment Service API
+  version: 1.0.0
+  license:
+    name: Proprietary
+    identifier: proprietary
+servers:
+  - url: /api/payment
+tags:
+  - name: Payments
+    description: Payment transaction operations.
+  - name: Webhooks
+    description: Payment provider callback operations.
+paths:
+  /payments:
+    $ref: ./paths/payments.yaml
+  /webhooks/provider:
+    $ref: ./paths/webhook.yaml
+components:
+  securitySchemes:
+    BearerAuth:
+      $ref: ../shared/components/security/bearerAuth.yaml
+  schemas:
+    Payment:
+      $ref: ./components/schemas/Payment.yaml
+    WebhookEvent:
+      $ref: ./components/schemas/WebhookEvent.yaml
+  parameters:
+    IdempotencyKey:
+      $ref: ../shared/components/parameters/IdempotencyKeyHeader.yaml

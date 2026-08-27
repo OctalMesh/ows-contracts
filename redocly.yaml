@@ -1,0 +1,19 @@
+extends:
+  - recommended
+
+apis:
+  auth@v1:
+    root: specs/auth/openapi.yaml
+  catalog@v1:
+    root: specs/catalog/openapi.yaml
+  order@v1:
+    root: specs/order/openapi.yaml
+  payment@v1:
+    root: specs/payment/openapi.yaml
+  search@v1:
+    root: specs/search/openapi.yaml
+
+rules:
+  operation-operationId: error
+  no-unused-components: error
+  path-params-defined: error

@@ -1,0 +1,13 @@
+type: object
+required: [page, limit, total]
+properties:
+  page:
+    type: integer
+    minimum: 1
+  limit:
+    type: integer
+    minimum: 1
+    maximum: 100
+  total:
+    type: integer
+    minimum: 0

@@ -1,0 +1,32 @@
+get:
+  operationId: getCart
+  tags: [Orders]
+  summary: Get the current shopping cart
+  security:
+    - BearerAuth: []
+  responses:
+    "200":
+      description: Current cart
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Cart.yaml
+    "401":
+      $ref: ../../shared/components/responses/Unauthorized.yaml
+post:
+  operationId: checkoutCart
+  tags: [Orders]
+  summary: Convert the current cart into an order
+  security:
+    - BearerAuth: []
+  parameters:
+    - $ref: ../openapi.yaml#/components/parameters/IdempotencyKey
+  responses:
+    "201":
+      description: Created order
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Order.yaml
+    "409":
+      $ref: ../../shared/components/responses/Conflict.yaml
