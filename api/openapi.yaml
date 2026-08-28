@@ -1,0 +1,185 @@
+openapi: 3.1.0
+info:
+  license:
+    name: MIT
+  title: Payment Service API
+  version: 1.0.0
+servers:
+- url: /api/payment
+tags:
+- description: Payment transaction operations.
+  name: Payments
+- description: Payment provider callback operations.
+  name: Webhooks
+paths:
+  /payments:
+    post:
+      operationId: createPayment
+      parameters:
+      - $ref: "#/components/parameters/IdempotencyKeyHeader"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Payment"
+          description: Payment created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      security:
+      - BearerAuth: []
+      summary: Create a payment for an order
+      tags:
+      - Payments
+  /webhooks/provider:
+    post:
+      operationId: receivePaymentWebhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookEvent"
+        required: true
+      responses:
+        "204":
+          description: Webhook accepted
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      security: []
+      summary: Receive a payment provider callback
+      tags:
+      - Webhooks
+components:
+  parameters:
+    IdempotencyKey:
+      $ref: "#/components/parameters/IdempotencyKeyHeader"
+    IdempotencyKeyHeader:
+      explode: false
+      in: header
+      name: Idempotency-Key
+      required: true
+      schema:
+        minLength: 8
+        type: string
+      style: simple
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Request validation failed
+  schemas:
+    Payment:
+      example:
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        orderId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        amount:
+          amount: 0
+          currency: currency
+        status: pending
+      properties:
+        id:
+          format: uuid
+          type: string
+        orderId:
+          format: uuid
+          type: string
+        amount:
+          $ref: "#/components/schemas/Money"
+        status:
+          enum:
+          - pending
+          - authorized
+          - captured
+          - failed
+          - refunded
+          type: string
+      required:
+      - amount
+      - id
+      - orderId
+      - status
+    WebhookEvent:
+      example:
+        eventId: eventId
+        type: payment.authorized
+        paymentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        eventId:
+          type: string
+        type:
+          enum:
+          - payment.authorized
+          - payment.captured
+          - payment.failed
+          type: string
+        paymentId:
+          format: uuid
+          type: string
+      required:
+      - eventId
+      - paymentId
+      - type
+    Money:
+      example:
+        amount: 0
+        currency: currency
+      properties:
+        amount:
+          description: Amount in the smallest currency unit.
+          format: int64
+          type: integer
+        currency:
+          pattern: "^[A-Z]{3}$"
+          type: string
+      required:
+      - amount
+      - currency
+    PaymentRequest:
+      example:
+        orderId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        amount:
+          amount: 0
+          currency: currency
+        paymentMethodToken: paymentMethodToken
+      properties:
+        orderId:
+          format: uuid
+          type: string
+        amount:
+          $ref: "#/components/schemas/Money"
+        paymentMethodToken:
+          type: string
+      required:
+      - amount
+      - orderId
+      - paymentMethodToken
+    Error:
+      example:
+        code: code
+        message: message
+        details:
+          key: ""
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          additionalProperties: true
+          type: object
+      required:
+      - code
+      - message
+  securitySchemes:
+    BearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
