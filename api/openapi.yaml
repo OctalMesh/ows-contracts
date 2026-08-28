@@ -1,0 +1,180 @@
+openapi: 3.1.0
+info:
+  license:
+    name: MIT
+  title: Catalog Service API
+  version: 1.0.0
+servers:
+- url: /api/catalog
+tags:
+- description: Product catalog and inventory status.
+  name: Products
+paths:
+  /products:
+    get:
+      operationId: listProducts
+      parameters:
+      - $ref: "#/components/parameters/PageParam"
+      - $ref: "#/components/parameters/LimitParam"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductPage"
+          description: Product page
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      security: []
+      summary: List products
+      tags:
+      - Products
+components:
+  parameters:
+    Limit:
+      $ref: "#/components/parameters/LimitParam"
+    Page:
+      $ref: "#/components/parameters/PageParam"
+    PageParam:
+      explode: true
+      in: query
+      name: page
+      required: false
+      schema:
+        default: 1
+        minimum: 1
+        type: integer
+      style: form
+    LimitParam:
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 20
+        maximum: 100
+        minimum: 1
+        type: integer
+      style: form
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Request validation failed
+  schemas:
+    Product:
+      example:
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        name: name
+        description: description
+        price:
+          amount: 0
+          currency: currency
+        inventoryStatus: in_stock
+      properties:
+        id:
+          format: uuid
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          $ref: "#/components/schemas/Money"
+        inventoryStatus:
+          enum:
+          - in_stock
+          - low_stock
+          - out_of_stock
+          type: string
+      required:
+      - id
+      - inventoryStatus
+      - name
+      - price
+    ProductPage:
+      example:
+        items:
+        - id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: name
+          description: description
+          price:
+            amount: 0
+            currency: currency
+          inventoryStatus: in_stock
+        - id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: name
+          description: description
+          price:
+            amount: 0
+            currency: currency
+          inventoryStatus: in_stock
+        pagination:
+          page: 1
+          limit: 15
+          total: 0
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/Product"
+          type: array
+          default: null
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+      - items
+      - pagination
+    Money:
+      example:
+        amount: 0
+        currency: currency
+      properties:
+        amount:
+          description: Amount in the smallest currency unit.
+          format: int64
+          type: integer
+        currency:
+          pattern: "^[A-Z]{3}$"
+          type: string
+      required:
+      - amount
+      - currency
+    Pagination:
+      example:
+        page: 1
+        limit: 15
+        total: 0
+      properties:
+        page:
+          minimum: 1
+          type: integer
+        limit:
+          maximum: 100
+          minimum: 1
+          type: integer
+        total:
+          minimum: 0
+          type: integer
+      required:
+      - limit
+      - page
+      - total
+    Error:
+      example:
+        code: code
+        message: message
+        details:
+          key: ""
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          additionalProperties: true
+          type: object
+      required:
+      - code
+      - message
