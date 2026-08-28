@@ -15,7 +15,7 @@
     "url": "https://github.com/OctalMesh/ows-contracts/issues",
     "email": "security@octalmesh.com"
   },
-  "packageManager": "pnpm@11.17.0",
+  "packageManager": "pnpm@11.24.0",
   "engines": {
     "node": ">=24.0.0",
     "pnpm": ">=11.0.0"
@@ -37,9 +37,12 @@
     "docs:serve": "pnpm --prefix tools run docs:serve",
     "docs:preview": "pnpm run docs:build && pnpm run docs:serve",
     "generate": "pnpm --prefix tools run generate",
+    "publish:sdk": "pnpm --prefix tools run publish:sdk",
+    "publish:registries": "pnpm --prefix tools run publish:registries",
     "lint": "pnpm --prefix tools run lint",
     "contracts": "pnpm run lint && pnpm run build && pnpm run generate",
     "contracts:all": "pnpm run contracts && pnpm run docs",
+    "release:sdk": "pnpm run contracts && pnpm run publish:sdk && pnpm run publish:registries",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "deps": "ncu -i --format group",

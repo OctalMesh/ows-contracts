@@ -1,6 +1,0 @@
-extends: ["spectral:oas"]
-rules:
-  operation-description: warn
-  operation-operationId: error
-  info-contact: off
-  no-eval-in-markdown: error

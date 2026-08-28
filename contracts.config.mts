@@ -1,155 +1,219 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+const ORG = "octalmesh";
+const PLATFORM = "web";
+const MODULE = "shop";
+const REPO = "ows-contracts";
+const GITHUB_OWNER = "OctalMesh";
+
+const DOCS_SERVER_HOST = "localhost";
+const DOCS_SERVER_PORT = 8080;
+const DOCS_SERVER_TITLE = "OWS - API Reference";
+const DOCS_SERVER_DESCRIPTION =
+  "API documentation for the OctalMesh Web Shop, including Auth, Catalog, Order, Payment, and Search services.";
+const DOCS_SERVER_FAVICON = "https://octalmesh.com/favicon.ico";
+const DOCS_SERVER_BASE_URL = "https://octalmesh.com";
+
+const SERVICE_DEFS = [
+  { name: "auth", title: "Auth Service API" },
+  { name: "catalog", title: "Catalog Service API" },
+  { name: "order", title: "Order Service API" },
+  { name: "payment", title: "Payment Service API" },
+  { name: "search", title: "Search Service API" },
+] as const;
+
+//<editor-fold desc="Paths" defaultstate="collapsed">
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname);
 
-export interface TypeScriptClientConfig {
-  packageName: string;
-}
+const distDir = path.join(ROOT_DIR, "dist");
+const specsDir = path.join(distDir, "specs");
+const docsDir = path.join(distDir, "docs");
+const sdkDir = path.join(distDir, "sdk");
 
-export interface GoClientConfig {
-  packageName: string;
-  modulePath: string;
-  repository: string;
-}
+//</editor-fold>
 
-export interface JavaServerConfig {
+//<editor-fold desc="Types and Interfaces" defaultstate="collapsed">
+
+export type SdkLang = "typescript" | "go" | "java";
+export type SdkKind = "client" | "server";
+
+export interface SdkTargetConfig {
+  lang: SdkLang;
+  kind: SdkKind;
+  generator: string;
+  outputDir: string;
+  branch: string;
+  tagPrefix: string;
   additionalProperties: string;
-}
 
-export interface GoServerConfig {
-  packageName: string;
-  modulePath: string;
-  repository: string;
+  npmPackageName?: string;
+  goModulePath?: string;
+  goPackageName?: string;
+  mavenGroupId?: string;
+  mavenArtifactId?: string;
 }
 
 export interface ServiceConfig {
   name: string;
   title: string;
   entrypoint: string;
-
-  clients: {
-    typescript: {
-      directory: string;
-      packageName: string;
-      additionalProperties: string;
-    };
-    go: {
-      directory: string;
-      packageName: string;
-      modulePath: string;
-      repository: string;
-      additionalProperties: string;
-    };
-  };
-
-  servers: {
-    java: {
-      directory: string;
-      additionalProperties: string;
-    };
-    go: {
-      directory: string;
-      packageName: string;
-      modulePath: string;
-      repository: string;
-      additionalProperties: string;
-    };
+  sdk: {
+    typescriptClient: SdkTargetConfig;
+    goClient: SdkTargetConfig;
+    javaServer: SdkTargetConfig;
+    goServer: SdkTargetConfig;
   };
 }
 
 export interface ContractsConfig {
   rootDir: string;
-
   distDir: string;
   specsDir: string;
   docsDir: string;
-
+  sdkDir: string;
+  github: {
+    owner: string;
+    repo: string;
+  };
   services: ServiceConfig[];
+  docsServer: {
+    host: string;
+    port: number;
+    title: string;
+    description: string;
+    favicon: string;
+    baseServerUrl: string;
+  };
 }
 
-const services = [
-  {
-    name: "auth",
-    title: "Auth Service API",
-  },
-  {
-    name: "catalog",
-    title: "Catalog Service API",
-  },
-  {
-    name: "order",
-    title: "Order Service API",
-  },
-  {
-    name: "payment",
-    title: "Payment Service API",
-  },
-  {
-    name: "search",
-    title: "Search Service API",
-  },
-] as const;
+//</editor-fold>
 
+//<editor-fold desc="SDK Config Builders" defaultstate="collapsed">
+
+/**
+ * Builds the SDK config for a given service name.
+ *
+ * @param name - The name of the service.
+ * @returns The SDK configuration for the specified service.
+ */
+function buildServiceSdk(name: string): ServiceConfig["sdk"] {
+  return {
+    // TypeScript client -> npm (GitHub Packages)
+    typescriptClient: {
+      lang: "typescript",
+      kind: "client",
+      generator: "typescript-fetch",
+      outputDir: path.join(sdkDir, name, "typescript-client"),
+      branch: `sdk/svc-${name}/typescript-client`,
+      tagPrefix: `svc-${name}-typescript-client`,
+      npmPackageName: `@${ORG}/${PLATFORM}-${MODULE}-${name}-client`,
+      additionalProperties: [
+        `npmName=@${ORG}/${PLATFORM}-${MODULE}-${name}-client`,
+        "supportsES6=true",
+        "typescriptThreePlus=true",
+        "withInterfaces=true",
+      ].join(","),
+    },
+
+    // Go client -> git branch/tag only
+    goClient: {
+      lang: "go",
+      kind: "client",
+      generator: "go",
+      outputDir: path.join(sdkDir, name, "go-client"),
+      branch: `sdk/svc-${name}/go-client`,
+      tagPrefix: `svc-${name}-go-client`,
+      goModulePath: `github.com/${ORG}/${REPO}`,
+      goPackageName: `${name}client`,
+      additionalProperties: [
+        `packageName=${name}client`,
+        "withGoMod=true",
+        "enumClassPrefix=true",
+        "generateInterfaces=true",
+      ].join(","),
+    },
+
+    // Java server stubs (Spring interfaces) -> Maven (GitHub Packages)
+    javaServer: {
+      lang: "java",
+      kind: "server",
+      generator: "spring",
+      outputDir: path.join(sdkDir, name, "java-server"),
+      branch: `sdk/svc-${name}/java-server`,
+      tagPrefix: `svc-${name}-java-server`,
+      mavenGroupId: `com.${ORG}.${PLATFORM}.${MODULE}.${name}`,
+      mavenArtifactId: `${name}-server`,
+      additionalProperties: [
+        "interfaceOnly=true",
+        "skipDefaultInterface=true",
+        "useSpringBoot3=true",
+        "useTags=true",
+        `groupId=com.${ORG}.${PLATFORM}.${MODULE}.${name}`,
+        `artifactId=${name}-server`,
+      ].join(","),
+    },
+
+    // Go server -> git branch/tag only
+    goServer: {
+      lang: "go",
+      kind: "server",
+      generator: "go-server",
+      outputDir: path.join(sdkDir, name, "go-server"),
+      branch: `sdk/svc-${name}/go-server`,
+      tagPrefix: `svc-${name}-go-server`,
+      goModulePath: `github.com/${ORG}/${REPO}`,
+      goPackageName: `${name}server`,
+      additionalProperties: [`packageName=${name}server`].join(","),
+    },
+  };
+}
+
+//</editor-fold>
+
+//<editor-fold desc="Exports" defaultstate="collapsed">
+
+/**
+ * The canonical configuration for the contracts repo - used by all scripts.
+ */
 export const config: ContractsConfig = {
   rootDir: ROOT_DIR,
-
-  distDir: path.join(ROOT_DIR, "dist"),
-  specsDir: path.join(ROOT_DIR, "dist/specs"),
-  docsDir: path.join(ROOT_DIR, "dist/docs"),
-
-  services: services.map(({ name, title }) => ({
+  distDir,
+  specsDir,
+  docsDir,
+  sdkDir,
+  github: { owner: GITHUB_OWNER, repo: REPO },
+  services: SERVICE_DEFS.map(({ name, title }) => ({
     name,
     title,
-
     entrypoint: path.join(ROOT_DIR, "specs", name, "openapi.yaml"),
-
-    clients: {
-      typescript: {
-        directory: path.join(ROOT_DIR, "clients/ts", `${name}-client`),
-        packageName: `@octalmesh/${name}-client`,
-        additionalProperties: [
-          `npmName=@octalmesh/${name}-client`,
-          "supportsES6=true",
-        ].join(","),
-      },
-
-      go: {
-        directory: path.join(ROOT_DIR, "clients/go", `${name}client`),
-        packageName: `${name}client`,
-        modulePath: `github.com/octalmesh/contracts/clients/go/${name}client`,
-        repository: `contracts/clients/go/${name}client`,
-        additionalProperties: [
-          `packageName=${name}client`,
-          "gitUserId=octalmesh",
-          `gitRepoId=contracts/clients/go/${name}client`,
-        ].join(","),
-      },
-    },
-
-    servers: {
-      java: {
-        directory: path.join(ROOT_DIR, "servers/java", `${name}-server`),
-        additionalProperties: [
-          "interfaceOnly=true",
-          "skipDefaultInterface=true",
-          "useSpringBoot3=true",
-        ].join(","),
-      },
-
-      go: {
-        directory: path.join(ROOT_DIR, "servers/go", `${name}-server`),
-        packageName: `${name}server`,
-        modulePath: `github.com/octalmesh/contracts/servers/go/${name}-server`,
-        repository: `contracts/servers/go/${name}-server`,
-        additionalProperties: [
-          `packageName=${name}server`,
-          "gitUserId=octalmesh",
-          `gitRepoId=contracts/servers/go/${name}-server`,
-        ].join(","),
-      },
-    },
+    sdk: buildServiceSdk(name),
   })),
+  docsServer: {
+    host: DOCS_SERVER_HOST,
+    port: DOCS_SERVER_PORT,
+    title: DOCS_SERVER_TITLE,
+    description: DOCS_SERVER_DESCRIPTION,
+    favicon: DOCS_SERVER_FAVICON,
+    baseServerUrl: DOCS_SERVER_BASE_URL,
+  },
 };
+
+/**
+ * Flat list of every service and SDK target pair, for iteration in scripts.
+ * Each entry contains the service config and the specific SDK target config.
+ */
+export const allSdkTargets: Array<{
+  service: ServiceConfig;
+  target: SdkTargetConfig;
+}> = config.services.flatMap((service) => [
+  { service, target: service.sdk.typescriptClient },
+  { service, target: service.sdk.goClient },
+  { service, target: service.sdk.javaServer },
+  { service, target: service.sdk.goServer },
+]);
+
+//</editor-fold>

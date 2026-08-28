@@ -1,6 +1,14 @@
+/**
+ * Lints the OpenAPI contracts using Redocly.
+ *
+ * It checks each service's OpenAPI specification against the rules defined
+ * in `redocly.yaml`.
+ *
+ * Usage: `tsx scripts/lint.mts`
+ */
 import { spawnSync } from "node:child_process";
 
-import { config } from "../../contracts.config.mjs";
+import { config } from "@root/contracts.config.mts";
 
 console.log("Linting OpenAPI contracts...");
 
@@ -11,14 +19,7 @@ for (const service of config.services) {
 
   const result = spawnSync(
     "pnpm",
-    [
-      "exec",
-      "spectral",
-      "lint",
-      service.entrypoint,
-      "--ruleset",
-      `${config.rootDir}/.spectral.yaml`,
-    ],
+    ["exec", "redocly", "lint", service.entrypoint],
     {
       cwd: config.rootDir,
       stdio: "inherit",

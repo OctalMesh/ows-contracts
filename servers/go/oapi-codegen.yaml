@@ -1,7 +1,0 @@
-package: generated
-output: generated.go
-generate:
-  chi-server: true
-  models: true
-output-options:
-  skip-prune: true

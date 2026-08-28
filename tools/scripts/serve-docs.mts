@@ -1,12 +1,18 @@
+/**
+ * A simple HTTP server to serve the documentation files.
+ * This script is used to serve the documentation files in the `dist/docs`
+ * directory.
+ *
+ * Usage: `tsx scripts/serve-docs.mts`
+ */
 import { createReadStream, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
 
-import { config } from "../../contracts.config.mjs";
+import { config } from "@root/contracts.config.mts";
 
-const host = "localhost";
-const port = 4000;
-const root = config.docsDir;
+const host = config.docsServer.host;
+const port = config.docsServer.port;
 
 const mimeTypes: Record<string, string> = {
   ".html": "text/html; charset=utf-8",
@@ -24,6 +30,7 @@ const server = createServer((request, response) => {
   if (!request.url) {
     response.writeHead(400);
     response.end();
+
     return;
   }
 
@@ -31,7 +38,7 @@ const server = createServer((request, response) => {
   const pathname = decodeURIComponent(url.pathname);
 
   const relativePath = normalize(pathname).replace(/^(\.\.[/\\])+/, "");
-  let file = join(root, relativePath);
+  let file = join(config.docsDir, relativePath);
 
   try {
     if (statSync(file).isDirectory()) {
@@ -40,6 +47,7 @@ const server = createServer((request, response) => {
   } catch {
     response.writeHead(404);
     response.end("Not Found");
+
     return;
   }
 
@@ -49,6 +57,7 @@ const server = createServer((request, response) => {
     if (!stat.isFile()) {
       response.writeHead(404);
       response.end("Not Found");
+
       return;
     }
 

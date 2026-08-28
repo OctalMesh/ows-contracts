@@ -1,3 +1,12 @@
+# ============================================================================ #
+#                         PNPM Workspace Configuration                         #
+# ============================================================================ #
+# This file defines the configuration for the pnpm workspace, which is a       #
+# package management tool for JavaScript projects.                             #
+#                                                                              #
+# See: https://pnpm.io/settings                                                #
+# ============================================================================ #
+
 allowBuilds:
   "@openapitools/openapi-generator-cli": true
   "@scarf/scarf": true
@@ -11,5 +20,3 @@ minimumReleaseAgeExclude:
 
 packages:
   - tools
-  - clients/ts
-  - clients/ts/*-client

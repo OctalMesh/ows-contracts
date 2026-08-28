@@ -1,26 +1,13 @@
+/**
+ * Cleans the distribution directory by removing all files and subdirectories
+ * within it.
+ *
+ * Usage: `tsx scripts/clean.mts`
+ */
 import { rm } from "node:fs/promises";
-import { resolve } from "node:path";
 
-import { config } from "../../contracts.config.mjs";
+import { config } from "@root/contracts.config.mts";
 
-const generated = [
-  config.distDir,
+await rm(config.distDir, { recursive: true, force: true });
 
-  ...config.services.flatMap((service) => [
-    service.clients.typescript.directory,
-    service.clients.go.directory,
-    service.servers.go.directory,
-    service.servers.java.directory,
-  ]),
-];
-
-await Promise.all(
-  generated.map((directory) =>
-    rm(resolve(directory), {
-      recursive: true,
-      force: true,
-    }),
-  ),
-);
-
-console.log(`Cleaned ${generated.length} generated output directories.`);
+console.log(`Cleaned ${config.distDir}`);

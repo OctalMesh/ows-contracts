@@ -1,9 +1,15 @@
+/**
+ * Bundles the OpenAPI specifications for all services defined in the config
+ * file using the Redocly CLI.
+ *
+ * Usage: `tsx scripts/bundle.mts`
+ */
 import { spawn } from "node:child_process";
 import { mkdir, rm } from "node:fs/promises";
 
-import { config } from "../../contracts.config.mjs";
+import { config } from "@root/contracts.config.mts";
 
-const run = (args: string[]) =>
+const run = (args: string[]): Promise<void> =>
   new Promise<void>((resolvePromise, reject) => {
     const child = spawn("pnpm", ["exec", "redocly", "bundle", ...args], {
       cwd: config.rootDir,
@@ -21,14 +27,8 @@ const run = (args: string[]) =>
     });
   });
 
-await rm(config.specsDir, {
-  recursive: true,
-  force: true,
-});
-
-await mkdir(config.specsDir, {
-  recursive: true,
-});
+await rm(config.specsDir, { recursive: true, force: true });
+await mkdir(config.specsDir, { recursive: true });
 
 for (const service of config.services) {
   const output = `${service.name}.json`;

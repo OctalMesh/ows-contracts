@@ -1,9 +1,0 @@
-go 1.25
-
-use (
-	./auth-server
-	./catalog-server
-	./order-server
-	./payment-server
-	./search-server
-)

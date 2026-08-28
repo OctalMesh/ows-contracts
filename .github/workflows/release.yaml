@@ -1,0 +1,178 @@
+name: "Release SDKs"
+
+on:
+  push:
+    branches: ["release"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "SDK version to publish (semver, no leading v). Leave empty to auto-generate."
+        required: false
+      dry_run:
+        description: "Generate & validate, but do not push branches/tags or publish packages"
+        type: boolean
+        default: false
+
+concurrency:
+  group: release-sdk
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  packages: write
+  pages: write
+  id-token: write
+
+env:
+  PNPM_VERSION: "11.24.0"
+  NODE_VERSION: "24"
+
+jobs:
+  # Resolve one version for this whole run, shared by every downstream job
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      value: ${{ steps.resolve.outputs.value }}
+    steps:
+      - name: "Resolve SDK version"
+        id: resolve
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "value=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=0.$(date -u +%Y%m%d).$(date -u +%H%M)" >> "$GITHUB_OUTPUT"
+          fi
+
+  lint:
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v5
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint
+
+  bundle:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v5
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - uses: actions/upload-artifact@v4
+        with: { name: contracts-specs, path: dist/specs }
+
+  # Documentation website
+  docs:
+    needs: bundle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v5
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with: { name: contracts-specs, path: dist/specs }
+      - run: pnpm run docs
+      - run: echo "sapi.octalmesh.com" > dist/docs/CNAME
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: dist/docs }
+
+  deploy-docs:
+    needs: docs
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  # Generate every SDK into dist/sdk
+  generate-sdk:
+    needs: [version, bundle]
+    runs-on: ubuntu-latest
+    env:
+      SDK_VERSION: ${{ needs.version.outputs.value }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v5
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - uses: actions/setup-java@v5
+        with: { distribution: "temurin", java-version: "21" }
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with: { name: contracts-specs, path: dist/specs }
+      - run: pnpm run generate
+      - uses: actions/upload-artifact@v4
+        with: { name: sdk-packages, path: dist/sdk }
+
+  # Redistribute each generated package to its own orphan branch
+  # (sdk/svc-<service>/<lang>-<kind>) and tag it
+  publish-branches:
+    needs: [version, generate-sdk]
+    runs-on: ubuntu-latest
+    env:
+      SDK_VERSION: ${{ needs.version.outputs.value }}
+    steps:
+      - uses: actions/checkout@v7
+        with: { fetch-depth: 0 } # full history: needed for `git worktree` + tag lookups
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v5
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with: { name: sdk-packages, path: dist/sdk }
+      - name: "Configure git identity"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: "Publish SDK branches + tags"
+        run: pnpm run publish:sdk -- ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+
+  # Push the registry-backed artifacts: npm (TS client), Maven (Java server).
+  # Go is intentionally excluded - it's consumed straight from the branch.
+  publish-registries:
+    needs: [version, publish-branches]
+    if: ${{ github.event.inputs.dry_run != 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      SDK_VERSION: ${{ needs.version.outputs.value }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v4
+        with: { version: "${{ env.PNPM_VERSION }}" }
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: "pnpm"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@octalmesh"
+      - uses: actions/setup-java@v5
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with: { name: sdk-packages, path: dist/sdk }
+      - name: "Publish npm + Maven packages"
+        run: pnpm run publish:registries
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
