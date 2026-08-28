@@ -1,0 +1,322 @@
+openapi: 3.1.0
+info:
+  license:
+    name: MIT
+  title: Order Service API
+  version: 1.0.0
+servers:
+- url: /api/order
+tags:
+- description: Shopping cart and order lifecycle operations.
+  name: Orders
+paths:
+  /cart:
+    get:
+      operationId: getCart
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+          description: Current cart
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security:
+      - BearerAuth: []
+      summary: Get the current shopping cart
+      tags:
+      - Orders
+    post:
+      operationId: checkoutCart
+      parameters:
+      - $ref: "#/components/parameters/IdempotencyKeyHeader"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+          description: Created order
+        "409":
+          $ref: "#/components/responses/Conflict"
+      security:
+      - BearerAuth: []
+      summary: Convert the current cart into an order
+      tags:
+      - Orders
+  /orders:
+    get:
+      operationId: listOrders
+      parameters:
+      - $ref: "#/components/parameters/PageParam"
+      - $ref: "#/components/parameters/LimitParam"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderPage"
+          description: Order page
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security:
+      - BearerAuth: []
+      summary: List orders for the current user
+      tags:
+      - Orders
+components:
+  parameters:
+    IdempotencyKey:
+      $ref: "#/components/parameters/IdempotencyKeyHeader"
+    Page:
+      $ref: "#/components/parameters/PageParam"
+    Limit:
+      $ref: "#/components/parameters/LimitParam"
+    IdempotencyKeyHeader:
+      explode: false
+      in: header
+      name: Idempotency-Key
+      required: true
+      schema:
+        minLength: 8
+        type: string
+      style: simple
+    PageParam:
+      explode: true
+      in: query
+      name: page
+      required: false
+      schema:
+        default: 1
+        minimum: 1
+        type: integer
+      style: form
+    LimitParam:
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 20
+        maximum: 100
+        minimum: 1
+        type: integer
+      style: form
+  responses:
+    Unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Missing or invalid credentials
+    Conflict:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Resource conflict
+  schemas:
+    Cart:
+      example:
+        items:
+        - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          quantity: 1
+          unitPrice:
+            amount: 6
+            currency: currency
+        - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          quantity: 1
+          unitPrice:
+            amount: 6
+            currency: currency
+        subtotal:
+          amount: 6
+          currency: currency
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/CartItem"
+          type: array
+          default: null
+        subtotal:
+          $ref: "#/components/schemas/Money"
+      required:
+      - items
+      - subtotal
+    Order:
+      example:
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        status: pending
+        items:
+        - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          quantity: 1
+          unitPrice:
+            amount: 6
+            currency: currency
+        - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          quantity: 1
+          unitPrice:
+            amount: 6
+            currency: currency
+        total:
+          amount: 6
+          currency: currency
+        createdAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          format: uuid
+          type: string
+        status:
+          enum:
+          - pending
+          - paid
+          - shipped
+          - completed
+          - cancelled
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/CartItem"
+          type: array
+          default: null
+        total:
+          $ref: "#/components/schemas/Money"
+        createdAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - id
+      - items
+      - status
+      - total
+    OrderPage:
+      example:
+        items:
+        - id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          status: pending
+          items:
+          - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            quantity: 1
+            unitPrice:
+              amount: 6
+              currency: currency
+          - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            quantity: 1
+            unitPrice:
+              amount: 6
+              currency: currency
+          total:
+            amount: 6
+            currency: currency
+          createdAt: 2000-01-23T04:56:07.000+00:00
+        - id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          status: pending
+          items:
+          - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            quantity: 1
+            unitPrice:
+              amount: 6
+              currency: currency
+          - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            quantity: 1
+            unitPrice:
+              amount: 6
+              currency: currency
+          total:
+            amount: 6
+            currency: currency
+          createdAt: 2000-01-23T04:56:07.000+00:00
+        pagination:
+          page: 1
+          limit: 60
+          total: 0
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/Order"
+          type: array
+          default: null
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+      - items
+      - pagination
+    Money:
+      example:
+        amount: 6
+        currency: currency
+      properties:
+        amount:
+          description: Amount in the smallest currency unit.
+          format: int64
+          type: integer
+        currency:
+          pattern: "^[A-Z]{3}$"
+          type: string
+      required:
+      - amount
+      - currency
+    CartItem:
+      example:
+        productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        quantity: 1
+        unitPrice:
+          amount: 6
+          currency: currency
+      properties:
+        productId:
+          format: uuid
+          type: string
+        quantity:
+          minimum: 1
+          type: integer
+        unitPrice:
+          $ref: "#/components/schemas/Money"
+      required:
+      - productId
+      - quantity
+      - unitPrice
+    Error:
+      example:
+        code: code
+        message: message
+        details:
+          key: ""
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          additionalProperties: true
+          type: object
+      required:
+      - code
+      - message
+    Pagination:
+      example:
+        page: 1
+        limit: 60
+        total: 0
+      properties:
+        page:
+          minimum: 1
+          type: integer
+        limit:
+          maximum: 100
+          minimum: 1
+          type: integer
+        total:
+          minimum: 0
+          type: integer
+      required:
+      - limit
+      - page
+      - total
+  securitySchemes:
+    BearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
