@@ -1,0 +1,189 @@
+openapi: 3.1.0
+info:
+  license:
+    name: MIT
+  title: Auth Service API
+  version: 1.0.0
+servers:
+- url: /api/auth
+tags:
+- description: Authentication and user profile operations.
+  name: Auth
+paths:
+  /login:
+    post:
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+          description: Successful authentication
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security: []
+      summary: Authenticate user and issue tokens
+      tags:
+      - Auth
+  /register:
+    post:
+      operationId: registerUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+          description: User registered
+        "409":
+          $ref: "#/components/responses/Conflict"
+      security: []
+      summary: Register a new user
+      tags:
+      - Auth
+  /me:
+    get:
+      operationId: getCurrentUser
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+          description: Current user
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security:
+      - BearerAuth: []
+      summary: Get the authenticated user profile
+      tags:
+      - Auth
+components:
+  responses:
+    Unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Missing or invalid credentials
+    Conflict:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Resource conflict
+  schemas:
+    User:
+      example:
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        email: email
+        displayName: displayName
+        createdAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          format: uuid
+          type: string
+        email:
+          format: email
+          type: string
+        displayName:
+          minLength: 1
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - displayName
+      - email
+      - id
+    Token:
+      example:
+        accessToken: accessToken
+        tokenType: Bearer
+        expiresIn: 1
+      properties:
+        accessToken:
+          type: string
+        tokenType:
+          enum:
+          - Bearer
+          type: string
+        expiresIn:
+          format: int32
+          minimum: 1
+          type: integer
+      required:
+      - accessToken
+      - expiresIn
+      - tokenType
+    LoginRequest:
+      example:
+        email: email
+        password: password
+      properties:
+        email:
+          format: email
+          type: string
+        password:
+          format: password
+          minLength: 8
+          type: string
+      required:
+      - email
+      - password
+    Error:
+      example:
+        code: code
+        message: message
+        details:
+          key: ""
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          additionalProperties: true
+          type: object
+      required:
+      - code
+      - message
+    RegisterRequest:
+      example:
+        email: email
+        password: password
+        displayName: displayName
+      properties:
+        email:
+          format: email
+          type: string
+        password:
+          format: password
+          minLength: 8
+          type: string
+        displayName:
+          minLength: 1
+          type: string
+      required:
+      - displayName
+      - email
+      - password
+  securitySchemes:
+    BearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
