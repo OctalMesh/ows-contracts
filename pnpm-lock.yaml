@@ -20,6 +20,9 @@ importers:
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
+      prettier-plugin-yaml:
+        specifier: ^1.3.0
+        version: 1.3.0(prettier@3.9.6)
       tree-node-cli:
         specifier: ^3.0.0
         version: 3.0.0
@@ -33,8 +36,8 @@ importers:
         specifier: ^2.49.0
         version: 2.49.0
       '@scalar/api-reference':
-        specifier: ^1.66.1
-        version: 1.66.1(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)(zod@4.4.3)
+        specifier: ^1.67.0
+        version: 1.67.0(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)(zod@4.4.3)
       '@types/node':
         specifier: ^26.4.0
         version: 26.4.0
@@ -42,8 +45,8 @@ importers:
         specifier: ^7.13.0
         version: 7.13.0(typescript@6.0.3)
       tsx:
-        specifier: ^4.23.12
-        version: 4.23.12
+        specifier: ^4.23.13
+        version: 4.23.13
       typescript:
         specifier: ^6.0.2
         version: 6.0.3
@@ -476,48 +479,48 @@ packages:
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
 
-  '@scalar/agent-chat@0.12.28':
-    resolution: {integrity: sha512-N1ZEIKHrOhbB6mSUuaeMbNEK8G0lhXu8aHj8RqPMjKAkm0IbZVGCEkFgRCzaqDMcdsXKqQKygzx2a5pV5gX6Ow==}
+  '@scalar/agent-chat@0.12.29':
+    resolution: {integrity: sha512-sZH6XDqhyF6X5hRSOOdlWuwV1MM2xxhLmY3OZiJFnvkLHKQNiFl6aWCxFIBkpgSxhAaXly+U2u41FjARN9rPTw==}
     engines: {node: '>=22'}
 
-  '@scalar/api-client@3.16.3':
-    resolution: {integrity: sha512-4F0aZtdnCWZN5EvJQTAlXPzVetniu9pQqPeukck/AUNtvsk59CdNHjd8DjAB3+SS3wv3gfNj0C+obhzjUbCNZg==}
+  '@scalar/api-client@3.17.0':
+    resolution: {integrity: sha512-7YLNYCfQAWtnQyu958KOEgSTW4gKhjEyrIsghUPmXfTM5Lbz5bRdPbsqIuGiHQ6kJUmGWCjPUw1KaonkiTAidA==}
     engines: {node: '>=22'}
 
-  '@scalar/api-reference@1.66.1':
-    resolution: {integrity: sha512-+iHSJX8HPUyDGinNiLRV8qgFb+fbNwAjGDWzl8Wg/VNEcbmA40t1ZuL/WoWNqphI2QaPfjiCLtmsIhanWAed3w==}
+  '@scalar/api-reference@1.67.0':
+    resolution: {integrity: sha512-GBgsAKP9kmGbaUVZLlCeOK6QNVB/HKwfefvpRviiWsf1Qq3B4LHTrnQuZnfeojfoCqDXu2mldh8G8jSEaycpMA==}
     engines: {node: '>=22'}
 
-  '@scalar/asyncapi-upgrader@0.1.7':
-    resolution: {integrity: sha512-RU3CrNV77hWiZ9Ik0GJHDf/bEg8C0iF9Rg5b6GDJz3F9Y7ZyBJcgqq++do9GUzPTKzftfOORfQ9180s09XQp7Q==}
+  '@scalar/asyncapi-upgrader@0.1.8':
+    resolution: {integrity: sha512-aotwerUUVKzvjgeyLseVIb93OHgwPYYUIOM/iUhQChhb7F24H5RhMrKVlQkQUhqWwvYue3mJOpT4or3zerFEiw==}
     engines: {node: '>=22'}
 
-  '@scalar/blocks@0.1.14':
-    resolution: {integrity: sha512-4goVCRnz8QWCzQIuMV58GUSoj+WJNZBSGS5L6n3kc8TAKY6qiTOf+Unc5oy2DgwHCJJ6AO531hnGDAsMx7sNaQ==}
+  '@scalar/blocks@0.1.15':
+    resolution: {integrity: sha512-SltVGWkIsesLDTfoSWbE+xHmqxtSAjAmdvb7m69C8hc7uslul9TloI6/UxkCIpcWsDoP/NEY+ioJz50qBpsDPg==}
     engines: {node: '>=22'}
 
   '@scalar/code-highlight@0.4.5':
     resolution: {integrity: sha512-OCZvBYwodCR1cWemO3MXMwXumI18kFOy8k2nwP+Ic8zFLK1ObyXECRoM+UH+GTw+O4TJsrjNIdLjsnXPO1MvyA==}
     engines: {node: '>=22'}
 
-  '@scalar/components@0.28.1':
-    resolution: {integrity: sha512-mYI2WwvVM6a9E/o6vrft9FKoLP7Chcit5kOc+Iz+MV6xQ63Cjx2e/dACagEXE9O5i3b4+8+8C00iy4p1TS6P0A==}
+  '@scalar/components@0.29.0':
+    resolution: {integrity: sha512-sSXagAIOgVCZQnZDfQHDZqpA88UYbSFlL9+hC0hJuhzs1kIRWHfxjqV/MFkTxyDc04AuGyKHruONe8Z0hTak5g==}
     engines: {node: '>=22'}
 
-  '@scalar/helpers@0.11.1':
-    resolution: {integrity: sha512-Knwbe0IYqFk0PPDoOKLasqglBHfyf9/zwWWqFsSNi/AtdjM29wSZXN6p8DFid6iB5B9epYH9YiSgJ6tpD00TEw==}
+  '@scalar/helpers@0.11.2':
+    resolution: {integrity: sha512-IgHW/hIj1XAvsPIBKiOgmK87qbyDjaQQg9S/auXU4MUtvnwKKpOeIOJc0NC71FkMdr4Mok0SSVI748cmlptoXQ==}
     engines: {node: '>=22'}
 
   '@scalar/icons@0.7.6':
     resolution: {integrity: sha512-UIQ7K/xNDo7Mgez/Z+ArG7JZnS8QRZNOl+s9frdS1T8uEJYuTqT1lnS7R0ECwIw3y6dn6EIfjaZKPihjYC7+qw==}
     engines: {node: '>=22'}
 
-  '@scalar/json-magic@0.13.2':
-    resolution: {integrity: sha512-T8rQw5u7+MSTDpUcd5ShX1taOUxpZMv2b/P6xsahdlv/u68VX/Bq/+uzuAf2xW8IIOy7BEP4MBggle/vMDgAXw==}
+  '@scalar/json-magic@0.13.3':
+    resolution: {integrity: sha512-ONbveMHPl8ashCnTH/IzF2skr7CKUAC97m2tWQpbWJXhkUvc/B9vSRirjM0IqPCDURn4WZWAQFoaehDiEJICWA==}
     engines: {node: '>=22'}
 
-  '@scalar/oas-utils@0.19.14':
-    resolution: {integrity: sha512-rnVIOK6+oHTc4SeXQBkEj+Kb2xB/VUJxckKGNdHnHHlsLjpN4VXhwUBldYAvV9dA/AENfeMj5ys6GubP0RyNwQ==}
+  '@scalar/oas-utils@0.19.15':
+    resolution: {integrity: sha512-hGaCIIqwiHUDdTKQPdrwa9vDe8gLXydYeBfiLjkHFpZer+ibDgLclQdI31l777L5Rs7ga2abFTzaZSJ3bPNgUw==}
     engines: {node: '>=22'}
 
   '@scalar/openapi-types@0.9.5':
@@ -528,27 +531,27 @@ packages:
     resolution: {integrity: sha512-yqROK9U96ElasEL4Wl/+PIjQZlqrQXVUUpXk9PA6xBnrp8KdEv7at8pR5gsZkvddJfYVwLILPlctyqUg4u4YZA==}
     engines: {node: '>=22'}
 
-  '@scalar/schemas@0.8.3':
-    resolution: {integrity: sha512-cTjgiJxXFXMqXlFZafXOyTOKm1lUfbDTbe9La+dPcQPe6q0zXAiVtys0IKILQWNrjXPidY0eaB9Va/rd16bfxw==}
+  '@scalar/schemas@0.8.4':
+    resolution: {integrity: sha512-gbx/UjAswjJc+OZp/vcVRIopjqoJ62pOkrKLvVHa1MuMRoVxcPyNzW2/SQmnvdJku7C7a6PsKaPUQ6gZXGA4eg==}
     engines: {node: '>=22'}
 
-  '@scalar/sidebar@0.10.1':
-    resolution: {integrity: sha512-RbDJD22tAMGquDh7ItUeVujSvQxLoc7Eo95gPhHaokEYJprBs/B30Es3J1qhNZQ6IVZ0kcxCjuD4haI1h/UmrQ==}
+  '@scalar/sidebar@0.11.0':
+    resolution: {integrity: sha512-eTl8goJs/HBSVgrIp0HfP3GUnxNA1mcVrACBOdKcoptrh+cZpEBU+/7LtKC6PwHvkujn+87wvCW/eERTdYn2vw==}
     engines: {node: '>=22'}
 
-  '@scalar/snippetz@0.9.28':
-    resolution: {integrity: sha512-xpzQ5NgJDfV5Y5Xmpo2lDZclbXuIRolIm6qAaShNVBvO3q2GYtxJ9RSsrMFTpuk1NIqcQ4WKVAVRllRhYuzlWg==}
+  '@scalar/snippetz@0.9.29':
+    resolution: {integrity: sha512-elv4AZWWY/v/f9g9QqQY2P3UekpRdpe1w0ECDCXNHvVBU2cherdU5FNnjiPYZOb52r3T2i92WVnXSFXh0CYSPw==}
     engines: {node: '>=22'}
 
-  '@scalar/themes@0.17.3':
-    resolution: {integrity: sha512-QJPHeGCg0hF30IGPjX2nMcMOvBYyd62d5vey1mIC17CLhOe5tLVTn9D6G175D+jPVb0WhVPcSbaax6KxSZTUEQ==}
+  '@scalar/themes@0.17.4':
+    resolution: {integrity: sha512-tSCtGLb0noijR8GzgH6H/tlbSuZoLupe66ta6I9FzZxdvgj4SdPM+2Q7E8k1uwPRfrE5NvMyp61s1BsA3DTFsg==}
     engines: {node: '>=22'}
 
   '@scalar/typebox@0.1.3':
     resolution: {integrity: sha512-lU055AUccECZMIfGA0z/C1StYmboAYIPJLDFBzOO81yXBi35Pxdq+I4fWX6iUZ8qcoHneiLGk9jAUM1rA93iEg==}
 
-  '@scalar/types@0.18.2':
-    resolution: {integrity: sha512-q7fGMn0IygdLbYk9W4quM0w1caHDfL9FIxsYXNsgIep6uuO0T/t4BOStyf0qyzQ3pjt0B7rWFxO//EM9I7F/Tw==}
+  '@scalar/types@0.18.3':
+    resolution: {integrity: sha512-hPLLxVt/ah4RpCVp5UrLEpnBEgTwf+RvPtRiSEty3QqfBJUfADMXHz+oWK6UAa/vALg2AWuJLCD8hRlyQ2ET9w==}
     engines: {node: '>=22'}
 
   '@scalar/use-codemirror@0.14.15':
@@ -567,8 +570,8 @@ packages:
     resolution: {integrity: sha512-j3s9XPv8Wo1EG5/naBi4XGF0uXYQ2A3QZNI0NKWgCMxRHVrDJGlZEYymcHDHY7fquRm73P8U3c8xqJqB5yad6w==}
     engines: {node: '>=20'}
 
-  '@scalar/workspace-store@0.58.1':
-    resolution: {integrity: sha512-aKBwM7Tp+VzdxqVC971c8uxM8w9cw+RS7JY5V/VHj29HyNwKQTSJX6+qf8gma46bgUK0W15Ra/T8rN1mAR+EIw==}
+  '@scalar/workspace-store@0.59.0':
+    resolution: {integrity: sha512-5/vMoUbOhNDj2azgnrXbatbthCKSt7eQOLwUp0Tua/mnouXcemJXNfMw+dBQHykSH0Ga8DjcA/hVxU0Xmaymdg==}
     engines: {node: '>=22'}
 
   '@standard-schema/spec@1.1.0':
@@ -1614,6 +1617,12 @@ packages:
     resolution: {integrity: sha512-u82N74LFzG8ca+dD8puPnplTXoGH4fTPpVGuIbt36G3qvNlkvfD0lEAZSxaly3KX8TS/L1A1gsCEmvKmBcVbkQ==}
     engines: {node: ^10 || ^12 || >=14}
 
+  prettier-plugin-yaml@1.3.0:
+    resolution: {integrity: sha512-0MUwBqhY9HIRGsz6wcalytOiP+dM/ovKGA74Nq8BCApA5t7q+yM8lyc3r5kerGPOMg8pIbXHvnC0O5OaOL4q3w==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      prettier: '>=3'
+
   prettier@3.9.6:
     resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
     engines: {node: '>=14'}
@@ -1838,8 +1847,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tsx@4.23.12:
-    resolution: {integrity: sha512-FDf4L4sYzKtzWYhU/Xm0AQFdTjdIxNo9ElTf2mxXM6k8YMHXzYUe4yODVaXP4V9uMFbVg8c0qyBccK2OOxb45Q==}
+  tsx@4.23.13:
+    resolution: {integrity: sha512-BL5MGkRln6aDYhb0xbQlEAGw743BaZYWdbWtdJOBriYJboKgUUYCadFp2/FpBBZquBC/ezNBn7wMMPx7FDZUDw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -2273,7 +2282,7 @@ snapshots:
   '@floating-ui/vue@1.1.9(vue@3.5.41(typescript@6.0.3))':
     dependencies:
       '@floating-ui/dom': 1.8.0
-      '@floating-ui/utils': 0.2.10
+      '@floating-ui/utils': 0.2.12
       vue-demi: 0.14.10(vue@3.5.41(typescript@6.0.3))
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -2491,21 +2500,21 @@ snapshots:
       '@codemirror/state': 6.7.1
       '@codemirror/view': 6.43.9
 
-  '@scalar/agent-chat@0.12.28(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)(zod@4.4.3)':
+  '@scalar/agent-chat@0.12.29(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)(zod@4.4.3)':
     dependencies:
       '@ai-sdk/vue': 3.0.33(vue@3.5.41(typescript@6.0.3))(zod@4.4.3)
-      '@scalar/api-client': 3.16.3(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
-      '@scalar/components': 0.28.1(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
-      '@scalar/helpers': 0.11.1
+      '@scalar/api-client': 3.17.0(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
+      '@scalar/components': 0.29.0(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
+      '@scalar/helpers': 0.11.2
       '@scalar/icons': 0.7.6(typescript@6.0.3)
-      '@scalar/json-magic': 0.13.2
+      '@scalar/json-magic': 0.13.3
       '@scalar/openapi-types': 0.9.5
-      '@scalar/schemas': 0.8.3
-      '@scalar/themes': 0.17.3
-      '@scalar/types': 0.18.2
+      '@scalar/schemas': 0.8.4
+      '@scalar/themes': 0.17.4
+      '@scalar/types': 0.18.3
       '@scalar/use-toasts': 0.10.5(typescript@6.0.3)
       '@scalar/validation': 0.6.3
-      '@scalar/workspace-store': 0.58.1(typescript@6.0.3)
+      '@scalar/workspace-store': 0.59.0(typescript@6.0.3)
       '@vueuse/core': 13.9.0(vue@3.5.41(typescript@6.0.3))
       ai: 6.0.33(zod@4.4.3)
       js-base64: 3.9.3
@@ -2529,25 +2538,25 @@ snapshots:
       - universal-cookie
       - zod
 
-  '@scalar/api-client@3.16.3(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)':
+  '@scalar/api-client@3.17.0(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)':
     dependencies:
       '@headlessui/tailwindcss': 0.2.2(tailwindcss@4.3.3)
       '@headlessui/vue': 1.7.23(vue@3.5.41(typescript@6.0.3))
-      '@scalar/blocks': 0.1.14(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
-      '@scalar/components': 0.28.1(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
-      '@scalar/helpers': 0.11.1
+      '@scalar/blocks': 0.1.15(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
+      '@scalar/components': 0.29.0(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
+      '@scalar/helpers': 0.11.2
       '@scalar/icons': 0.7.6(typescript@6.0.3)
-      '@scalar/oas-utils': 0.19.14(typescript@6.0.3)
+      '@scalar/oas-utils': 0.19.15(typescript@6.0.3)
       '@scalar/openapi-types': 0.9.5
-      '@scalar/sidebar': 0.10.1(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
-      '@scalar/snippetz': 0.9.28
-      '@scalar/themes': 0.17.3
+      '@scalar/sidebar': 0.11.0(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
+      '@scalar/snippetz': 0.9.29
+      '@scalar/themes': 0.17.4
       '@scalar/typebox': 0.1.3
-      '@scalar/types': 0.18.2
+      '@scalar/types': 0.18.3
       '@scalar/use-codemirror': 0.14.15(typescript@6.0.3)
       '@scalar/use-hooks': 0.4.10(typescript@6.0.3)
       '@scalar/use-toasts': 0.10.5(typescript@6.0.3)
-      '@scalar/workspace-store': 0.58.1(typescript@6.0.3)
+      '@scalar/workspace-store': 0.59.0(typescript@6.0.3)
       '@vueuse/core': 13.9.0(vue@3.5.41(typescript@6.0.3))
       '@vueuse/integrations': 13.9.0(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(focus-trap@7.8.0)(fuse.js@7.5.0)(vue@3.5.41(typescript@6.0.3))
       focus-trap: 7.8.0
@@ -2577,26 +2586,26 @@ snapshots:
       - typescript
       - universal-cookie
 
-  '@scalar/api-reference@1.66.1(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)(zod@4.4.3)':
+  '@scalar/api-reference@1.67.0(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)(zod@4.4.3)':
     dependencies:
       '@headlessui/vue': 1.7.23(vue@3.5.41(typescript@6.0.3))
-      '@scalar/agent-chat': 0.12.28(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)(zod@4.4.3)
-      '@scalar/api-client': 3.16.3(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
-      '@scalar/blocks': 0.1.14(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
+      '@scalar/agent-chat': 0.12.29(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)(zod@4.4.3)
+      '@scalar/api-client': 3.17.0(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))(change-case@5.4.4)(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
+      '@scalar/blocks': 0.1.15(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
       '@scalar/code-highlight': 0.4.5(supports-color@10.2.2)
-      '@scalar/components': 0.28.1(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
-      '@scalar/helpers': 0.11.1
+      '@scalar/components': 0.29.0(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
+      '@scalar/helpers': 0.11.2
       '@scalar/icons': 0.7.6(typescript@6.0.3)
-      '@scalar/oas-utils': 0.19.14(typescript@6.0.3)
-      '@scalar/schemas': 0.8.3
-      '@scalar/sidebar': 0.10.1(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
-      '@scalar/snippetz': 0.9.28
-      '@scalar/themes': 0.17.3
-      '@scalar/types': 0.18.2
+      '@scalar/oas-utils': 0.19.15(typescript@6.0.3)
+      '@scalar/schemas': 0.8.4
+      '@scalar/sidebar': 0.11.0(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
+      '@scalar/snippetz': 0.9.29
+      '@scalar/themes': 0.17.4
+      '@scalar/types': 0.18.3
       '@scalar/use-hooks': 0.4.10(typescript@6.0.3)
       '@scalar/use-toasts': 0.10.5(typescript@6.0.3)
       '@scalar/validation': 0.6.3
-      '@scalar/workspace-store': 0.58.1(typescript@6.0.3)
+      '@scalar/workspace-store': 0.59.0(typescript@6.0.3)
       '@unhead/vue': 2.1.17(vue@3.5.41(typescript@6.0.3))
       '@vueuse/core': 13.9.0(vue@3.5.41(typescript@6.0.3))
       fuse.js: 7.5.0
@@ -2621,19 +2630,19 @@ snapshots:
       - universal-cookie
       - zod
 
-  '@scalar/asyncapi-upgrader@0.1.7':
+  '@scalar/asyncapi-upgrader@0.1.8':
     dependencies:
-      '@scalar/helpers': 0.11.1
+      '@scalar/helpers': 0.11.2
 
-  '@scalar/blocks@0.1.14(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)':
+  '@scalar/blocks@0.1.15(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)':
     dependencies:
-      '@scalar/components': 0.28.1(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
-      '@scalar/helpers': 0.11.1
+      '@scalar/components': 0.29.0(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
+      '@scalar/helpers': 0.11.2
       '@scalar/icons': 0.7.6(typescript@6.0.3)
-      '@scalar/snippetz': 0.9.28
-      '@scalar/themes': 0.17.3
-      '@scalar/types': 0.18.2
-      '@scalar/workspace-store': 0.58.1(typescript@6.0.3)
+      '@scalar/snippetz': 0.9.29
+      '@scalar/themes': 0.17.4
+      '@scalar/types': 0.18.3
+      '@scalar/workspace-store': 0.59.0(typescript@6.0.3)
       '@types/har-format': 1.2.16
       js-base64: 3.9.3
       vue: 3.5.41(typescript@6.0.3)
@@ -2663,16 +2672,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@scalar/components@0.28.1(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)':
+  '@scalar/components@0.29.0(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)':
     dependencies:
       '@floating-ui/utils': 0.2.10
       '@floating-ui/vue': 1.1.9(vue@3.5.41(typescript@6.0.3))
       '@headlessui/tailwindcss': 0.2.2(tailwindcss@4.3.3)
       '@headlessui/vue': 1.7.23(vue@3.5.41(typescript@6.0.3))
       '@scalar/code-highlight': 0.4.5(supports-color@10.2.2)
-      '@scalar/helpers': 0.11.1
+      '@scalar/helpers': 0.11.2
       '@scalar/icons': 0.7.6(typescript@6.0.3)
-      '@scalar/themes': 0.17.3
+      '@scalar/themes': 0.17.4
       '@scalar/use-hooks': 0.4.10(typescript@6.0.3)
       '@vueuse/core': 13.9.0(vue@3.5.41(typescript@6.0.3))
       cva: 1.0.0-beta.4(typescript@6.0.3)
@@ -2685,7 +2694,7 @@ snapshots:
       - tailwindcss
       - typescript
 
-  '@scalar/helpers@0.11.1': {}
+  '@scalar/helpers@0.11.2': {}
 
   '@scalar/icons@0.7.6(typescript@6.0.3)':
     dependencies:
@@ -2696,18 +2705,18 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@scalar/json-magic@0.13.2':
+  '@scalar/json-magic@0.13.3':
     dependencies:
-      '@scalar/helpers': 0.11.1
+      '@scalar/helpers': 0.11.2
       pathe: 2.0.3
       yaml: 2.9.0
 
-  '@scalar/oas-utils@0.19.14(typescript@6.0.3)':
+  '@scalar/oas-utils@0.19.15(typescript@6.0.3)':
     dependencies:
-      '@scalar/helpers': 0.11.1
-      '@scalar/themes': 0.17.3
-      '@scalar/types': 0.18.2
-      '@scalar/workspace-store': 0.58.1(typescript@6.0.3)
+      '@scalar/helpers': 0.11.2
+      '@scalar/themes': 0.17.4
+      '@scalar/types': 0.18.3
+      '@scalar/workspace-store': 0.59.0(typescript@6.0.3)
       flatted: 3.4.4
       vue: 3.5.41(typescript@6.0.3)
       yaml: 2.9.0
@@ -2720,19 +2729,19 @@ snapshots:
     dependencies:
       '@scalar/openapi-types': 0.9.5
 
-  '@scalar/schemas@0.8.3':
+  '@scalar/schemas@0.8.4':
     dependencies:
-      '@scalar/helpers': 0.11.1
+      '@scalar/helpers': 0.11.2
       '@scalar/validation': 0.6.3
 
-  '@scalar/sidebar@0.10.1(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)':
+  '@scalar/sidebar@0.11.0(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)':
     dependencies:
-      '@scalar/components': 0.28.1(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
-      '@scalar/helpers': 0.11.1
+      '@scalar/components': 0.29.0(supports-color@10.2.2)(tailwindcss@4.3.3)(typescript@6.0.3)
+      '@scalar/helpers': 0.11.2
       '@scalar/icons': 0.7.6(typescript@6.0.3)
-      '@scalar/themes': 0.17.3
+      '@scalar/themes': 0.17.4
       '@scalar/use-hooks': 0.4.10(typescript@6.0.3)
-      '@scalar/workspace-store': 0.58.1(typescript@6.0.3)
+      '@scalar/workspace-store': 0.59.0(typescript@6.0.3)
       vue: 3.5.41(typescript@6.0.3)
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -2740,22 +2749,22 @@ snapshots:
       - tailwindcss
       - typescript
 
-  '@scalar/snippetz@0.9.28':
+  '@scalar/snippetz@0.9.29':
     dependencies:
-      '@scalar/helpers': 0.11.1
-      '@scalar/types': 0.18.2
+      '@scalar/helpers': 0.11.2
+      '@scalar/types': 0.18.3
       js-base64: 3.9.3
       stringify-object: 6.0.0
 
-  '@scalar/themes@0.17.3':
+  '@scalar/themes@0.17.4':
     dependencies:
       nanoid: 5.1.16
 
   '@scalar/typebox@0.1.3': {}
 
-  '@scalar/types@0.18.2':
+  '@scalar/types@0.18.3':
     dependencies:
-      '@scalar/helpers': 0.11.1
+      '@scalar/helpers': 0.11.2
       nanoid: 5.1.16
       type-fest: 5.8.0
       zod: 4.4.3
@@ -2800,16 +2809,16 @@ snapshots:
 
   '@scalar/validation@0.6.3': {}
 
-  '@scalar/workspace-store@0.58.1(typescript@6.0.3)':
+  '@scalar/workspace-store@0.59.0(typescript@6.0.3)':
     dependencies:
-      '@scalar/asyncapi-upgrader': 0.1.7
-      '@scalar/helpers': 0.11.1
-      '@scalar/json-magic': 0.13.2
+      '@scalar/asyncapi-upgrader': 0.1.8
+      '@scalar/helpers': 0.11.2
+      '@scalar/json-magic': 0.13.3
       '@scalar/openapi-upgrader': 0.2.15
-      '@scalar/schemas': 0.8.3
-      '@scalar/snippetz': 0.9.28
+      '@scalar/schemas': 0.8.4
+      '@scalar/snippetz': 0.9.29
       '@scalar/typebox': 0.1.3
-      '@scalar/types': 0.18.2
+      '@scalar/types': 0.18.3
       '@scalar/validation': 0.6.3
       js-base64: 3.9.3
       type-fest: 5.8.0
@@ -4064,6 +4073,11 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
+  prettier-plugin-yaml@1.3.0(prettier@3.9.6):
+    dependencies:
+      prettier: 3.9.6
+      yaml: 2.9.0
+
   prettier@3.9.6: {}
 
   pretty-bytes@7.1.1: {}
@@ -4320,7 +4334,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsx@4.23.12:
+  tsx@4.23.13:
     dependencies:
       esbuild: 0.28.2
     optionalDependencies:

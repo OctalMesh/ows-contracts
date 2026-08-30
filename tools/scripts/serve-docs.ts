@@ -34,6 +34,7 @@ const server = createServer((request, response) => {
     return;
   }
 
+  // noinspection HttpUrlsUsage
   const url = new URL(request.url, `http://${host}:${port}`);
   const pathname = decodeURIComponent(url.pathname);
 
@@ -73,5 +74,6 @@ const server = createServer((request, response) => {
 });
 
 server.listen(port, host, () => {
+  // noinspection HttpUrlsUsage
   console.log(`Scalar documentation: http://${host}:${port}`);
 });

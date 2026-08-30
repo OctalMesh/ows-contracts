@@ -1,5 +1,6 @@
-description: Missing or invalid credentials
+description: "Missing or invalid credentials"
+
 content:
   application/json:
     schema:
-      $ref: ../schemas/Error.yaml
+      $ref: "../schemas/Error.yaml"

@@ -9,7 +9,7 @@
   "bracketSpacing": true,
   "arrowParens": "always",
   "endOfLine": "lf",
-  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-yaml"],
   "importOrder": [
     "^node:",
     "<THIRD_PARTY_MODULES>",
@@ -20,5 +20,9 @@
     "^[./]"
   ],
   "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "importOrderSortSpecifiers": true,
+  "yamlBlockStyle": "literal",
+  "yamlCollectionStyle": "block",
+  "yamlQuoteKeys": false,
+  "yamlQuoteValues": true
 }

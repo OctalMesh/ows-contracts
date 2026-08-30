@@ -1,18 +1,24 @@
 get:
-  operationId: listOrders
-  tags: [Orders]
-  summary: List orders for the current user
+  operationId: "listOrders"
+  summary: "List orders for the current user"
+
+  tags:
+    - "Orders"
+
   security:
     - BearerAuth: []
+
   parameters:
-    - $ref: ../openapi.yaml#/components/parameters/Page
-    - $ref: ../openapi.yaml#/components/parameters/Limit
+    - $ref: "../openapi.yaml#/components/parameters/Page"
+    - $ref: "../openapi.yaml#/components/parameters/Limit"
+
   responses:
     "200":
-      description: Order page
+      description: "Order page"
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/OrderPage.yaml
+            $ref: "../components/schemas/OrderPage.yaml"
+
     "401":
-      $ref: ../../shared/components/responses/Unauthorized.yaml
+      $ref: "../../shared/components/responses/Unauthorized.yaml"

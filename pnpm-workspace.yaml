@@ -18,4 +18,4 @@ allowBuilds:
   vue-demi: true
 
 packages:
-  - tools
+  - "tools"

@@ -1,9 +1,13 @@
-type: object
-required: [items, pagination]
+type: "object"
+required:
+  - "items"
+  - "pagination"
+
 properties:
   items:
-    type: array
+    type: "array"
     items:
-      $ref: ./Order.yaml
+      $ref: "./Order.yaml"
+
   pagination:
-    $ref: ../../../shared/components/schemas/Pagination.yaml
+    $ref: "../../../shared/components/schemas/Pagination.yaml"

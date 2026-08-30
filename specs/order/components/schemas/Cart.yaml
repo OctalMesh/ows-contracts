@@ -1,9 +1,13 @@
-type: object
-required: [items, subtotal]
+type: "object"
+required:
+  - "items"
+  - "subtotal"
+
 properties:
   items:
-    type: array
+    type: "array"
     items:
-      $ref: ./CartItem.yaml
+      $ref: "./CartItem.yaml"
+
   subtotal:
-    $ref: ../../../shared/components/schemas/Money.yaml
+    $ref: "../../../shared/components/schemas/Money.yaml"

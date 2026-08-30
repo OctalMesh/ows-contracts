@@ -1,17 +1,22 @@
 get:
+  operationId: "listProducts"
+  summary: "List products"
   security: []
-  operationId: listProducts
-  tags: [Products]
-  summary: List products
+
+  tags:
+    - "Products"
+
   parameters:
-    - $ref: ../openapi.yaml#/components/parameters/Page
-    - $ref: ../openapi.yaml#/components/parameters/Limit
+    - $ref: "../openapi.yaml#/components/parameters/Page"
+    - $ref: "../openapi.yaml#/components/parameters/Limit"
+
   responses:
     "200":
-      description: Product page
+      description: "Product page"
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ProductPage.yaml
+            $ref: "../components/schemas/ProductPage.yaml"
+
     "400":
-      $ref: ../../shared/components/responses/BadRequest.yaml
+      $ref: "../../shared/components/responses/BadRequest.yaml"

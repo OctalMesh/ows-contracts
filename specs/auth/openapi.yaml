@@ -1,15 +1,19 @@
-openapi: 3.1.0
+openapi: "3.1.2"
+
 info:
-  title: Auth Service API
-  version: 1.0.0
+  title: "Auth Service API"
+  version: "1.0.0"
   license:
-    name: MIT
-    identifier: MIT
+    name: "MIT"
+    identifier: "MIT"
+
 servers:
-  - url: /api
+  - url: "/api"
+
 tags:
-  - name: Auth
-    description: Authentication and user profile operations.
+  - name: "Auth"
+    description: "Authentication and user profile operations."
+
 paths:
   /login:
     $ref: "./paths/login.yaml"
@@ -17,6 +21,7 @@ paths:
     $ref: "./paths/register.yaml"
   /me:
     $ref: "./paths/me.yaml"
+
 components:
   schemas:
     User:
@@ -25,6 +30,7 @@ components:
       $ref: "./components/schemas/Token.yaml"
     LoginRequest:
       $ref: "./components/schemas/LoginRequest.yaml"
+
   securitySchemes:
     BearerAuth:
-      $ref: ../shared/components/security/bearerAuth.yaml
+      $ref: "../shared/components/security/bearerAuth.yaml"

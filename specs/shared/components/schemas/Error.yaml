@@ -1,11 +1,15 @@
-type: object
-required: [code, message]
+type: "object"
+required:
+  - "code"
+  - "message"
 
 properties:
   code:
-    type: string
+    type: "string"
+
   message:
-    type: string
+    type: "string"
+
   details:
-    type: object
+    type: "object"
     additionalProperties: true

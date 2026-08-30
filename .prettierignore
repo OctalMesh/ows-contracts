@@ -6,10 +6,10 @@
 .github/
 infra/
 
+.prettierrc
+pnpm-lock.yaml
 *.md
 *.markdown
-*.yml
-*.yaml
 *.json
 *.xml
 

@@ -1,5 +1,6 @@
-description: Resource conflict
+description: "Resource conflict"
+
 content:
   application/json:
     schema:
-      $ref: ../schemas/Error.yaml
+      $ref: "../schemas/Error.yaml"

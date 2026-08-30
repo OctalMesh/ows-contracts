@@ -1,6 +1,7 @@
-name: Idempotency-Key
-in: header
+name: "Idempotency-Key"
+in: "header"
 required: true
+
 schema:
-  type: string
+  type: "string"
   minLength: 8

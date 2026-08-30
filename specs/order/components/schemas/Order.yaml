@@ -1,18 +1,33 @@
-type: object
-required: [id, status, items, total, createdAt]
+type: "object"
+required:
+  - "id"
+  - "status"
+  - "items"
+  - "total"
+  - "createdAt"
+
 properties:
   id:
-    type: string
-    format: uuid
+    type: "string"
+    format: "uuid"
+
   status:
-    type: string
-    enum: [pending, paid, shipped, completed, cancelled]
+    type: "string"
+    enum:
+      - "pending"
+      - "paid"
+      - "shipped"
+      - "completed"
+      - "cancelled"
+
   items:
-    type: array
+    type: "array"
     items:
-      $ref: ./CartItem.yaml
+      $ref: "./CartItem.yaml"
+
   total:
-    $ref: ../../../shared/components/schemas/Money.yaml
+    $ref: "../../../shared/components/schemas/Money.yaml"
+
   createdAt:
-    type: string
-    format: date-time
+    type: "string"
+    format: "date-time"

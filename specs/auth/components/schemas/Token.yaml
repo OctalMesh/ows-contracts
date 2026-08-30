@@ -1,12 +1,19 @@
-type: object
-required: [accessToken, tokenType, expiresIn]
+type: "object"
+required:
+  - "accessToken"
+  - "tokenType"
+  - "expiresIn"
+
 properties:
   accessToken:
-    type: string
+    type: "string"
+
   tokenType:
-    type: string
-    enum: [Bearer]
+    type: "string"
+    enum:
+      - "Bearer"
+
   expiresIn:
-    type: integer
-    format: int32
+    type: "integer"
+    format: "int32"
     minimum: 1

@@ -1,33 +1,33 @@
 extends:
-  - recommended
+  - "recommended"
 
 apis:
   auth@v1:
-    root: specs/auth/openapi.yaml
+    root: "specs/auth/openapi.yaml"
     x-openapi-ts:
-      output: dist/sdk/auth/typescript-server/index.d.ts
+      output: "dist/sdk/auth/typescript-server/index.d.ts"
 
   catalog@v1:
-    root: specs/catalog/openapi.yaml
+    root: "specs/catalog/openapi.yaml"
     x-openapi-ts:
-      output: dist/sdk/catalog/typescript-server/index.d.ts
+      output: "dist/sdk/catalog/typescript-server/index.d.ts"
 
   order@v1:
-    root: specs/order/openapi.yaml
+    root: "specs/order/openapi.yaml"
     x-openapi-ts:
-      output: dist/sdk/order/typescript-server/index.d.ts
+      output: "dist/sdk/order/typescript-server/index.d.ts"
 
   payment@v1:
-    root: specs/payment/openapi.yaml
+    root: "specs/payment/openapi.yaml"
     x-openapi-ts:
-      output: dist/sdk/payment/typescript-server/index.d.ts
+      output: "dist/sdk/payment/typescript-server/index.d.ts"
 
   search@v1:
-    root: specs/search/openapi.yaml
+    root: "specs/search/openapi.yaml"
     x-openapi-ts:
-      output: dist/sdk/search/typescript-server/index.d.ts
+      output: "dist/sdk/search/typescript-server/index.d.ts"
 
 rules:
-  operation-operationId: error
-  no-unused-components: error
-  path-params-defined: error
+  operation-operationId: "error"
+  no-unused-components: "error"
+  path-params-defined: "error"

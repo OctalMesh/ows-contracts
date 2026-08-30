@@ -1,31 +1,38 @@
-openapi: 3.1.0
+openapi: "3.1.2"
+
 info:
-  title: Payment Service API
-  version: 1.0.0
+  title: "Payment Service API"
+  version: "1.0.0"
   license:
-    name: MIT
-    identifier: MIT
+    name: "MIT"
+    identifier: "MIT"
+
 servers:
-  - url: /api
+  - url: "/api"
+
 tags:
-  - name: Payments
-    description: Payment transaction operations.
-  - name: Webhooks
-    description: Payment provider callback operations.
+  - name: "Payments"
+    description: "Payment transaction operations."
+  - name: "Webhooks"
+    description: "Payment provider callback operations."
+
 paths:
   /payments:
-    $ref: ./paths/payments.yaml
+    $ref: "./paths/payments.yaml"
   /webhooks/provider:
-    $ref: ./paths/webhook.yaml
+    $ref: "./paths/webhook.yaml"
+
 components:
   securitySchemes:
     BearerAuth:
-      $ref: ../shared/components/security/bearerAuth.yaml
+      $ref: "../shared/components/security/bearerAuth.yaml"
+
   schemas:
     Payment:
-      $ref: ./components/schemas/Payment.yaml
+      $ref: "./components/schemas/Payment.yaml"
     WebhookEvent:
-      $ref: ./components/schemas/WebhookEvent.yaml
+      $ref: "./components/schemas/WebhookEvent.yaml"
+
   parameters:
     IdempotencyKey:
-      $ref: ../shared/components/parameters/IdempotencyKeyHeader.yaml
+      $ref: "../shared/components/parameters/IdempotencyKeyHeader.yaml"

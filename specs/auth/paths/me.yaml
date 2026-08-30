@@ -1,15 +1,20 @@
 get:
-  operationId: getCurrentUser
-  tags: [Auth]
-  summary: Get the authenticated user profile
+  operationId: "getCurrentUser"
+  summary: "Get the authenticated user profile"
+
+  tags:
+    - "Auth"
+
   security:
     - BearerAuth: []
+
   responses:
     "200":
-      description: Current user
+      description: "Current user"
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/User.yaml
+            $ref: "../components/schemas/User.yaml"
+
     "401":
-      $ref: ../../shared/components/responses/Unauthorized.yaml
+      $ref: "../../shared/components/responses/Unauthorized.yaml"

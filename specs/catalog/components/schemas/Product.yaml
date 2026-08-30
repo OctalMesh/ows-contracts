@@ -1,15 +1,27 @@
-type: object
-required: [id, name, price, inventoryStatus]
+type: "object"
+required:
+  - "id"
+  - "name"
+  - "price"
+  - "inventoryStatus"
+
 properties:
   id:
-    type: string
-    format: uuid
+    type: "string"
+    format: "uuid"
+
   name:
-    type: string
+    type: "string"
+
   description:
-    type: string
+    type: "string"
+
   price:
-    $ref: ../../../shared/components/schemas/Money.yaml
+    $ref: "../../../shared/components/schemas/Money.yaml"
+
   inventoryStatus:
-    type: string
-    enum: [in_stock, low_stock, out_of_stock]
+    type: "string"
+    enum:
+      - "in_stock"
+      - "low_stock"
+      - "out_of_stock"

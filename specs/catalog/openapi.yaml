@@ -1,29 +1,36 @@
-openapi: 3.1.0
+openapi: "3.1.2"
+
 info:
-  title: Catalog Service API
-  version: 1.0.0
+  title: "Catalog Service API"
+  version: "1.0.0"
   license:
-    name: MIT
-    identifier: MIT
+    name: "MIT"
+    identifier: "MIT"
+
 servers:
-  - url: /api
+  - url: "/api"
+
 tags:
-  - name: Products
-    description: Product catalog and inventory status.
+  - name: "Products"
+    description: "Product catalog and inventory status."
+
 paths:
   /products:
-    $ref: ./paths/products.yaml
+    $ref: "./paths/products.yaml"
+
 components:
   schemas:
     Product:
-      $ref: ./components/schemas/Product.yaml
+      $ref: "./components/schemas/Product.yaml"
     ProductPage:
-      $ref: ./components/schemas/ProductPage.yaml
+      $ref: "./components/schemas/ProductPage.yaml"
+
   parameters:
     Limit:
-      $ref: ../shared/components/parameters/LimitParam.yaml
+      $ref: "../shared/components/parameters/LimitParam.yaml"
     Page:
-      $ref: ../shared/components/parameters/PageParam.yaml
+      $ref: "../shared/components/parameters/PageParam.yaml"
+
   responses:
     BadRequest:
-      $ref: ../shared/components/responses/BadRequest.yaml
+      $ref: "../shared/components/responses/BadRequest.yaml"
