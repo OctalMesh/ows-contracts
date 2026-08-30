@@ -6,7 +6,7 @@ info:
     name: MIT
     identifier: MIT
 servers:
-  - url: /api/auth
+  - url: /api
 tags:
   - name: Auth
     description: Authentication and user profile operations.

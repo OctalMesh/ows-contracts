@@ -6,13 +6,13 @@ info:
     name: MIT
     identifier: MIT
 servers:
-  - url: /api/search
+  - url: /api
 tags:
   - name: Search
     description: Full-text product search, filtering, and sorting.
 paths:
-  /products:
-    $ref: ./paths/products.yaml
+  /search/products:
+    $ref: ./paths/search-products.yaml
 components:
   schemas:
     SearchResult:
