@@ -83,7 +83,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with: { name: contracts-specs, path: dist/specs }
       - run: pnpm run docs
-      - run: echo "sapi.octalmesh.com" > dist/docs/CNAME
+      - run: echo "developers.octalmesh.com" > dist/docs/CNAME
       - uses: actions/upload-pages-artifact@v3
         with: { path: dist/docs }
 
