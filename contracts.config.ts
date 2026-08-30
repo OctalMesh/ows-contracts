@@ -187,6 +187,9 @@ function buildServiceSdk(name: string): ServiceConfig["sdk"] {
         "useTags=true",
         `groupId=com.${ORG}.${PLATFORM}.${MODULE}.${name}`,
         `artifactId=${name}-client`,
+        `invokerPackage=com.${ORG}.${PLATFORM}.${MODULE}.${name}.client`,
+        `apiPackage=com.${ORG}.${PLATFORM}.${MODULE}.${name}.client.api`,
+        `modelPackage=com.${ORG}.${PLATFORM}.${MODULE}.${name}.client.model`,
       ].join(","),
     },
 
@@ -208,6 +211,9 @@ function buildServiceSdk(name: string): ServiceConfig["sdk"] {
         "useTags=true",
         `groupId=com.${ORG}.${PLATFORM}.${MODULE}.${name}`,
         `artifactId=${name}-server`,
+        `invokerPackage=com.${ORG}.${PLATFORM}.${MODULE}.${name}.server`,
+        `apiPackage=com.${ORG}.${PLATFORM}.${MODULE}.${name}.server.api`,
+        `modelPackage=com.${ORG}.${PLATFORM}.${MODULE}.${name}.server.model`,
       ].join(","),
     },
   };
