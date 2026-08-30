@@ -1,11 +1,16 @@
 openapi: "3.1.2"
 
 info:
-  title: "Payment Service API"
   version: "0.1.0"
+  title: "Payment Service API"
+  termsOfService: "https://octalmesh.com/articles/terms"
+  contact:
+    name: "OctalMesh Support"
+    url: "https://octalmesh.com"
+    email: "contact@octalmesh.com"
   license:
     name: "MIT"
-    identifier: "MIT"
+    url: "https://opensource.org/license/MIT"
 
 servers:
   - url: "/api"
