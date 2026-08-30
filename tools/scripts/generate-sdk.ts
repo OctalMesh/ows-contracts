@@ -15,7 +15,7 @@ import {
 } from "@root/contracts.config";
 
 import { renderReadme } from "@lib/readme-templates";
-import { resolveVersion } from "@lib/version";
+import { type BundledSpec, hashSpec, resolveVersion } from "@lib/version";
 
 const runOpenApiGenerator = (args: string[]): Promise<void> => {
   return new Promise<void>((resolvePromise, reject) => {
@@ -36,9 +36,9 @@ const runOpenApiGenerator = (args: string[]): Promise<void> => {
   });
 };
 
-const runOpenApiTypescript = (args: string[]): Promise<void> => {
+const runOpenApiTypescript = (): Promise<void> => {
   return new Promise<void>((resolvePromise, reject) => {
-    const child = spawn("pnpm", ["exec", "openapi-typescript", ...args], {
+    const child = spawn("pnpm", ["exec", "openapi-typescript"], {
       cwd: config.rootDir,
       stdio: "inherit",
       shell: true,
@@ -55,22 +55,25 @@ const runOpenApiTypescript = (args: string[]): Promise<void> => {
   });
 };
 
-const version = resolveVersion();
+const serviceVersions = new Map<string, ServiceVersionInfo>();
 
 await rm(config.sdkDir, { recursive: true, force: true });
 await mkdir(config.sdkDir, { recursive: true });
 
+for (const { target } of allSdkTargets) {
+  if (target.tool === "openapi-typescript") {
+    await mkdir(target.outputDir, { recursive: true });
+  }
+}
+await runOpenApiTypescript();
+
 for (const { service, target } of allSdkTargets) {
   const input = path.join(config.specsDir, `${service.name}.json`);
+  const { version, hash } = await getServiceVersionInfo(service.name);
 
   await mkdir(target.outputDir, { recursive: true });
 
   if (target.tool === "openapi-typescript") {
-    await runOpenApiTypescript([
-      input,
-      "-o",
-      path.join(target.outputDir, "index.d.ts"),
-    ]);
     await writeTypesPackageJson(target, version, service.name);
   } else {
     await runOpenApiGenerator([
@@ -97,15 +100,58 @@ for (const { service, target } of allSdkTargets) {
   }
 
   await writeFile(path.join(target.outputDir, "VERSION"), `${version}\n`);
+  await writeFile(path.join(target.outputDir, "SPEC_HASH"), `${hash}\n`);
   await writeFile(
     path.join(target.outputDir, "README.md"),
     renderReadme({ service, target, version }),
   );
 }
 
+const versionSummary = [...serviceVersions.entries()]
+  .map(([name, { version }]) => `${name}@${version}`)
+  .join(", ");
+
 console.log(
-  `Generated ${allSdkTargets.length} SDK packages (version ${version}) into ${config.sdkDir}`,
+  `Generated ${allSdkTargets.length} SDK packages into ${config.sdkDir} (${versionSummary})`,
 );
+
+//<editor-fold desc="SDK Version Resolution" defaultstate="collapsed">
+
+interface ServiceVersionInfo {
+  version: string;
+  hash: string;
+}
+
+/**
+ * Resolves the version and content hash for a given service's OpenAPI spec.
+ *
+ * @param serviceName - The name of the service to resolve version info for.
+ * @returns A promise that resolves to the service's version and content hash.
+ */
+async function getServiceVersionInfo(
+  serviceName: string,
+): Promise<ServiceVersionInfo> {
+  const cached = serviceVersions.get(serviceName);
+
+  if (cached) {
+    return cached;
+  }
+
+  const specPath = path.join(config.specsDir, `${serviceName}.json`);
+  const raw = await readFile(specPath, "utf8");
+  const spec = JSON.parse(raw) as BundledSpec;
+
+  const info: ServiceVersionInfo = {
+    version: resolveVersion(spec, serviceName),
+    hash: hashSpec(raw),
+  };
+
+  serviceVersions.set(serviceName, info);
+
+  return info;
+}
+
+//</editor-fold>
 
 //<editor-fold desc="SDK Patching Helpers" defaultstate="collapsed">
 
@@ -148,7 +194,8 @@ async function patchNpmPackage(
   serviceName: string,
 ): Promise<void> {
   const pkgFile = path.join(outputDir, "package.json");
-  const pkg = JSON.parse(await readFile(pkgFile, "utf8"));
+  const pkgData = await readFile(pkgFile, "utf8");
+  const pkg = JSON.parse(pkgData) as Record<string, unknown>;
 
   pkg.version = version;
   pkg.repository = {

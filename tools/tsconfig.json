@@ -4,9 +4,8 @@
   "compilerOptions": {
     /* Path Aliases */
     "paths": {
-      "@/*": ["./*"],
+      "@/*": ["./scripts/*"],
       "@root/*": ["../*"],
-      "@scripts/*": ["./scripts/*"],
       "@lib/*": ["./scripts/lib/*"]
     },
 
@@ -38,5 +37,5 @@
     "noUnusedParameters": true,
     "noUncheckedIndexedAccess": true,
   },
-  "include": ["scripts/**/*.ts", "../contracts.config.ts"]
+  "include": ["scripts/**/*.ts", "../*.config.ts"]
 }

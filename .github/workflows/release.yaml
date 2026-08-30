@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "SDK version to publish (semver, no leading v). Leave empty to auto-generate."
+        description: "Override version for every service's SDKs (semver, no leading v). Leave empty to use each service's own `info.version` from its `openapi.yaml`."
         required: false
       dry_run:
         description: "Generate & validate, but do not push branches/tags or publish packages"
@@ -28,23 +28,7 @@ env:
   NODE_VERSION: "24"
 
 jobs:
-  # Resolve one version for this whole run, shared by every downstream job
-  version:
-    runs-on: ubuntu-latest
-    outputs:
-      value: ${{ steps.resolve.outputs.value }}
-    steps:
-      - name: "Resolve SDK version"
-        id: resolve
-        run: |
-          if [ -n "${{ github.event.inputs.version }}" ]; then
-            echo "value=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
-          else
-            echo "value=0.$(date -u +%Y%m%d).$(date -u +%H%M)" >> "$GITHUB_OUTPUT"
-          fi
-
   lint:
-    needs: version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -99,10 +83,10 @@ jobs:
 
   # Generate every SDK into dist/sdk
   generate-sdk:
-    needs: [version, bundle]
+    needs: bundle
     runs-on: ubuntu-latest
     env:
-      SDK_VERSION: ${{ needs.version.outputs.value }}
+      SDK_VERSION_OVERRIDE: ${{ github.event.inputs.version }}
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4
@@ -121,10 +105,8 @@ jobs:
   # Redistribute each generated package to its own orphan branch
   # (sdk/svc-<service>/<lang>-<kind>) and tag it
   publish-branches:
-    needs: [version, generate-sdk]
+    needs: generate-sdk
     runs-on: ubuntu-latest
-    env:
-      SDK_VERSION: ${{ needs.version.outputs.value }}
     steps:
       - uses: actions/checkout@v7
         with: { fetch-depth: 0 } # full history: needed for `git worktree` + tag lookups
@@ -145,11 +127,9 @@ jobs:
   # Push the registry-backed artifacts: npm (TS client), Maven (Java server).
   # Go is intentionally excluded - it's consumed straight from the branch.
   publish-registries:
-    needs: [version, publish-branches]
+    needs: publish-branches
     if: ${{ github.event.inputs.dry_run != 'true' }}
     runs-on: ubuntu-latest
-    env:
-      SDK_VERSION: ${{ needs.version.outputs.value }}
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4

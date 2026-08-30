@@ -2,7 +2,7 @@ openapi: "3.1.2"
 
 info:
   title: "Auth Service API"
-  version: "1.0.0"
+  version: "0.1.0"
   license:
     name: "MIT"
     identifier: "MIT"

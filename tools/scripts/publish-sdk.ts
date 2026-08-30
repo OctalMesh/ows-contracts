@@ -7,28 +7,49 @@
  *
  * Usage: `tsx scripts/publish-sdk.ts [--dry-run]`
  */
-import { cp, mkdtemp, rm } from "node:fs/promises";
+import { cp, mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
 import { allSdkTargets, config } from "@root/contracts.config";
 
-import { git, remoteBranchExists, requireOk, tagExists } from "@lib/git";
-import { resolveVersion } from "@lib/version";
+import {
+  git,
+  readFileAtTag,
+  remoteBranchExists,
+  requireOk,
+  tagExists,
+} from "@lib/git";
 
-const version = resolveVersion();
 const dryRun = process.argv.includes("--dry-run");
 
 for (const { service, target } of allSdkTargets) {
+  const version = (
+    await readFile(path.join(target.outputDir, "VERSION"), "utf8")
+  ).trim();
+  const localHash = (
+    await readFile(path.join(target.outputDir, "SPEC_HASH"), "utf8")
+  ).trim();
   const tag = `${target.tagPrefix}-v${version}`;
 
   console.log(
-    `\n=== ${service.name} / ${target.lang}-${target.kind} -> ${target.branch} ===`,
+    `\n=== ${service.name} / ${target.lang}-${target.kind} -> ${target.branch} (v${version}) ===`,
   );
 
   if (tagExists(config.rootDir, tag)) {
+    const remoteHash = readFileAtTag(config.rootDir, tag, "SPEC_HASH");
+
+    if (remoteHash !== null && remoteHash !== localHash) {
+      throw new Error(
+        `Tag ${tag} already exists, but the ${service.name} spec content ` +
+          `has changed since it was published under that version. Bump ` +
+          `"info.version" in specs/${service.name}/openapi.yaml before ` +
+          `releasing again.`,
+      );
+    }
+
     console.log(
-      `Tag ${tag} already exists on origin, skipping (already published).`,
+      `Tag ${tag} already exists on origin with matching content, skipping (already published).`,
     );
     continue;
   }
@@ -62,8 +83,6 @@ for (const { service, target } of allSdkTargets) {
     );
   }
 
-  // Wipe everything tracked so stale files from a previous publish don't
-  // linger, then drop the freshly generated package in
   git(["rm", "-rf", "--quiet", "."], worktreeDir);
   await cp(target.outputDir, worktreeDir, { recursive: true });
 
@@ -106,6 +125,4 @@ for (const { service, target } of allSdkTargets) {
   git(["worktree", "remove", "--force", worktreeDir], config.rootDir);
 }
 
-console.log(
-  `\nDone - processed ${allSdkTargets.length} SDK packages at version ${version}.`,
-);
+console.log(`\nDone - processed ${allSdkTargets.length} SDK packages.`);

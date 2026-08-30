@@ -247,10 +247,10 @@ export const config: ContractsConfig = {
  * Flat list of every service and SDK target pair, for iteration in scripts.
  * Each entry contains the service config and the specific SDK target config.
  */
-export const allSdkTargets: Array<{
+export const allSdkTargets: {
   service: ServiceConfig;
   target: SdkTargetConfig;
-}> = config.services.flatMap((service) => [
+}[] = config.services.flatMap((service) => [
   { service, target: service.sdk.typescriptClient },
   { service, target: service.sdk.typescriptServer },
   { service, target: service.sdk.goClient },
