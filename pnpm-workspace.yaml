@@ -7,6 +7,8 @@
 # See: https://pnpm.io/settings                                                #
 # ============================================================================ #
 
+minimumReleaseAge: 0
+
 allowBuilds:
   "@openapitools/openapi-generator-cli": true
   "@scarf/scarf": true
@@ -14,9 +16,6 @@ allowBuilds:
   esbuild: true
   protobufjs: true
   vue-demi: true
-
-minimumReleaseAgeExclude:
-  - "@types/node@26.4.0"
 
 packages:
   - tools

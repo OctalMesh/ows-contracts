@@ -2,7 +2,7 @@
 
 This repository is the source of truth for the e-commerce platform's OpenAPI 3.1
 contracts. Each service is modularized under `specs/<service>` and served
-through Tyk at `/api/<service>`.
+through Tyk.
 
 ## SDK publishing scheme
 
@@ -12,7 +12,7 @@ through Tyk at `/api/<service>`.
 |-----------------------------------------------------------|---------------------------------------------------|-----------------------------------------------|
 | Service repo (for the actual microservice, not this repo) | `ows-svc-<name>`                                  | `ows-svc-auth`                                |
 | npm package                                               | `@octalmesh/web-shop-<name>-client`               | `@octalmesh/web-shop-auth-client`             |
-| Maven groupId / artifactId                                | `com.octalmesh.web.shop.<name>` / `<name>-server` | `com.octalmesh.web.shop.auth` / `auth-server` |
+| Maven groupId / artifactId                                | `com.octalmesh.web.shop.<name>` / `<name>-<kind>` | `com.octalmesh.web.shop.auth` / `auth-server` |
 | Go module path (constant across all branches)             | `github.com/octalmesh/ows-contracts`              | same for every service/branch                 |
 | Publishing branch                                         | `sdk/svc-<name>/<lang>-<kind>`                    | `sdk/svc-auth/go-client`                      |
 | Git tag                                                   | `svc-<name>-<lang>-<kind>-v<version>`             | `svc-auth-go-client-v1.4.0`                   |

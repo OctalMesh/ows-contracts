@@ -2,21 +2,22 @@
  * Generates SDK packages for all services defined in the OpenAPI
  * specifications.
  *
- * It uses the OpenAPI Generator CLI to generate code for each
- * service and target language, and then patches the generated files as needed.
- *
  * Usage: `tsx scripts/generate-sdk.mts`
  */
 import { spawn } from "node:child_process";
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { allSdkTargets, config } from "@root/contracts.config.mts";
+import {
+  type SdkTargetConfig,
+  allSdkTargets,
+  config,
+} from "@root/contracts.config.mts";
 
-import { renderReadme } from "./lib/readme-templates.mts";
-import { resolveVersion } from "./lib/version.mts";
+import { renderReadme } from "@lib/readme-templates.mts";
+import { resolveVersion } from "@lib/version.mts";
 
-const run = (args: string[]): Promise<void> => {
+const runOpenApiGenerator = (args: string[]): Promise<void> => {
   return new Promise<void>((resolvePromise, reject) => {
     const child = spawn(
       "pnpm",
@@ -35,6 +36,25 @@ const run = (args: string[]): Promise<void> => {
   });
 };
 
+const runOpenApiTypescript = (args: string[]): Promise<void> => {
+  return new Promise<void>((resolvePromise, reject) => {
+    const child = spawn("pnpm", ["exec", "openapi-typescript", ...args], {
+      cwd: config.rootDir,
+      stdio: "inherit",
+      shell: true,
+    });
+
+    child.on("close", (code) => {
+      if (code === 0) {
+        resolvePromise();
+        return;
+      }
+
+      reject(new Error(`openapi-typescript exited with ${code}`));
+    });
+  });
+};
+
 const version = resolveVersion();
 
 await rm(config.sdkDir, { recursive: true, force: true });
@@ -44,26 +64,36 @@ for (const { service, target } of allSdkTargets) {
   const input = path.join(config.specsDir, `${service.name}.json`);
 
   await mkdir(target.outputDir, { recursive: true });
-  await run([
-    "-i",
-    input,
-    "-g",
-    target.generator,
-    "-o",
-    target.outputDir,
-    `--additional-properties=${target.additionalProperties}`,
-  ]);
 
-  if (target.lang === "go") {
-    await patchGoModule(target.outputDir, target.goModulePath!);
-  }
+  if (target.tool === "openapi-typescript") {
+    await runOpenApiTypescript([
+      input,
+      "-o",
+      path.join(target.outputDir, "index.d.ts"),
+    ]);
+    await writeTypesPackageJson(target, version, service.name);
+  } else {
+    await runOpenApiGenerator([
+      "-i",
+      input,
+      "-g",
+      target.generator,
+      "-o",
+      target.outputDir,
+      `--additional-properties=${target.additionalProperties}`,
+    ]);
 
-  if (target.lang === "typescript") {
-    await patchNpmPackage(target.outputDir, version, service.name);
-  }
+    if (target.lang === "go") {
+      await patchGoModule(target.outputDir, target.goModulePath!);
+    }
 
-  if (target.lang === "java") {
-    await patchMavenPom(target.outputDir, version);
+    if (target.lang === "typescript") {
+      await patchNpmPackage(target.outputDir, version, service.name);
+    }
+
+    if (target.lang === "java") {
+      await patchMavenPom(target.outputDir, version);
+    }
   }
 
   await writeFile(path.join(target.outputDir, "VERSION"), `${version}\n`);
@@ -132,6 +162,44 @@ async function patchNpmPackage(
   };
 
   await writeFile(pkgFile, JSON.stringify(pkg, null, 2));
+}
+
+/**
+ * Write a `package.json` from scratch for a types-only npm package (the
+ * TypeScript server target). Unlike `patchNpmPackage`, there's no generator
+ * output to patch here - `openapi-typescript` only emits `index.d.ts`.
+ *
+ * @param target      - The SDK target config for the specific SDK.
+ * @param version     - The version of the package to set.
+ * @param serviceName - The name of the service for repository path.
+ */
+async function writeTypesPackageJson(
+  target: SdkTargetConfig,
+  version: string,
+  serviceName: string,
+): Promise<void> {
+  const pkg = {
+    name: target.npmPackageName,
+    version,
+    description: `Types-only OpenAPI contract for the ${serviceName} service.`,
+    types: "./index.d.ts",
+    files: ["index.d.ts"],
+    license: "MIT",
+    repository: {
+      type: "git",
+      url: `git+https://github.com/${config.github.owner}/${config.github.repo}.git`,
+      directory: `sdk/svc-${serviceName}/typescript-server`,
+    },
+    publishConfig: {
+      registry: "https://npm.pkg.github.com",
+      access: "restricted",
+    },
+  };
+
+  await writeFile(
+    path.join(target.outputDir, "package.json"),
+    JSON.stringify(pkg, null, 2),
+  );
 }
 
 /**

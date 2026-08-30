@@ -45,7 +45,12 @@ function label(target: SdkTargetConfig): string {
   const lang = { typescript: "TypeScript", go: "Go", java: "Java" }[
     target.lang
   ];
-  const kind = target.kind === "client" ? "Client SDK" : "Server Stubs";
+  const kind =
+    target.kind === "client"
+      ? "Client SDK"
+      : target.lang === "typescript"
+        ? "Server Types"
+        : "Server Stubs";
 
   return `${lang} ${kind}`;
 }
@@ -66,12 +71,16 @@ function body(
   switch (`${target.lang}-${target.kind}`) {
     case "typescript-client":
       return tsClient(target, version);
+    case "typescript-server":
+      return tsServer(target, version);
     case "go-client":
       return goClient(service, target);
+    case "go-server":
+      return goServer(service, target);
+    case "java-client":
+      return javaClient(target, version);
     case "java-server":
       return javaServer(target, version);
-    case "go-server":
-      return goServer(service, target, version);
     default:
       return "";
   }
@@ -89,7 +98,8 @@ npm config set @octalmesh:registry https://npm.pkg.github.com
 npm install ${target.npmPackageName}@${version}
 \`\`\`
 
-(GitHub Packages requires an authenticated \`.npmrc\` with a token that has \`read:packages\`.)
+(Internal GitHub Packages requires an authenticated \`.npmrc\` with a token that
+has \`read:packages\`.)
 
 ## Usage
 
@@ -101,6 +111,37 @@ const api = new DefaultApi(
 );
 
 const result = await api.someOperation();
+\`\`\`
+`;
+}
+
+function tsServer(target: SdkTargetConfig, version: string): string {
+  return `## Install
+
+\`\`\`bash
+npm config set @octalmesh:registry https://npm.pkg.github.com
+npm install --save-dev ${target.npmPackageName}@${version}
+\`\`\`
+
+(Internal GitHub Packages requires an authenticated \`.npmrc\` with a token that
+has \`read:packages\`.)
+
+## Usage
+
+\`\`\`ts
+import type { components, operations } from "${target.npmPackageName}";
+
+type User = components["schemas"]["User"];
+type LoginResponses = operations["login"]["responses"];
+
+// Example: an Express handler typed against the contract
+app.post("/login", (req, res) => {
+  const body = req.body as components["schemas"]["LoginRequest"];
+  const response: LoginResponses[200]["content"]["application/json"] = {
+    // ...
+  };
+  res.json(response);
+});
 \`\`\`
 `;
 }
@@ -142,6 +183,73 @@ func main() {
 `;
 }
 
+function goServer(service: ServiceConfig, target: SdkTargetConfig): string {
+  return `## Install
+
+\`\`\`bash
+go get ${target.goModulePath}@sdk/svc-${service.name}/go-server
+\`\`\`
+
+## Usage
+
+Implement the generated \`${target.goPackageName}.*ApiServicer\` interfaces and
+wire them into the generated router:
+
+\`\`\`go
+router := ${target.goPackageName}.NewRouter(
+    ${target.goPackageName}.NewSomeApiController(yourServiceImpl),
+)
+\`\`\`
+`;
+}
+
+function javaClient(target: SdkTargetConfig, version: string): string {
+  return `## Install (Maven, GitHub Packages)
+
+\`\`\`xml
+<dependency>
+  <groupId>${target.mavenGroupId}</groupId>
+  <artifactId>${target.mavenArtifactId}</artifactId>
+  <version>${version}</version>
+</dependency>
+\`\`\`
+
+Add the repository to your \`settings.xml\` (or \`pom.xml\`) with a token that
+has \`read:packages\`:
+
+\`\`\`xml
+<repository>
+  <id>github</id>
+  <url>https://maven.pkg.github.com/${target.mavenGroupId?.split(".")[0]}</url>
+</repository>
+\`\`\`
+
+## Usage
+
+Generated with \`library=restclient\` - Spring's \`RestClient\`, the current
+recommended synchronous HTTP client for Spring apps (successor to
+\`RestTemplate\`, lighter than \`WebClient\`/WebFlux for non-reactive services):
+
+\`\`\`java
+@Configuration
+public class SomeServiceClientConfig {
+
+    @Bean
+    public ApiClient someServiceApiClient(RestClient.Builder builder) {
+        ApiClient client = new ApiClient(builder.build());
+        client.setBasePath("https://internal.octalmesh.com/api");
+        return client;
+    }
+
+    @Bean
+    public DefaultApi someServiceApi(ApiClient someServiceApiClient) {
+        return new DefaultApi(someServiceApiClient);
+    }
+}
+\`\`\`
+`;
+}
+
 function javaServer(target: SdkTargetConfig, version: string): string {
   return `## Install (Maven, GitHub Packages)
 
@@ -173,30 +281,6 @@ This artifact only contains the generated Spring \`@RestController\` interfaces
 public class SomeController implements SomeApi {
     // interface methods generated from the OpenAPI contract
 }
-\`\`\`
-`;
-}
-
-function goServer(
-  service: ServiceConfig,
-  target: SdkTargetConfig,
-  _version: string,
-): string {
-  return `## Install
-
-\`\`\`bash
-go get ${target.goModulePath}@sdk/svc-${service.name}/go-server
-\`\`\`
-
-## Usage
-
-Implement the generated \`${target.goPackageName}.*ApiServicer\` interfaces and
-wire them into the generated router:
-
-\`\`\`go
-router := ${target.goPackageName}.NewRouter(
-    ${target.goPackageName}.NewSomeApiController(yourServiceImpl),
-)
 \`\`\`
 `;
 }

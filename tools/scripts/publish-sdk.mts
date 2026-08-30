@@ -13,8 +13,8 @@ import path from "node:path";
 
 import { allSdkTargets, config } from "@root/contracts.config.mts";
 
-import { git, remoteBranchExists, requireOk, tagExists } from "./lib/git.mts";
-import { resolveVersion } from "./lib/version.mts";
+import { git, remoteBranchExists, requireOk, tagExists } from "@lib/git.mts";
+import { resolveVersion } from "@lib/version.mts";
 
 const version = resolveVersion();
 const dryRun = process.argv.includes("--dry-run");

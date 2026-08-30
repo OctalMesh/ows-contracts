@@ -40,10 +40,12 @@ const sdkDir = path.join(distDir, "sdk");
 
 export type SdkLang = "typescript" | "go" | "java";
 export type SdkKind = "client" | "server";
+export type SdkTool = "openapi-generator" | "openapi-typescript";
 
 export interface SdkTargetConfig {
   lang: SdkLang;
   kind: SdkKind;
+  tool: SdkTool;
   generator: string;
   outputDir: string;
   branch: string;
@@ -63,9 +65,11 @@ export interface ServiceConfig {
   entrypoint: string;
   sdk: {
     typescriptClient: SdkTargetConfig;
+    typescriptServer: SdkTargetConfig;
     goClient: SdkTargetConfig;
-    javaServer: SdkTargetConfig;
     goServer: SdkTargetConfig;
+    javaClient: SdkTargetConfig;
+    javaServer: SdkTargetConfig;
   };
 }
 
@@ -106,6 +110,7 @@ function buildServiceSdk(name: string): ServiceConfig["sdk"] {
     typescriptClient: {
       lang: "typescript",
       kind: "client",
+      tool: "openapi-generator",
       generator: "typescript-fetch",
       outputDir: path.join(sdkDir, name, "typescript-client"),
       branch: `sdk/svc-${name}/typescript-client`,
@@ -119,10 +124,24 @@ function buildServiceSdk(name: string): ServiceConfig["sdk"] {
       ].join(","),
     },
 
+    // TypeScript "server" -> npm (GitHub Packages), types only.
+    typescriptServer: {
+      lang: "typescript",
+      kind: "server",
+      tool: "openapi-typescript",
+      generator: "openapi-typescript",
+      outputDir: path.join(sdkDir, name, "typescript-server"),
+      branch: `sdk/svc-${name}/typescript-server`,
+      tagPrefix: `svc-${name}-typescript-server`,
+      npmPackageName: `@${ORG}/${PLATFORM}-${MODULE}-${name}-server`,
+      additionalProperties: "",
+    },
+
     // Go client -> git branch/tag only
     goClient: {
       lang: "go",
       kind: "client",
+      tool: "openapi-generator",
       generator: "go",
       outputDir: path.join(sdkDir, name, "go-client"),
       branch: `sdk/svc-${name}/go-client`,
@@ -137,10 +156,45 @@ function buildServiceSdk(name: string): ServiceConfig["sdk"] {
       ].join(","),
     },
 
+    // Go server -> git branch/tag only
+    goServer: {
+      lang: "go",
+      kind: "server",
+      tool: "openapi-generator",
+      generator: "go-server",
+      outputDir: path.join(sdkDir, name, "go-server"),
+      branch: `sdk/svc-${name}/go-server`,
+      tagPrefix: `svc-${name}-go-server`,
+      goModulePath: `github.com/${ORG}/${REPO}`,
+      goPackageName: `${name}server`,
+      additionalProperties: [`packageName=${name}server`].join(","),
+    },
+
+    // Java client -> Maven (GitHub Packages)
+    javaClient: {
+      lang: "java",
+      kind: "client",
+      tool: "openapi-generator",
+      generator: "java",
+      outputDir: path.join(sdkDir, name, "java-client"),
+      branch: `sdk/svc-${name}/java-client`,
+      tagPrefix: `svc-${name}-java-client`,
+      mavenGroupId: `com.${ORG}.${PLATFORM}.${MODULE}.${name}`,
+      mavenArtifactId: `${name}-client`,
+      additionalProperties: [
+        "library=restclient",
+        "useJakartaEe=true",
+        "useTags=true",
+        `groupId=com.${ORG}.${PLATFORM}.${MODULE}.${name}`,
+        `artifactId=${name}-client`,
+      ].join(","),
+    },
+
     // Java server stubs (Spring interfaces) -> Maven (GitHub Packages)
     javaServer: {
       lang: "java",
       kind: "server",
+      tool: "openapi-generator",
       generator: "spring",
       outputDir: path.join(sdkDir, name, "java-server"),
       branch: `sdk/svc-${name}/java-server`,
@@ -150,24 +204,11 @@ function buildServiceSdk(name: string): ServiceConfig["sdk"] {
       additionalProperties: [
         "interfaceOnly=true",
         "skipDefaultInterface=true",
-        "useSpringBoot3=true",
+        "useSpringBoot4=true",
         "useTags=true",
         `groupId=com.${ORG}.${PLATFORM}.${MODULE}.${name}`,
         `artifactId=${name}-server`,
       ].join(","),
-    },
-
-    // Go server -> git branch/tag only
-    goServer: {
-      lang: "go",
-      kind: "server",
-      generator: "go-server",
-      outputDir: path.join(sdkDir, name, "go-server"),
-      branch: `sdk/svc-${name}/go-server`,
-      tagPrefix: `svc-${name}-go-server`,
-      goModulePath: `github.com/${ORG}/${REPO}`,
-      goPackageName: `${name}server`,
-      additionalProperties: [`packageName=${name}server`].join(","),
     },
   };
 }
@@ -211,9 +252,11 @@ export const allSdkTargets: Array<{
   target: SdkTargetConfig;
 }> = config.services.flatMap((service) => [
   { service, target: service.sdk.typescriptClient },
+  { service, target: service.sdk.typescriptServer },
   { service, target: service.sdk.goClient },
-  { service, target: service.sdk.javaServer },
   { service, target: service.sdk.goServer },
+  { service, target: service.sdk.javaClient },
+  { service, target: service.sdk.javaServer },
 ]);
 
 //</editor-fold>

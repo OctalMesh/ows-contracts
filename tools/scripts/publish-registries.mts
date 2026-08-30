@@ -1,8 +1,10 @@
 /**
  * Publishes registry-backed packages to GitHub Packages:
- *   - TypeScript client -> npm   (needs NODE_AUTH_TOKEN / configured registry)
- *   - Java server stubs -> Maven (needs ~/.m2/settings.xml with <id>github</id>
+ *   - TypeScript client       -> npm   (needs NODE_AUTH_TOKEN / configured registry)
+ *   - TypeScript server types -> npm   (same registry - types-only package)
+ *   - Java client             -> Maven (needs ~/.m2/settings.xml with <id>github</id>
  *     credentials, wired up by actions/setup-java in CI)
+ *   - Java server stubs       -> Maven (same as above)
  *
  *   - Go packages are intentionally skipped here, they are consumed straight
  *     from their git branch/tag (see publish-sdk.mts), Go has no registry step.
@@ -32,9 +34,9 @@ function run(cmd: string, args: string[], cwd: string): void {
 let publishedCount = 0;
 
 for (const { service, target } of allSdkTargets) {
-  if (target.lang === "typescript" && target.kind === "client") {
+  if (target.lang === "typescript") {
     console.log(
-      `\n=== npm publish: ${target.npmPackageName} (svc: ${service.name}) ===`,
+      `\n=== npm publish: ${target.npmPackageName} (svc: ${service.name}, ${target.kind}) ===`,
     );
     run(
       "npm",
@@ -45,9 +47,9 @@ for (const { service, target } of allSdkTargets) {
     publishedCount += 1;
   }
 
-  if (target.lang === "java" && target.kind === "server") {
+  if (target.lang === "java") {
     console.log(
-      `\n=== maven deploy: ${target.mavenGroupId}:${target.mavenArtifactId} (svc: ${service.name}) ===`,
+      `\n=== maven deploy: ${target.mavenGroupId}:${target.mavenArtifactId} (svc: ${service.name}, ${target.kind}) ===`,
     );
     run("mvn", ["-B", "deploy", "-DskipTests"], target.outputDir);
 

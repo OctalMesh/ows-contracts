@@ -1,3 +1,9 @@
+/**
+ * Generates documentation site for all services defined in the OpenAPI
+ * specifications.
+ *
+ * Usage: `tsx scripts/generate-docs.mts`
+ */
 import { copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
