@@ -11,16 +11,16 @@
     },
 
     /* Environment */
-    "target": "es2024",
+    "target": "es2025",
     "lib": ["esnext"],
     "types": ["node"],
     "allowJs": false,
 
     /* Modules */
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "moduleDetection": "force",
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": false,
     "erasableSyntaxOnly": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -38,5 +38,5 @@
     "noUnusedParameters": true,
     "noUncheckedIndexedAccess": true,
   },
-  "include": ["scripts/**/*.mts"]
+  "include": ["scripts/**/*.ts", "../contracts.config.ts"]
 }

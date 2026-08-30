@@ -43,13 +43,13 @@ graph TD
   style PubRegistries fill:#e2f0cb,stroke:#a8b796,stroke-width:2px,color:#000
 ```
 
-- **`generate-sdk`** (`tools/scripts/generate-sdk.mts`) runs
+- **`generate-sdk`** (`tools/scripts/generate-sdk.ts`) runs
   `openapi-generator-cli` once per `(service, lang, kind)` pair from
-  `contracts.config.mts`, patches `go.mod` / `package.json` /
+  `contracts.config.ts`, patches `go.mod` / `package.json` /
   `pom.xml`, stamps a `VERSION` file, and writes a generated
   implementation-guide `README.md`. Everything lands in `dist/sdk/`.
 
-- **`publish-branches`** (`tools/scripts/publish-sdk.mts`) takes each
+- **`publish-branches`** (`tools/scripts/publish-sdk.ts`) takes each
   `dist/sdk/<service>/<lang>-<kind>` directory, creates a throwaway
   `git worktree` for its orphan branch (`sdk/svc-<service>/<lang>-<kind>`),
   replaces the branch content wholesale, commits, tags, and pushes. This
@@ -57,7 +57,7 @@ graph TD
   checkout that ran `generate-sdk`. Re-running with an unchanged spec is a
   no-op (tag already exists on origin -> skipped).
 
-- **`publish-registries`** (`tools/scripts/publish-registries.mts`) only
+- **`publish-registries`** (`tools/scripts/publish-registries.ts`) only
   handles the two targets that actually have a registry: `npm publish` for
   the TypeScript client, `mvn deploy` for the Java server stubs (both
   against GitHub Packages, credentials wired up by `actions/setup-node`

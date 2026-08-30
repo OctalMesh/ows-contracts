@@ -1,8 +1,5 @@
-import type {
-  SdkTargetConfig,
-  ServiceConfig,
-} from "@root/contracts.config.mts";
-import { config } from "@root/contracts.config.mts";
+import type { SdkTargetConfig, ServiceConfig } from "@root/contracts.config";
+import { config } from "@root/contracts.config";
 
 interface RenderArgs {
   service: ServiceConfig;

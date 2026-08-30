@@ -3,13 +3,13 @@
  * This script is used to serve the documentation files in the `dist/docs`
  * directory.
  *
- * Usage: `tsx scripts/serve-docs.mts`
+ * Usage: `tsx scripts/serve-docs`
  */
 import { createReadStream, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
 
-import { config } from "@root/contracts.config.mts";
+import { config } from "@root/contracts.config";
 
 const host = config.docsServer.host;
 const port = config.docsServer.port;

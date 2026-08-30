@@ -7,13 +7,13 @@
  *   - Java server stubs       -> Maven (same as above)
  *
  *   - Go packages are intentionally skipped here, they are consumed straight
- *     from their git branch/tag (see publish-sdk.mts), Go has no registry step.
+ *     from their git branch/tag (see publish-sdk.ts), Go has no registry step.
  *
- * Usage: `tsx scripts/publish-registries.mts [--dry-run]`
+ * Usage: `tsx scripts/publish-registries.ts [--dry-run]`
  */
 import { spawnSync } from "node:child_process";
 
-import { allSdkTargets } from "@root/contracts.config.mts";
+import { allSdkTargets } from "@root/contracts.config";
 
 const dryRun = process.argv.includes("--dry-run");
 

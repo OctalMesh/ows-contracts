@@ -6,15 +6,15 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "clean": "tsx scripts/clean.mts",
+    "clean": "tsx scripts/clean",
     "typecheck": "tsc --noEmit",
-    "build": "tsx scripts/bundle.mts",
-    "docs": "tsx scripts/generate-docs.mts",
-    "docs:serve": "tsx scripts/serve-docs.mts",
-    "generate": "tsx scripts/generate-sdk.mts",
-    "publish:sdk": "tsx scripts/publish-sdk.mts",
-    "publish:registries": "tsx scripts/publish-registries.mts",
-    "lint": "tsx scripts/lint.mts"
+    "build": "tsx scripts/bundle",
+    "docs": "tsx scripts/generate-docs",
+    "docs:serve": "tsx scripts/serve-docs",
+    "generate": "tsx scripts/generate-sdk",
+    "publish:sdk": "tsx scripts/publish-sdk",
+    "publish:registries": "tsx scripts/publish-registries",
+    "lint": "tsx scripts/lint"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.41.0",

@@ -2,12 +2,12 @@
  * Bundles the OpenAPI specifications for all services defined in the config
  * file using the Redocly CLI.
  *
- * Usage: `tsx scripts/bundle.mts`
+ * Usage: `tsx scripts/bundle`
  */
 import { spawn } from "node:child_process";
 import { mkdir, rm } from "node:fs/promises";
 
-import { config } from "@root/contracts.config.mts";
+import { config } from "@root/contracts.config";
 
 const run = (args: string[]): Promise<void> =>
   new Promise<void>((resolvePromise, reject) => {

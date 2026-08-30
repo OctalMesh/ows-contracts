@@ -2,7 +2,7 @@
  * Generates SDK packages for all services defined in the OpenAPI
  * specifications.
  *
- * Usage: `tsx scripts/generate-sdk.mts`
+ * Usage: `tsx scripts/generate-sdk`
  */
 import { spawn } from "node:child_process";
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
@@ -12,10 +12,10 @@ import {
   type SdkTargetConfig,
   allSdkTargets,
   config,
-} from "@root/contracts.config.mts";
+} from "@root/contracts.config";
 
-import { renderReadme } from "@lib/readme-templates.mts";
-import { resolveVersion } from "@lib/version.mts";
+import { renderReadme } from "@lib/readme-templates";
+import { resolveVersion } from "@lib/version";
 
 const runOpenApiGenerator = (args: string[]): Promise<void> => {
   return new Promise<void>((resolvePromise, reject) => {

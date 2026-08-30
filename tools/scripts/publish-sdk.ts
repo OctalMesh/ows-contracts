@@ -5,16 +5,16 @@
  * Each target gets its own throwaway git worktree so this never touches the
  * checkout that ran `pnpm run generate`, safe to run in the same CI job.
  *
- * Usage: `tsx scripts/publish-sdk.mts [--dry-run]`
+ * Usage: `tsx scripts/publish-sdk.ts [--dry-run]`
  */
 import { cp, mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
-import { allSdkTargets, config } from "@root/contracts.config.mts";
+import { allSdkTargets, config } from "@root/contracts.config";
 
-import { git, remoteBranchExists, requireOk, tagExists } from "@lib/git.mts";
-import { resolveVersion } from "@lib/version.mts";
+import { git, remoteBranchExists, requireOk, tagExists } from "@lib/git";
+import { resolveVersion } from "@lib/version";
 
 const version = resolveVersion();
 const dryRun = process.argv.includes("--dry-run");

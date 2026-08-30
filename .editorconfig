@@ -684,7 +684,7 @@ ij_css_block_comment_add_space = false
 
 ij_json_object_wrapping = off
 ij_json_array_wrapping = off
-ij_json_property_alignment = align_on_value
+ij_json_property_alignment = do_not_align
 
 # Spaces
 

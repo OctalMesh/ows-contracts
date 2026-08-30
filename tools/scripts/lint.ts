@@ -4,11 +4,11 @@
  * It checks each service's OpenAPI specification against the rules defined
  * in `redocly.yaml`.
  *
- * Usage: `tsx scripts/lint.mts`
+ * Usage: `tsx scripts/lint`
  */
 import { spawnSync } from "node:child_process";
 
-import { config } from "@root/contracts.config.mts";
+import { config } from "@root/contracts.config";
 
 console.log("Linting OpenAPI contracts...");
 
