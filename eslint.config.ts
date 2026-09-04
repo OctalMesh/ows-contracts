@@ -15,7 +15,7 @@ export default defineConfig([
   globalIgnores(["dist/**", "node_modules/**"]),
 
   {
-    files: ["./*.config.{ts,js}", "tools/**/*.{ts,js}"],
+    files: ["./*.config.?(c|m)[jt]s?(x)"],
     languageOptions: {
       ecmaVersion: "latest",
       parserOptions: {

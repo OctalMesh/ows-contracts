@@ -11,11 +11,4 @@ minimumReleaseAge: 0
 
 allowBuilds:
   "@openapitools/openapi-generator-cli": true
-  "@scarf/scarf": true
-  core-js: true
-  esbuild: true
-  protobufjs: true
   vue-demi: true
-
-packages:
-  - "tools"

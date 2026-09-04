@@ -1,0 +1,13 @@
+# Hand-authored half of `redocly.yaml`. The `apis:` section is generated from
+# `contracts.yaml` by `tools/src/core/redocly/redocly-sync.ts` (runs
+# automatically before `lint`/`build`/`generate`) and merged with this file's
+# `extends`/`rules` to produce the final `redocly.yaml` - don't edit that file
+# directly, edit this one (and `contracts.yaml` for the APIs themselves).
+
+extends:
+  - "recommended"
+
+rules:
+  operation-operationId: "error"
+  no-unused-components: "error"
+  path-params-defined: "error"

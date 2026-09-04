@@ -29,6 +29,7 @@ logs/
 .directory
 *.pem
 .project-structure.txt
+redocly.yaml
 
 # ============================================================================ #
 #                                 IDE / Editor                                 #

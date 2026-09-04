@@ -1,0 +1,172 @@
+# ============================================================================ #
+#                        OWS Contracts - Seagull config                        #
+# ============================================================================ #
+# Everything the `seagull` CLI needs to lint, bundle, generate, document, and  #
+# publish the contracts lives here (from @octalmesh/seagull, see               #
+# package.json). Run `seagull --help` for the command list.                    #
+#                                                                              #
+# Any string value below may reference `{vars.x.y}`, `{github.owner}`,         #
+# `{github.repo}`, or `{service}` (the current contract's `name`) - see        #
+# "vars" below.                                                                #
+# ============================================================================ #
+
+github:
+  owner: "OctalMesh"
+  repo: "ows-contracts"
+
+# Free-form tree of values used for template interpolation elsewhere in this
+# file (generator naming, additionalProperties, ...). Nest however you like -
+# every leaf is addressable as `{vars.<dot.path>}`.
+vars:
+  org: "octalmesh"
+  platform: "web"
+  module: "shop"
+  domain: "octalmesh.com"
+
+paths:
+  # Every other output dir defaults to a subdirectory of `dist` (`dist/specs`,
+  # `dist/docs`, `dist/sdk`) and only needs to be listed below to override
+  # that default.
+  dist: "dist"
+
+docs:
+  server:
+    host: "localhost"
+    port: 8080
+  metadata:
+    title: "OWS - API Reference"
+    description: "API documentation for the OctalMesh Web Shop, including Auth, Catalog, Order, Payment, and Search services."
+    favicon: "https://octalmesh.com/favicon.ico"
+    baseServerUrl: "https://octalmesh.com"
+
+# ============================================================================ #
+#  Generators - reusable "recipes": a tool + how to invoke it. Contracts pick  #
+#  which of these to run, by id, under their own `artifacts:` list below.      #
+# ============================================================================ #
+generators:
+  ts-client:
+    tool: "openapi-generator"
+    generator: "typescript-fetch"
+    lang: "typescript"
+    kind: "client"
+    package: "@{vars.org}/{vars.platform}-{vars.module}-{service}-client"
+    readme: "readme-templates/ts-client.md"
+    additionalProperties:
+      supportsES6: true
+      typescriptThreePlus: true
+      withInterfaces: true
+
+  ts-server:
+    tool: "openapi-typescript"
+    lang: "typescript"
+    kind: "server"
+    package: "@{vars.org}/{vars.platform}-{vars.module}-{service}-server"
+
+  go-client:
+    tool: "openapi-generator"
+    generator: "go"
+    lang: "go"
+    kind: "client"
+    goModule: "github.com/{vars.org}/{github.repo}"
+    goPackageName: "{service}client"
+    additionalProperties:
+      withGoMod: true
+      enumClassPrefix: true
+      generateInterfaces: true
+
+  go-server:
+    tool: "openapi-generator"
+    generator: "go-server"
+    lang: "go"
+    kind: "server"
+    goModule: "github.com/{vars.org}/{github.repo}"
+    goPackageName: "{service}server"
+
+  java-client:
+    tool: "openapi-generator"
+    generator: "java"
+    lang: "java"
+    kind: "client"
+    maven:
+      groupId: "com.{vars.org}.{vars.platform}.{vars.module}.{service}"
+      artifactId: "{service}-client"
+    additionalProperties:
+      library: "restclient"
+      useJakartaEe: true
+      useTags: true
+
+  java-server:
+    tool: "openapi-generator"
+    generator: "spring"
+    lang: "java"
+    kind: "server"
+    maven:
+      groupId: "com.{vars.org}.{vars.platform}.{vars.module}.{service}"
+      artifactId: "{service}-server"
+    additionalProperties:
+      interfaceOnly: true
+      skipDefaultInterface: true
+      useSpringBoot4: true
+      useTags: true
+
+# ============================================================================ #
+#  Contracts - one per service. `artifacts` picks which generators (above)     #
+#  run for that service, by id. Different services may list different          #
+#  generators entirely (e.g. a service-specific `java-client-legacy` recipe)   #
+#  - just add it under `generators:` and reference it here.                    #
+# ============================================================================ #
+contracts:
+  - name: "auth"
+    title: "Auth Service API"
+    entrypoint: "specs/auth/openapi.yaml"
+    artifacts:
+      - "ts-client"
+      - "ts-server"
+      - "go-client"
+      - "go-server"
+      - "java-client"
+      - "java-server"
+
+  - name: "catalog"
+    title: "Catalog Service API"
+    entrypoint: "specs/catalog/openapi.yaml"
+    artifacts:
+      - "ts-client"
+      - "ts-server"
+      - "go-client"
+      - "go-server"
+      - "java-client"
+      - "java-server"
+
+  - name: "order"
+    title: "Order Service API"
+    entrypoint: "specs/order/openapi.yaml"
+    artifacts:
+      - "ts-client"
+      - "ts-server"
+      - "go-client"
+      - "go-server"
+      - "java-client"
+      - "java-server"
+
+  - name: "payment"
+    title: "Payment Service API"
+    entrypoint: "specs/payment/openapi.yaml"
+    artifacts:
+      - "ts-client"
+      - "ts-server"
+      - "go-client"
+      - "go-server"
+      - "java-client"
+      - "java-server"
+
+  - name: "search"
+    title: "Search Service API"
+    entrypoint: "specs/search/openapi.yaml"
+    artifacts:
+      - "ts-client"
+      - "ts-server"
+      - "go-client"
+      - "go-server"
+      - "java-client"
+      - "java-server"
