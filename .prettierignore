@@ -8,6 +8,7 @@ infra/
 
 .prettierrc
 pnpm-lock.yaml
+redocly.yaml
 *.md
 *.markdown
 *.json

@@ -19,7 +19,7 @@ every run, so a typo or a missing field fails immediately with a readable
 error instead of surfacing three steps later as a broken generator
 invocation.
 
-It has three parts:
+It has four parts:
 
 - **`generators:`** - reusable "recipes": a tool (`openapi-generator` or
   `openapi-typescript`) plus how to invoke it (which `-g` template, naming
@@ -46,6 +46,12 @@ It has three parts:
   (`org`, `platform`, `module`, ...). Any string field in `generators:` may
   reference `{vars.some.nested.key}`, `{github.owner}`, `{github.repo}`, or
   `{service}` (the current contract's `name`).
+- **`publishing:`** (required) - git branch/tag naming and registry URLs for
+  every artifact, e.g. `branch: "sdk/svc-{service}/{id}"` or
+  `npm: { registry: "...", access: "restricted" }`. Seagull has no built-in
+  opinion here, so this has to be explicit - see the block in `seagull.yaml`.
+  Overridable per-generator (`generators.<id>.publishing`) or per-artifact
+  (`artifacts[].overrides.publishing`), same cascade as `additionalProperties`.
 
 `redocly.yaml` is generated from `seagull.yaml` + the hand-authored
 `redocly.base.yaml` (which only holds `extends`/`rules`) - don't edit
@@ -156,5 +162,5 @@ pnpm run generate     # generate -> dist/sdk (all artifacts x all contracts, per
 pnpm run docs:preview # generate and preview the docs locally (dist/docs)
 
 # Dry-run the branch/tag publishing without pushing anything:
-SDK_VERSION=0.1.0-local pnpm run publish:sdk -- --dry-run
+SDK_VERSION_OVERRIDE=0.1.0-local pnpm run publish:sdk -- --dry-run
 ```

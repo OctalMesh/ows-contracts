@@ -10,6 +10,8 @@
 # "vars" below.                                                                #
 # ============================================================================ #
 
+configVersion: 1
+
 github:
   owner: "OctalMesh"
   repo: "ows-contracts"
@@ -38,6 +40,22 @@ docs:
     description: "API documentation for the OctalMesh Web Shop, including Auth, Catalog, Order, Payment, and Search services."
     favicon: "https://octalmesh.com/favicon.ico"
     baseServerUrl: "https://octalmesh.com"
+
+# ============================================================================ #
+#  Publishing - git branch/tag naming and registry URLs for every artifact,    #
+#  unless overridden per-generator (`generators.<id>.publishing`) or           #
+#  per-contract-artifact (`artifacts[].overrides.publishing`).                 #
+# ============================================================================ #
+publishing:
+  branch: "sdk/svc-{service}/{id}"
+  tag: "svc-{service}-{id}-v{version}"
+  repositoryUrl: "https://github.com/{github.owner}/{github.repo}"
+  npm:
+    registry: "https://npm.pkg.github.com"
+    access: "public"
+  maven:
+    repositoryId: "github"
+    repositoryUrl: "https://maven.pkg.github.com/{github.owner}/{github.repo}"
 
 # ============================================================================ #
 #  Generators - reusable "recipes": a tool + how to invoke it. Contracts pick  #

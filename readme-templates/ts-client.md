@@ -9,7 +9,7 @@ Source branch: `{artifact.branch}`
 ## Install
 
 ```bash
-npm config set @{vars.org}:registry https://npm.pkg.github.com
+npm config set @{vars.org}:registry {artifact.npmRegistry}
 npm install {artifact.package}@{version}
 ```
 
