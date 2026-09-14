@@ -157,7 +157,7 @@ bump.
 ```bash
 pnpm install
 pnpm run lint         # lint -> specs/
-pnpm run build        # bundle -> dist/specs
+pnpm run bundle       # bundle -> dist/specs
 pnpm run generate     # generate -> dist/sdk (all artifacts x all contracts, per seagull.yaml)
 pnpm run docs:preview # generate and preview the docs locally (dist/docs)
 

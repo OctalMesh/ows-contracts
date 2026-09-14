@@ -1,6 +1,6 @@
 # {title} - TypeScript Client
 
-> Generated from `specs/{service}/openapi.yaml` in [{github.owner}/{github.repo}](https://github.com/{github.owner}/{github.repo}).
+> Generated from `specs/{service}/openapi.yaml` in [{vars.git.owner}/{vars.git.repo}](https://github.com/{vars.git.owner}/{vars.git.repo}).
 > Do not edit by hand - this package is regenerated and republished on every release.
 
 Version: `{version}`
@@ -31,4 +31,4 @@ const result = await api.someOperation();
 ## Support
 
 Questions about the `{service}` contract go to `#{service}-api` on Slack, or
-open an issue in [{github.owner}/{github.repo}](https://github.com/{github.owner}/{github.repo}/issues).
+open an issue in [{vars.git.owner}/{vars.git.repo}](https://github.com/{vars.git.owner}/{vars.git.repo}/issues).

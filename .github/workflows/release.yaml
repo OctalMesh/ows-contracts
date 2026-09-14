@@ -49,7 +49,7 @@ jobs:
       - uses: actions/setup-node@v7
         with: { node-version: "${{ env.NODE_VERSION }}", cache: "pnpm" }
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run build
+      - run: pnpm run bundle
       - uses: actions/upload-artifact@v7
         with: { name: contracts-specs, path: dist/specs }
 
