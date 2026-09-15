@@ -1,0 +1,48 @@
+type: "object"
+# prettier-ignore
+description: |-
+  A deliberately coarse, customer-facing view of an order's fulfillment
+  pipeline. It never exposes internal production detail (defects, reprints,
+  printer/queue internals, precise minute-level ETAs) - that detail lives in the
+  private, separate production/admin contracts. This is what a customer sees in
+  their account, not what staff see.
+
+required:
+  - "orderId"
+  - "currentStage"
+  - "history"
+  - "updatedAt"
+
+properties:
+  orderId:
+    type: "string"
+    format: "uuid"
+
+  currentStage:
+    type: "string"
+    enum:
+      - "received"
+      - "in_production"
+      - "quality_check"
+      - "ready"
+      - "shipped"
+      - "delivered"
+      - "cancelled"
+
+  estimatedCompletion:
+    $ref: "../../../shared/components/schemas/TimeRange.yaml"
+    # prettier-ignore
+    description: |-
+      Coarse estimate for reaching "ready", shown only while still in progress.
+
+  history:
+    type: "array"
+    # prettier-ignore
+    description: |-
+      Past stage transitions, oldest first - enough to render a simple timeline.
+    items:
+      $ref: "./OrderTrackingEvent.yaml"
+
+  updatedAt:
+    type: "string"
+    format: "date-time"

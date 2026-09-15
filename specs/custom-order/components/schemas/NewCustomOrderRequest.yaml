@@ -1,0 +1,16 @@
+type: "object"
+required:
+  - "description"
+
+properties:
+  description:
+    type: "string"
+    minLength: 1
+    maxLength: 4000
+
+  referenceImages:
+    type: "array"
+    items:
+      type: "string"
+      format: "uri"
+    maxItems: 10

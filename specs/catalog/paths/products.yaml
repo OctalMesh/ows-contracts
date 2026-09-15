@@ -1,6 +1,8 @@
 get:
   operationId: "listProducts"
-  summary: "List products"
+  # prettier-ignore
+  summary: |-
+    List products
   security: []
 
   tags:
@@ -9,10 +11,21 @@ get:
   parameters:
     - $ref: "../openapi.yaml#/components/parameters/Page"
     - $ref: "../openapi.yaml#/components/parameters/Limit"
+    - $ref: "../openapi.yaml#/components/parameters/Locale"
+    - $ref: "../openapi.yaml#/components/parameters/Currency"
+
+    - name: "categoryId"
+      in: "query"
+      required: false
+      schema:
+        type: "string"
+        format: "uuid"
 
   responses:
     "200":
-      description: "Product page"
+      # prettier-ignore
+      description: |-
+        Product page
       content:
         application/json:
           schema:

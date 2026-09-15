@@ -1,15 +1,76 @@
 type: "object"
+# prettier-ignore
+description: |-
+  Problem Details for HTTP APIs - RFC 9457 (obsoletes RFC 7807), served as
+  `application/problem+json`. `type`/`title`/`status`/`detail`/`instance` are
+  the standard members; `code` and `errors` are our extension members for
+  machine-readable handling and field-level validation feedback.
+
 required:
-  - "code"
-  - "message"
+  - "title"
+  - "status"
 
 properties:
+  type:
+    type: "string"
+    format: "uri"
+    default: "about:blank"
+    # prettier-ignore
+    description: |-
+      URI identifying the problem type. "about:blank" means the title itself is
+      sufficient.
+
+  title:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Short, human-readable summary of the problem type. Should not change
+      between occurrences.
+
+  status:
+    type: "integer"
+    # prettier-ignore
+    description: |-
+      The HTTP status code, duplicated here for convenience when the body is
+      inspected out of band.
+
+  detail:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Human-readable explanation specific to this occurrence.
+
+  instance:
+    type: "string"
+    format: "uri"
+    # prettier-ignore
+    description: |-
+      URI identifying this specific occurrence of the problem (e.g. a
+      request/trace id path).
+
   code:
     type: "string"
+    # prettier-ignore
+    description: |-
+      Stable, machine-readable, service-specific error code for programmatic
+      handling (extension member).
 
-  message:
-    type: "string"
-
-  details:
-    type: "object"
-    additionalProperties: true
+  errors:
+    type: "array"
+    # prettier-ignore
+    description: |-
+      Field-level validation failures (extension member). Present on 400
+      responses caused by request validation.
+    items:
+      type: "object"
+      required:
+        - "field"
+        - "message"
+      properties:
+        field:
+          type: "string"
+          # prettier-ignore
+          description: |-
+            JSON pointer or dotted path to the offending field.
+        message:
+          type: "string"

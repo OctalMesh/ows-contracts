@@ -1,0 +1,35 @@
+type: "object"
+# prettier-ignore
+description: |-
+  A cart/order line sourced from an accepted custom-order quote. Once accepted,
+  a custom order is priced and behaves like any other line item.
+required:
+  - "sourceType"
+  - "customOrderRequestId"
+  - "quantity"
+  - "unitPrice"
+
+properties:
+  sourceType:
+    type: "string"
+    enum:
+      - "custom_order"
+
+  customOrderRequestId:
+    type: "string"
+    format: "uuid"
+    # prettier-ignore
+    description: |-
+      References an accepted quote in the custom-order service. Only requests in
+      "accepted" status may be added.
+
+  quantity:
+    type: "integer"
+    minimum: 1
+    default: 1
+
+  unitPrice:
+    $ref: "../../../shared/components/schemas/Money.yaml"
+    # prettier-ignore
+    description: |-
+      Snapshot of the accepted quote's price at the moment it entered the cart.

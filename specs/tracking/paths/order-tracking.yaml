@@ -1,0 +1,36 @@
+get:
+  operationId: "getOrderTracking"
+  # prettier-ignore
+  summary: |-
+    Get the customer-facing fulfillment pipeline for an order
+
+  tags:
+    - "Tracking"
+
+  security:
+    - BearerAuth: []
+
+  parameters:
+    - name: "orderId"
+      in: "path"
+      required: true
+      schema:
+        type: "string"
+        format: "uuid"
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        The current tracking state of the order.
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/OrderTracking.yaml"
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+    "403":
+      $ref: "../../shared/components/responses/Forbidden.yaml"
+    "404":
+      $ref: "../../shared/components/responses/NotFound.yaml"

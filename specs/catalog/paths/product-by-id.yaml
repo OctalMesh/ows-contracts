@@ -1,0 +1,33 @@
+get:
+  operationId: "getProduct"
+  # prettier-ignore
+  summary: |-
+    Get a single product, including its attributes and variants
+  security: []
+
+  tags:
+    - "Products"
+
+  parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      schema:
+        type: "string"
+        format: "uuid"
+
+    - $ref: "../openapi.yaml#/components/parameters/Locale"
+    - $ref: "../openapi.yaml#/components/parameters/Currency"
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        Product detail
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/Product.yaml"
+
+    "404":
+      $ref: "../../shared/components/responses/NotFound.yaml"

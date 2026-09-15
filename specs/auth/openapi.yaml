@@ -17,13 +17,22 @@ servers:
 
 tags:
   - name: "Auth"
-    description: "Authentication and user profile operations."
+    # prettier-ignore
+    description: |-
+      Passwordless authentication (email/SMS one-time codes and OAuth)
+      and identity lookup. We never store passwords.
 
 paths:
-  /login:
-    $ref: "./paths/login.yaml"
-  /register:
-    $ref: "./paths/register.yaml"
+  /otp/request:
+    $ref: "./paths/otp-request.yaml"
+  /otp/verify:
+    $ref: "./paths/otp-verify.yaml"
+  /oauth/callback:
+    $ref: "./paths/oauth-callback.yaml"
+  /refresh:
+    $ref: "./paths/refresh.yaml"
+  /logout:
+    $ref: "./paths/logout.yaml"
   /me:
     $ref: "./paths/me.yaml"
 
@@ -33,8 +42,14 @@ components:
       $ref: "./components/schemas/User.yaml"
     Token:
       $ref: "./components/schemas/Token.yaml"
-    LoginRequest:
-      $ref: "./components/schemas/LoginRequest.yaml"
+    OtpRequest:
+      $ref: "./components/schemas/OtpRequest.yaml"
+    OtpVerify:
+      $ref: "./components/schemas/OtpVerify.yaml"
+    OAuthCallbackRequest:
+      $ref: "./components/schemas/OAuthCallbackRequest.yaml"
+    RefreshRequest:
+      $ref: "./components/schemas/RefreshRequest.yaml"
 
   securitySchemes:
     BearerAuth:

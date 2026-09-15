@@ -1,0 +1,15 @@
+name: "locale"
+in: "query"
+required: false
+
+# prettier-ignore
+description: |-
+  BCP 47 locale to resolve translatable text against (e.g. "en", "uk-UA").
+  Defaults to the service''s configured default locale, with server-side
+  fallback if the requested locale has no translation for a given field. Content
+  authoring/translation management is out of scope for this public-facing API
+  surface.
+
+schema:
+  type: "string"
+  pattern: "^[a-z]{2,3}(-[A-Z]{2})?$"

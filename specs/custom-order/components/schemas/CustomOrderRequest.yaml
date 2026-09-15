@@ -1,0 +1,50 @@
+type: "object"
+required:
+  - "id"
+  - "status"
+  - "description"
+  - "createdAt"
+
+properties:
+  id:
+    type: "string"
+    format: "uuid"
+
+  status:
+    type: "string"
+    enum:
+      - "submitted"
+      - "quoted"
+      - "accepted"
+      - "rejected"
+      - "expired"
+      - "cancelled"
+
+  description:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      The customer's description of what they want made.
+
+  referenceImages:
+    type: "array"
+    items:
+      type: "string"
+      format: "uri"
+    # prettier-ignore
+    description: |-
+      Reference images the customer attached, hosted outside this service.
+
+  quote:
+    $ref: "./Quote.yaml"
+    # prettier-ignore
+    description: |-
+      Present once staff have responded with a price (status "quoted" or later).
+
+  createdAt:
+    type: "string"
+    format: "date-time"
+
+  updatedAt:
+    type: "string"
+    format: "date-time"

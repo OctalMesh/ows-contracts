@@ -1,0 +1,8 @@
+# prettier-ignore
+description: |-
+  Authenticated, but not allowed to perform this action on this resource
+
+content:
+  application/problem+json:
+    schema:
+      $ref: "../schemas/Error.yaml"

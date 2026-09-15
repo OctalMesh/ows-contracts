@@ -1,0 +1,9 @@
+# prettier-ignore
+description: |-
+  Rate limit exceeded. Used on abuse-prone endpoints (OTP dispatch, notification
+  triggers). Clients should back off; a `Retry-After` header may be present.
+
+content:
+  application/problem+json:
+    schema:
+      $ref: "../schemas/Error.yaml"

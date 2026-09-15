@@ -1,0 +1,32 @@
+post:
+  operationId: "verifyOtp"
+  # prettier-ignore
+  summary: |-
+    Verify a one-time code and issue tokens, creating the identity on first use
+  security: []
+
+  tags:
+    - "Auth"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/OtpVerify.yaml"
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        Successful authentication
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/Token.yaml"
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+
+    "429":
+      $ref: "../../shared/components/responses/TooManyRequests.yaml"

@@ -1,0 +1,47 @@
+type: "object"
+# prettier-ignore
+description: |-
+  Definition of a variant axis a product can optionally expose (color, size,
+  material, ...). Attributes are opt-in per product - a product lists only the
+  attributes relevant to it, so a non-customizable product can have an empty
+  list, and something like "material" only appears where the material is
+  actually a customer choice.
+
+required:
+  - "id"
+  - "key"
+  - "type"
+  - "label"
+
+properties:
+  id:
+    type: "string"
+    format: "uuid"
+
+  key:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Stable machine key, e.g. "color", "size", "material".
+    pattern: "^[a-z][a-z0-9_]*$"
+
+  type:
+    type: "string"
+    enum:
+      - "enum"
+      - "numeric"
+      - "text"
+
+  label:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Display label, resolved to the requested locale.
+
+  values:
+    type: "array"
+    # prettier-ignore
+    description: |-
+      The selectable values for this attribute, when type is "enum".
+    items:
+      $ref: "./ProductAttributeValue.yaml"

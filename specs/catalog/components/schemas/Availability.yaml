@@ -1,0 +1,42 @@
+type: "object"
+# prettier-ignore
+description: |-
+  Stock/production status for a single variant. `status` is derived by the
+  service from `onHandQuantity` and `leadTime` - clients must not recompute it,
+  only display it. Enum values are aligned with schema.org''s ItemAvailability
+  vocabulary where a direct match exists ("in_stock" ~ InStock, "low_stock" ~
+  LimitedAvailability, "out_of_stock" ~ OutOfStock, "discontinued" ~
+  Discontinued), plus two domain-specific additions: "made_to_order" for
+  print-on-demand variants with no stock on hand but an active production lead
+  time, and "backorder" for stock-manufactured variants awaiting supplier
+  restock rather than in-house production.
+
+required:
+  - "onHandQuantity"
+  - "status"
+
+properties:
+  onHandQuantity:
+    type: "integer"
+    minimum: 0
+    # prettier-ignore
+    description: |-
+      Units ready to ship right now.
+
+  leadTime:
+    $ref: "../../../shared/components/schemas/TimeRange.yaml"
+    # prettier-ignore
+    description: |-
+      Estimated time to produce or restock additional units. Absent when the
+      variant has no replenishment path configured (e.g. a discontinued
+      one-off).
+
+  status:
+    type: "string"
+    enum:
+      - "in_stock"
+      - "low_stock"
+      - "made_to_order"
+      - "backorder"
+      - "out_of_stock"
+      - "discontinued"

@@ -1,0 +1,18 @@
+type: "object"
+# prettier-ignore
+description: |-
+  An estimated time span, e.g. a manufacturing or fulfillment lead time. Both
+  bounds share the same unit; the service picks whatever unit reads best for the
+  magnitude (hours for same-day items, weeks for a long production queue) rather
+  than forcing everything into days.
+
+required:
+  - "min"
+  - "max"
+
+properties:
+  min:
+    $ref: "./Duration.yaml"
+
+  max:
+    $ref: "./Duration.yaml"

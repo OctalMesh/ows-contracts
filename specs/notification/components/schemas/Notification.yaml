@@ -1,0 +1,57 @@
+type: "object"
+required:
+  - "id"
+  - "category"
+  - "title"
+  - "body"
+  - "channels"
+  - "createdAt"
+
+properties:
+  id:
+    type: "string"
+    format: "uuid"
+
+  category:
+    type: "string"
+    enum:
+      - "order_update"
+      - "payment_update"
+      - "custom_order_update"
+      - "account"
+      - "system"
+
+  title:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Rendered from a template into the recipient's locale.
+
+  body:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Rendered from a template into the recipient's locale.
+
+  channels:
+    type: "array"
+    # prettier-ignore
+    description: |-
+      Channels this notification was actually delivered through.
+    items:
+      type: "string"
+      enum:
+        - "in_app"
+        - "email"
+        - "sms"
+
+  readAt:
+    type: "string"
+    format: "date-time"
+    # prettier-ignore
+    description: |-
+      Present once the in-app notification has been read.
+
+  createdAt:
+    type: "string"
+    format: "date-time"

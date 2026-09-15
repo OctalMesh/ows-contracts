@@ -1,0 +1,85 @@
+get:
+  operationId: "getMyProfile"
+  # prettier-ignore
+  summary: |-
+    Get the authenticated user's profile
+
+  tags:
+    - "Users"
+
+  security:
+    - BearerAuth: []
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        Profile
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/UserProfile.yaml"
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+
+patch:
+  operationId: "updateMyProfile"
+  # prettier-ignore
+  summary: |-
+    Partially update the authenticated user's profile
+
+  tags:
+    - "Users"
+
+  security:
+    - BearerAuth: []
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/UpdateUserProfile.yaml"
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        Updated profile
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/UserProfile.yaml"
+
+    "400":
+      $ref: "../../shared/components/responses/BadRequest.yaml"
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+
+delete:
+  operationId: "deleteMyAccount"
+  # prettier-ignore
+  summary: |-
+    Request account deletion (GDPR right to erasure)
+  # prettier-ignore
+  description: |-
+    Accepted asynchronously: triggers cascading deletion/anonymization across
+    services (orders and payment records are anonymized rather than deleted
+    where retention is legally required, e.g. accounting). The identity in the
+    auth service is revoked immediately.
+
+  tags:
+    - "Users"
+
+  security:
+    - BearerAuth: []
+
+  responses:
+    "202":
+      # prettier-ignore
+      description: |-
+        Deletion accepted and queued
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"

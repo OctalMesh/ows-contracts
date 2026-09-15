@@ -1,0 +1,30 @@
+type: "object"
+# prettier-ignore
+description: |-
+  A priced offer against a custom-order request, set by staff through the
+  (private, separate) admin contracts - this service only exposes it for the
+  customer to read and act on.
+required:
+  - "price"
+  - "leadTime"
+  - "expiresAt"
+
+properties:
+  price:
+    $ref: "../../../shared/components/schemas/Money.yaml"
+
+  leadTime:
+    $ref: "../../../shared/components/schemas/TimeRange.yaml"
+
+  notes:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Freeform note from staff about the quote (materials, constraints, etc.).
+
+  expiresAt:
+    type: "string"
+    format: "date-time"
+    # prettier-ignore
+    description: |-
+      The quote must be accepted before this time or it reverts to "expired".

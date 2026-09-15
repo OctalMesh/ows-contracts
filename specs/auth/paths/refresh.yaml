@@ -1,6 +1,8 @@
 post:
-  operationId: "login"
-  summary: "Authenticate user and issue tokens"
+  operationId: "refreshToken"
+  # prettier-ignore
+  summary: |-
+    Exchange a refresh token for a new token pair
   security: []
 
   tags:
@@ -11,11 +13,13 @@ post:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/LoginRequest.yaml"
+          $ref: "../components/schemas/RefreshRequest.yaml"
 
   responses:
     "200":
-      description: "Successful authentication"
+      # prettier-ignore
+      description: |-
+        New token pair (old refresh token is revoked)
       content:
         application/json:
           schema:

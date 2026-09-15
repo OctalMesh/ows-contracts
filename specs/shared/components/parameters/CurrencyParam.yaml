@@ -1,0 +1,14 @@
+name: "currency"
+in: "query"
+required: false
+
+# prettier-ignore
+description: |-
+  ISO 4217 currency code to resolve prices into (e.g. "USD", "UAH"). Defaults to
+  the currency implied by the storefront''s currency routing for the current
+  request. Prices are always explicit, admin-set amounts per currency - never a
+  live FX conversion.
+
+schema:
+  type: "string"
+  pattern: "^[A-Z]{3}$"

@@ -1,0 +1,109 @@
+get:
+  operationId: "getMyAddress"
+  # prettier-ignore
+  summary: |-
+    Get one of the authenticated user's addresses
+
+  tags:
+    - "Addresses"
+
+  security:
+    - BearerAuth: []
+
+  parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      schema:
+        type: "string"
+        format: "uuid"
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        Address
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/Address.yaml"
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+    "404":
+      $ref: "../../shared/components/responses/NotFound.yaml"
+
+put:
+  operationId: "replaceMyAddress"
+  # prettier-ignore
+  summary: |-
+    Replace one of the authenticated user's addresses
+
+  tags:
+    - "Addresses"
+
+  security:
+    - BearerAuth: []
+
+  parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      schema:
+        type: "string"
+        format: "uuid"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/NewAddress.yaml"
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        Updated address
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/Address.yaml"
+
+    "400":
+      $ref: "../../shared/components/responses/BadRequest.yaml"
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+    "404":
+      $ref: "../../shared/components/responses/NotFound.yaml"
+
+delete:
+  operationId: "deleteMyAddress"
+  # prettier-ignore
+  summary: |-
+    Delete one of the authenticated user's addresses
+
+  tags:
+    - "Addresses"
+
+  security:
+    - BearerAuth: []
+
+  parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      schema:
+        type: "string"
+        format: "uuid"
+
+  responses:
+    "204":
+      # prettier-ignore
+      description: |-
+        Deleted
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+    "404":
+      $ref: "../../shared/components/responses/NotFound.yaml"

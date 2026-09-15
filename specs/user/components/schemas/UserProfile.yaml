@@ -1,0 +1,43 @@
+type: "object"
+# prettier-ignore
+description: |-
+  Account profile and preferences. Deliberately holds no credentials (see the
+  auth service) and no binary assets - there is no avatar upload here, it isn't
+  needed for a shop.
+
+required:
+  - "id"
+  - "displayName"
+  - "createdAt"
+
+properties:
+  id:
+    type: "string"
+    format: "uuid"
+    # prettier-ignore
+    description: |-
+      Same id as the auth identity.
+
+  displayName:
+    type: "string"
+    minLength: 1
+
+  locale:
+    type: "string"
+    pattern: "^[a-z]{2,3}(-[A-Z]{2})?$"
+    # prettier-ignore
+    description: |-
+      Preferred locale, used as the default for the `locale` param across
+      services and for notification rendering.
+
+  preferredCurrency:
+    type: "string"
+    pattern: "^[A-Z]{3}$"
+
+  createdAt:
+    type: "string"
+    format: "date-time"
+
+  updatedAt:
+    type: "string"
+    format: "date-time"

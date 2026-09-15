@@ -1,0 +1,29 @@
+post:
+  operationId: "sendNotification"
+  # prettier-ignore
+  summary: |-
+    [Internal] Trigger a notification to a user from another service
+
+  tags:
+    - "Internal"
+
+  security:
+    - InternalApiKey: []
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/SendNotificationRequest.yaml"
+
+  responses:
+    "202":
+      # prettier-ignore
+      description: |-
+        Accepted for delivery
+
+    "400":
+      $ref: "../../shared/components/responses/BadRequest.yaml"
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"

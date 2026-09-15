@@ -1,0 +1,34 @@
+type: "object"
+required:
+  - "recipientName"
+  - "country"
+  - "city"
+  - "postalCode"
+  - "line1"
+
+properties:
+  label:
+    type: "string"
+
+  recipientName:
+    type: "string"
+    minLength: 1
+
+  phone:
+    type: "string"
+
+  country:
+    type: "string"
+    pattern: "^[A-Z]{2}$"
+
+  city:
+    type: "string"
+
+  postalCode:
+    type: "string"
+
+  line1:
+    type: "string"
+
+  line2:
+    type: "string"

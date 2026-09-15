@@ -1,0 +1,30 @@
+type: "object"
+# prettier-ignore
+description: |-
+  A cart/order line sourced from the catalog - a specific product variant.
+required:
+  - "sourceType"
+  - "variantId"
+  - "quantity"
+  - "unitPrice"
+
+properties:
+  sourceType:
+    type: "string"
+    enum:
+      - "catalog"
+
+  variantId:
+    type: "string"
+    format: "uuid"
+
+  quantity:
+    type: "integer"
+    minimum: 1
+
+  unitPrice:
+    $ref: "../../../shared/components/schemas/Money.yaml"
+    # prettier-ignore
+    description: |-
+      Snapshot of the variant's price (base price + selected attribute
+      modifiers) at the moment it entered the cart.

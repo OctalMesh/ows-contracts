@@ -1,0 +1,59 @@
+openapi: "3.1.2"
+
+info:
+  version: "0.1.0"
+  title: "User Service API"
+  termsOfService: "https://octalmesh.com/articles/terms"
+  contact:
+    name: "OctalMesh Support"
+    url: "https://octalmesh.com"
+    email: "contact@octalmesh.com"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/license/MIT"
+
+servers:
+  - url: "/api"
+
+tags:
+  - name: "Users"
+    # prettier-ignore
+    description: |-
+      Account profile, preferences, and GDPR data requests.
+  - name: "Addresses"
+    # prettier-ignore
+    description: |-
+      Saved shipping/billing addresses.
+
+paths:
+  /users/me:
+    $ref: "./paths/profile.yaml"
+  /users/me/data-export:
+    $ref: "./paths/data-export.yaml"
+  /users/me/addresses:
+    $ref: "./paths/addresses.yaml"
+  /users/me/addresses/{id}:
+    $ref: "./paths/address-by-id.yaml"
+
+components:
+  schemas:
+    UserProfile:
+      $ref: "./components/schemas/UserProfile.yaml"
+    UpdateUserProfile:
+      $ref: "./components/schemas/UpdateUserProfile.yaml"
+    Address:
+      $ref: "./components/schemas/Address.yaml"
+    NewAddress:
+      $ref: "./components/schemas/NewAddress.yaml"
+    AddressPage:
+      $ref: "./components/schemas/AddressPage.yaml"
+
+  securitySchemes:
+    BearerAuth:
+      $ref: "../shared/components/security/bearerAuth.yaml"
+
+  parameters:
+    Page:
+      $ref: "../shared/components/parameters/PageParam.yaml"
+    Limit:
+      $ref: "../shared/components/parameters/LimitParam.yaml"

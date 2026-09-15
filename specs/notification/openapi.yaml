@@ -1,0 +1,59 @@
+openapi: "3.1.2"
+
+info:
+  version: "0.1.0"
+  title: "Notification Service API"
+  termsOfService: "https://octalmesh.com/articles/terms"
+  contact:
+    name: "OctalMesh Support"
+    url: "https://octalmesh.com"
+    email: "contact@octalmesh.com"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/license/MIT"
+
+servers:
+  - url: "/api"
+
+tags:
+  - name: "Notifications"
+    # prettier-ignore
+    description: |-
+      In-app notifications and channel preferences for the authenticated user.
+  - name: "Internal"
+    # prettier-ignore
+    description: |-
+      Service-to-service triggers. Not reachable through the public gateway.
+
+paths:
+  /notifications:
+    $ref: "./paths/notifications.yaml"
+  /notifications/{id}/read:
+    $ref: "./paths/notification-read.yaml"
+  /notifications/preferences:
+    $ref: "./paths/preferences.yaml"
+  /internal/notifications:
+    $ref: "./paths/internal-send.yaml"
+
+components:
+  schemas:
+    Notification:
+      $ref: "./components/schemas/Notification.yaml"
+    NotificationPage:
+      $ref: "./components/schemas/NotificationPage.yaml"
+    NotificationPreferences:
+      $ref: "./components/schemas/NotificationPreferences.yaml"
+    SendNotificationRequest:
+      $ref: "./components/schemas/SendNotificationRequest.yaml"
+
+  securitySchemes:
+    BearerAuth:
+      $ref: "../shared/components/security/bearerAuth.yaml"
+    InternalApiKey:
+      $ref: "../shared/components/security/internalApiKey.yaml"
+
+  parameters:
+    Page:
+      $ref: "../shared/components/parameters/PageParam.yaml"
+    Limit:
+      $ref: "../shared/components/parameters/LimitParam.yaml"

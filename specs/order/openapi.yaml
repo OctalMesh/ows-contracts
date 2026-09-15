@@ -17,7 +17,9 @@ servers:
 
 tags:
   - name: "Orders"
-    description: "Shopping cart and order lifecycle operations."
+    # prettier-ignore
+    description: |-
+      Shopping cart and order lifecycle operations.
 
 paths:
   /cart:
@@ -37,6 +39,12 @@ components:
       $ref: "./components/schemas/Order.yaml"
     OrderPage:
       $ref: "./components/schemas/OrderPage.yaml"
+    CartItem:
+      $ref: "./components/schemas/CartItem.yaml"
+    CatalogCartItem:
+      $ref: "./components/schemas/CatalogCartItem.yaml"
+    CustomOrderCartItem:
+      $ref: "./components/schemas/CustomOrderCartItem.yaml"
 
   parameters:
     IdempotencyKey:

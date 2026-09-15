@@ -17,9 +17,13 @@ servers:
 
 tags:
   - name: "Payments"
-    description: "Payment transaction operations."
+    # prettier-ignore
+    description: |-
+      Payment transaction operations.
   - name: "Webhooks"
-    description: "Payment provider callback operations."
+    # prettier-ignore
+    description: |-
+      Payment provider callback operations.
 
 paths:
   /payments:

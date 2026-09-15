@@ -1,0 +1,27 @@
+post:
+  operationId: "logout"
+  # prettier-ignore
+  summary: |-
+    Revoke the current refresh token
+
+  tags:
+    - "Auth"
+
+  security:
+    - BearerAuth: []
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/RefreshRequest.yaml"
+
+  responses:
+    "204":
+      # prettier-ignore
+      description: |-
+        Revoked
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"

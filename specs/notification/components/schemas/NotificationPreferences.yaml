@@ -1,0 +1,33 @@
+type: "object"
+required:
+  - "categories"
+
+properties:
+  categories:
+    type: "array"
+    items:
+      type: "object"
+      required:
+        - "category"
+        - "channels"
+      properties:
+        category:
+          type: "string"
+          enum:
+            - "order_update"
+            - "payment_update"
+            - "custom_order_update"
+            - "account"
+            - "system"
+        channels:
+          type: "array"
+          # prettier-ignore
+          description: |-
+            Channels enabled for this category. "account"/"system" categories
+            always include at least in_app.
+          items:
+            type: "string"
+            enum:
+              - "in_app"
+              - "email"
+              - "sms"

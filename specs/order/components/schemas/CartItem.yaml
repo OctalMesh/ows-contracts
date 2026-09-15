@@ -1,17 +1,9 @@
-type: "object"
-required:
-  - "productId"
-  - "quantity"
-  - "unitPrice"
+oneOf:
+  - $ref: "./CatalogCartItem.yaml"
+  - $ref: "./CustomOrderCartItem.yaml"
 
-properties:
-  productId:
-    type: "string"
-    format: "uuid"
-
-  quantity:
-    type: "integer"
-    minimum: 1
-
-  unitPrice:
-    $ref: "../../../shared/components/schemas/Money.yaml"
+discriminator:
+  propertyName: "sourceType"
+  mapping:
+    catalog: "./CatalogCartItem.yaml"
+    custom_order: "./CustomOrderCartItem.yaml"

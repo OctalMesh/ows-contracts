@@ -17,25 +17,45 @@ servers:
 
 tags:
   - name: "Products"
-    description: "Product catalog and inventory status."
+    # prettier-ignore
+    description: |-
+      Product catalog, variant configuration, and availability.
 
 paths:
   /products:
     $ref: "./paths/products.yaml"
+  /products/{id}:
+    $ref: "./paths/product-by-id.yaml"
 
 components:
   schemas:
     Product:
       $ref: "./components/schemas/Product.yaml"
+    ProductSummary:
+      $ref: "./components/schemas/ProductSummary.yaml"
     ProductPage:
       $ref: "./components/schemas/ProductPage.yaml"
+    ProductAttribute:
+      $ref: "./components/schemas/ProductAttribute.yaml"
+    ProductAttributeValue:
+      $ref: "./components/schemas/ProductAttributeValue.yaml"
+    ProductVariant:
+      $ref: "./components/schemas/ProductVariant.yaml"
+    Availability:
+      $ref: "./components/schemas/Availability.yaml"
 
   parameters:
     Limit:
       $ref: "../shared/components/parameters/LimitParam.yaml"
     Page:
       $ref: "../shared/components/parameters/PageParam.yaml"
+    Locale:
+      $ref: "../shared/components/parameters/LocaleParam.yaml"
+    Currency:
+      $ref: "../shared/components/parameters/CurrencyParam.yaml"
 
   responses:
     BadRequest:
       $ref: "../shared/components/responses/BadRequest.yaml"
+    NotFound:
+      $ref: "../shared/components/responses/NotFound.yaml"

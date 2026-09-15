@@ -1,6 +1,8 @@
 get:
   operationId: "searchProducts"
-  summary: "Search products with filters and sorting"
+  # prettier-ignore
+  summary: |-
+    Search products with filters and sorting
   security: []
 
   tags:
@@ -10,6 +12,8 @@ get:
     - $ref: "../openapi.yaml#/components/parameters/Query"
     - $ref: "../openapi.yaml#/components/parameters/Page"
     - $ref: "../openapi.yaml#/components/parameters/Limit"
+    - $ref: "../openapi.yaml#/components/parameters/Locale"
+    - $ref: "../openapi.yaml#/components/parameters/Currency"
 
     - name: "category"
       in: "query"
@@ -28,7 +32,9 @@ get:
 
   responses:
     "200":
-      description: "Search results"
+      # prettier-ignore
+      description: |-
+        Search results
       content:
         application/json:
           schema:

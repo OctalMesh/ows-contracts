@@ -1,0 +1,58 @@
+openapi: "3.1.2"
+
+info:
+  version: "0.1.0"
+  title: "Custom Order Service API"
+  termsOfService: "https://octalmesh.com/articles/terms"
+  contact:
+    name: "OctalMesh Support"
+    url: "https://octalmesh.com"
+    email: "contact@octalmesh.com"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/license/MIT"
+
+servers:
+  - url: "/api"
+
+tags:
+  - name: "CustomOrders"
+    # prettier-ignore
+    description: |-
+      Intake and quoting lifecycle for custom (non-catalog) orders: submit ->
+      quoted -> accepted/rejected/expired. Staff-side quoting itself is done
+      through separate, private admin contracts; this surface is customer-facing
+      only.
+
+paths:
+  /custom-order-requests:
+    $ref: "./paths/requests.yaml"
+  /custom-order-requests/{id}:
+    $ref: "./paths/request-by-id.yaml"
+  /custom-order-requests/{id}/accept:
+    $ref: "./paths/accept.yaml"
+  /custom-order-requests/{id}/reject:
+    $ref: "./paths/reject.yaml"
+
+components:
+  schemas:
+    CustomOrderRequest:
+      $ref: "./components/schemas/CustomOrderRequest.yaml"
+    NewCustomOrderRequest:
+      $ref: "./components/schemas/NewCustomOrderRequest.yaml"
+    CustomOrderRequestPage:
+      $ref: "./components/schemas/CustomOrderRequestPage.yaml"
+    Quote:
+      $ref: "./components/schemas/Quote.yaml"
+
+  securitySchemes:
+    BearerAuth:
+      $ref: "../shared/components/security/bearerAuth.yaml"
+
+  parameters:
+    Page:
+      $ref: "../shared/components/parameters/PageParam.yaml"
+    Limit:
+      $ref: "../shared/components/parameters/LimitParam.yaml"
+    IdempotencyKey:
+      $ref: "../shared/components/parameters/IdempotencyKeyHeader.yaml"

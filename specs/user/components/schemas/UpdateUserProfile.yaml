@@ -1,0 +1,17 @@
+type: "object"
+# prettier-ignore
+description: |-
+  Partial update - only the supplied fields are changed.
+
+properties:
+  displayName:
+    type: "string"
+    minLength: 1
+
+  locale:
+    type: "string"
+    pattern: "^[a-z]{2,3}(-[A-Z]{2})?$"
+
+  preferredCurrency:
+    type: "string"
+    pattern: "^[A-Z]{3}$"

@@ -7,7 +7,7 @@ properties:
   items:
     type: "array"
     items:
-      $ref: "../../../catalog/components/schemas/Product.yaml"
+      $ref: "../../../catalog/components/schemas/ProductSummary.yaml"
 
   pagination:
     $ref: "../../../shared/components/schemas/Pagination.yaml"

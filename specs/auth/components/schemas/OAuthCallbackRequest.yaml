@@ -1,0 +1,29 @@
+type: "object"
+# prettier-ignore
+description: |-
+  Token exchange for the authorization-code step of an OAuth login. The
+  authorization redirect itself happens directly against the provider, not
+  through this API.
+required:
+  - "provider"
+  - "code"
+  - "redirectUri"
+
+properties:
+  provider:
+    type: "string"
+    enum:
+      - "google"
+
+  code:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Authorization code returned by the provider's redirect callback.
+
+  redirectUri:
+    type: "string"
+    format: "uri"
+    # prettier-ignore
+    description: |-
+      Must match the redirect_uri used in the original authorization request.

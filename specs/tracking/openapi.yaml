@@ -1,0 +1,38 @@
+openapi: "3.1.2"
+
+info:
+  version: "0.1.0"
+  title: "Tracking Service API"
+  termsOfService: "https://octalmesh.com/articles/terms"
+  contact:
+    name: "OctalMesh Support"
+    url: "https://octalmesh.com"
+    email: "contact@octalmesh.com"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/license/MIT"
+
+servers:
+  - url: "/api"
+
+tags:
+  - name: "Tracking"
+    # prettier-ignore
+    description: |-
+      Customer-facing order fulfillment pipeline (a simplified view onto the
+      private production system).
+
+paths:
+  /orders/{orderId}/tracking:
+    $ref: "./paths/order-tracking.yaml"
+
+components:
+  schemas:
+    OrderTracking:
+      $ref: "./components/schemas/OrderTracking.yaml"
+    OrderTrackingEvent:
+      $ref: "./components/schemas/OrderTrackingEvent.yaml"
+
+  securitySchemes:
+    BearerAuth:
+      $ref: "../shared/components/security/bearerAuth.yaml"

@@ -1,27 +1,70 @@
 type: "object"
+# prettier-ignore
+description: |-
+  A product "family" - what a catalog/product-detail page renders before the
+  customer picks specific attribute values. Purchasing always targets one of
+  `variants`, never the product itself.
+
 required:
   - "id"
+  - "slug"
   - "name"
-  - "price"
-  - "inventoryStatus"
+  - "manufacturingType"
+  - "attributes"
+  - "variants"
 
 properties:
   id:
     type: "string"
     format: "uuid"
 
+  slug:
+    type: "string"
+
   name:
     type: "string"
+    # prettier-ignore
+    description: |-
+      Resolved to the requested locale.
 
   description:
     type: "string"
+    # prettier-ignore
+    description: |-
+      Resolved to the requested locale.
 
-  price:
-    $ref: "../../../shared/components/schemas/Money.yaml"
-
-  inventoryStatus:
+  categoryId:
     type: "string"
+    format: "uuid"
+
+  images:
+    type: "array"
+    items:
+      type: "string"
+      format: "uri"
+
+  manufacturingType:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      How this product's variants come into existence. Custom orders are not
+      catalog products at all - they live in the custom-order service and enter
+      the cart through a different item shape (see the order service's CartItem).
     enum:
-      - "in_stock"
-      - "low_stock"
-      - "out_of_stock"
+      - "stock"
+      - "print_on_demand"
+
+  attributes:
+    type: "array"
+    # prettier-ignore
+    description: |-
+      The variant axes this product opts into. May be empty for a single-variant
+      product.
+    items:
+      $ref: "./ProductAttribute.yaml"
+
+  variants:
+    type: "array"
+    minItems: 1
+    items:
+      $ref: "./ProductVariant.yaml"

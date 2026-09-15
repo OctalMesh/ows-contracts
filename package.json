@@ -1,6 +1,6 @@
 {
   "name": "@octalmesh/ows-contracts",
-  "version": "1.0.0",
+  "version": "26.9.0",
   "description": "OpenAPI contracts for the OctalMesh Web Shop module",
   "author": "OctalMesh <contact@octalmesh.com> (https://octalmesh.com)",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "url": "https://github.com/OctalMesh/ows-contracts/issues",
     "email": "security@octalmesh.com"
   },
-  "packageManager": "pnpm@12.3.4",
+  "packageManager": "pnpm@12.4.2",
   "engines": {
     "node": ">=24.0.0",
     "pnpm": ">=12.0.0"
@@ -29,15 +29,12 @@
   },
   "scripts": {
     "clean": "seagull clean",
-    "lint": "pnpm run lint:oas && pnpm run lint:ts",
-    "lint:oas": "seagull lint",
-    "lint:ts": "eslint .",
+    "lint": "seagull lint",
     "bundle": "seagull bundle",
     "generate": "seagull generate",
-    "docs": "seagull docs generate",
-    "docs:build": "pnpm run bundle && pnpm run docs",
+    "docs": "pnpm run bundle && pnpm run docs:generate && pnpm run docs:serve",
+    "docs:generate": "seagull docs generate",
     "docs:serve": "seagull docs serve",
-    "docs:preview": "pnpm run docs:build && pnpm run docs:serve",
     "publish:sdk": "seagull publish sdk",
     "publish:registries": "seagull publish registries",
     "format": "prettier . --write",

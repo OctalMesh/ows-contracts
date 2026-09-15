@@ -1,8 +1,13 @@
 type: "object"
+# prettier-ignore
+description: |-
+  Authentication identity only - who can log in, and how. Profile details
+  (display name, preferences) live in the user service; this service
+  deliberately knows nothing about them, keeping the credential surface as small
+  as possible.
+
 required:
   - "id"
-  - "email"
-  - "displayName"
   - "createdAt"
 
 properties:
@@ -14,9 +19,21 @@ properties:
     type: "string"
     format: "email"
 
-  displayName:
+  emailVerified:
+    type: "boolean"
+
+  phone:
     type: "string"
-    minLength: 1
+
+  phoneVerified:
+    type: "boolean"
+
+  linkedProviders:
+    type: "array"
+    items:
+      type: "string"
+      enum:
+        - "google"
 
   createdAt:
     type: "string"

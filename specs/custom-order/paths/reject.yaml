@@ -1,0 +1,37 @@
+post:
+  operationId: "rejectCustomOrderQuote"
+  # prettier-ignore
+  summary: |-
+    Reject the current quote for a custom-order request
+
+  tags:
+    - "CustomOrders"
+
+  security:
+    - BearerAuth: []
+
+  parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      schema:
+        type: "string"
+        format: "uuid"
+    - $ref: "../openapi.yaml#/components/parameters/IdempotencyKey"
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        Rejected
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/CustomOrderRequest.yaml"
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+    "404":
+      $ref: "../../shared/components/responses/NotFound.yaml"
+    "409":
+      $ref: "../../shared/components/responses/Conflict.yaml"

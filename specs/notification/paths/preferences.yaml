@@ -1,0 +1,58 @@
+get:
+  operationId: "getMyNotificationPreferences"
+  # prettier-ignore
+  summary: |-
+    Get the authenticated user's notification channel preferences
+
+  tags:
+    - "Notifications"
+
+  security:
+    - BearerAuth: []
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        The user's notification preferences
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/NotificationPreferences.yaml"
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+
+put:
+  operationId: "updateMyNotificationPreferences"
+  # prettier-ignore
+  summary: |-
+    Replace the authenticated user's notification channel preferences
+
+  tags:
+    - "Notifications"
+
+  security:
+    - BearerAuth: []
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/NotificationPreferences.yaml"
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        The updated notification preferences
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/NotificationPreferences.yaml"
+
+    "400":
+      $ref: "../../shared/components/responses/BadRequest.yaml"
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"

@@ -25,6 +25,16 @@ vars:
     repo: "ows-contracts"
 
 # ============================================================================ #
+# Paths - where to bundle the contracts, and which formats to bundle them in.  #
+# The `dist` path is the root directory for all generated artifacts.           #
+# ============================================================================ #
+paths:
+  dist: "dist"
+  specFormat:
+    - "json"
+    - "yaml"
+
+# ============================================================================ #
 #  Publishing - git branch/tag naming and registry URLs for every artifact,    #
 #  unless overridden per-generator (`generators.<id>.publishing`) or           #
 #  per-contract-artifact (`artifacts[].overrides.publishing`).                 #
@@ -52,7 +62,7 @@ docs:
 
   metadata:
     title: "OWS - API Reference"
-    description: "API documentation for the OctalMesh Web Shop, including Auth, Catalog, Order, Payment, and Search services."
+    description: "API documentation for the OctalMesh Web Shop services."
     favicon: "https://octalmesh.com/favicon.ico"
     baseServerUrl: "https://octalmesh.com"
 
@@ -154,6 +164,11 @@ contracts:
     entrypoint: "specs/auth/openapi.yaml"
 
   - <<: *contracts_defaults
+    name: "user"
+    title: "User Service API"
+    entrypoint: "specs/user/openapi.yaml"
+
+  - <<: *contracts_defaults
     name: "catalog"
     title: "Catalog Service API"
     entrypoint: "specs/catalog/openapi.yaml"
@@ -164,6 +179,11 @@ contracts:
     entrypoint: "specs/order/openapi.yaml"
 
   - <<: *contracts_defaults
+    name: "custom-order"
+    title: "Custom Order Service API"
+    entrypoint: "specs/custom-order/openapi.yaml"
+
+  - <<: *contracts_defaults
     name: "payment"
     title: "Payment Service API"
     entrypoint: "specs/payment/openapi.yaml"
@@ -172,3 +192,13 @@ contracts:
     name: "search"
     title: "Search Service API"
     entrypoint: "specs/search/openapi.yaml"
+
+  - <<: *contracts_defaults
+    name: "tracking"
+    title: "Tracking Service API"
+    entrypoint: "specs/tracking/openapi.yaml"
+
+  - <<: *contracts_defaults
+    name: "notification"
+    title: "Notification Service API"
+    entrypoint: "specs/notification/openapi.yaml"

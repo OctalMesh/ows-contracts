@@ -1,0 +1,62 @@
+get:
+  operationId: "listMyAddresses"
+  # prettier-ignore
+  summary: |-
+    List the authenticated user's saved addresses
+
+  tags:
+    - "Addresses"
+
+  security:
+    - BearerAuth: []
+
+  parameters:
+    - $ref: "../openapi.yaml#/components/parameters/Page"
+    - $ref: "../openapi.yaml#/components/parameters/Limit"
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        Address page
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/AddressPage.yaml"
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+
+post:
+  operationId: "addMyAddress"
+  # prettier-ignore
+  summary: |-
+    Add a new address
+
+  tags:
+    - "Addresses"
+
+  security:
+    - BearerAuth: []
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/NewAddress.yaml"
+
+  responses:
+    "201":
+      # prettier-ignore
+      description: |-
+        Address created
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/Address.yaml"
+
+    "400":
+      $ref: "../../shared/components/responses/BadRequest.yaml"
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"

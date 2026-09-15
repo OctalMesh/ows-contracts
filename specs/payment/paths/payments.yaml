@@ -1,6 +1,8 @@
 post:
   operationId: "createPayment"
-  summary: "Create a payment for an order"
+  # prettier-ignore
+  summary: |-
+    Create a payment for an order
 
   tags:
     - "Payments"
@@ -20,7 +22,9 @@ post:
 
   responses:
     "201":
-      description: "Payment created"
+      # prettier-ignore
+      description: |-
+        Payment created
       content:
         application/json:
           schema:

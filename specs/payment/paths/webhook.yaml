@@ -1,6 +1,8 @@
 post:
   operationId: "receivePaymentWebhook"
-  summary: "Receive a payment provider callback"
+  # prettier-ignore
+  summary: |-
+    Receive a payment provider callback
   security: []
 
   tags:
@@ -15,6 +17,9 @@ post:
 
   responses:
     "204":
-      description: "Webhook accepted"
+      # prettier-ignore
+      description: |-
+        Webhook accepted
+
     "400":
       $ref: "../../shared/components/responses/BadRequest.yaml"

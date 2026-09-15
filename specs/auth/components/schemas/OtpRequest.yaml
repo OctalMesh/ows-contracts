@@ -1,0 +1,22 @@
+type: "object"
+# prettier-ignore
+description: |-
+  Initiates a passwordless login/registration - sends a one-time code to the
+  given channel. Identical for a new or returning identity; the account is
+  created implicitly on first successful verification.
+required:
+  - "channel"
+  - "identifier"
+
+properties:
+  channel:
+    type: "string"
+    enum:
+      - "email"
+      - "sms"
+
+  identifier:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Email address or E.164 phone number, matching `channel`.

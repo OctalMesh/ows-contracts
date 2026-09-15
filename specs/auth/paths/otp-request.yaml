@@ -1,0 +1,26 @@
+post:
+  operationId: "requestOtp"
+  # prettier-ignore
+  summary: |-
+    Send a one-time login code to an email address or phone number
+  security: []
+
+  tags:
+    - "Auth"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/OtpRequest.yaml"
+
+  responses:
+    "202":
+      # prettier-ignore
+      description: |-
+        Code dispatched (if the identifier is valid; response is uniform either
+        way to avoid enumeration)
+
+    "429":
+      $ref: "../../shared/components/responses/TooManyRequests.yaml"

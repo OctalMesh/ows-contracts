@@ -53,7 +53,6 @@ jobs:
       - uses: actions/upload-artifact@v7
         with: { name: contracts-specs, path: dist/specs }
 
-  # Documentation website
   docs:
     needs: bundle
     runs-on: ubuntu-latest
@@ -66,7 +65,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - uses: actions/download-artifact@v8
         with: { name: contracts-specs, path: dist/specs }
-      - run: pnpm run docs
+      - run: pnpm run docs:generate
       - run: echo "developers.octalmesh.com" > dist/docs/CNAME
       - uses: actions/upload-pages-artifact@v5
         with: { path: dist/docs }
@@ -81,7 +80,6 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v5
 
-  # Generate every SDK into dist/sdk
   generate-sdk:
     needs: bundle
     runs-on: ubuntu-latest
@@ -109,7 +107,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-        with: { fetch-depth: 0 } # full history: needed for `git worktree` + tag lookups
+        with: { fetch-depth: 0 }
       - uses: pnpm/action-setup@v6
         with: { version: "${{ env.PNPM_VERSION }}" }
       - uses: actions/setup-node@v7
@@ -124,8 +122,6 @@ jobs:
       - name: "Publish SDK branches + tags"
         run: pnpm run publish:sdk -- ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
-  # Push the registry-backed artifacts: npm (TS client), Maven (Java server).
-  # Go is intentionally excluded - it's consumed straight from the branch.
   publish-registries:
     needs: publish-branches
     if: ${{ github.event.inputs.dry_run != 'true' }}

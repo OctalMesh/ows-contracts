@@ -1,6 +1,8 @@
 get:
   operationId: "getCart"
-  summary: "Get the current shopping cart"
+  # prettier-ignore
+  summary: |-
+    Get the current shopping cart
 
   tags:
     - "Orders"
@@ -10,7 +12,9 @@ get:
 
   responses:
     "200":
-      description: "Current cart"
+      # prettier-ignore
+      description: |-
+        Current cart
       content:
         application/json:
           schema:
@@ -21,7 +25,9 @@ get:
 
 post:
   operationId: "checkoutCart"
-  summary: "Convert the current cart into an order"
+  # prettier-ignore
+  summary: |-
+    Convert the current cart into an order
 
   tags:
     - "Orders"
@@ -34,7 +40,9 @@ post:
 
   responses:
     "201":
-      description: "Created order"
+      # prettier-ignore
+      description: |-
+        Created order
       content:
         application/json:
           schema:

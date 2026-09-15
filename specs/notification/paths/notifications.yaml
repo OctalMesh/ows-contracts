@@ -1,0 +1,35 @@
+get:
+  operationId: "listMyNotifications"
+  # prettier-ignore
+  summary: |-
+    List the authenticated user's in-app notifications
+
+  tags:
+    - "Notifications"
+
+  security:
+    - BearerAuth: []
+
+  parameters:
+    - $ref: "../openapi.yaml#/components/parameters/Page"
+    - $ref: "../openapi.yaml#/components/parameters/Limit"
+
+    - name: "unreadOnly"
+      in: "query"
+      required: false
+      schema:
+        type: "boolean"
+        default: false
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        The user's notification page
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/NotificationPage.yaml"
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"

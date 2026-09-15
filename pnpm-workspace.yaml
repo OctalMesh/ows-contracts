@@ -9,6 +9,12 @@
 
 minimumReleaseAge: 0
 
+update:
+  githubActions: true
+
+overrides:
+  "@redocly/cli": "2.53.2"
+
 allowBuilds:
   "@openapitools/openapi-generator-cli": true
   vue-demi: true

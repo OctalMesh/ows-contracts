@@ -1,0 +1,8 @@
+type: "apiKey"
+in: "header"
+name: "X-Internal-Api-Key"
+# prettier-ignore
+description: |-
+  Service-to-service credential for internal-only endpoints (e.g. other services
+  triggering a notification). Never routed through the public gateway; issued
+  per calling service and rotated independently of any end-user credential.

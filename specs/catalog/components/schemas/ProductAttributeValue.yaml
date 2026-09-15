@@ -1,0 +1,38 @@
+type: "object"
+required:
+  - "id"
+  - "value"
+  - "label"
+
+properties:
+  id:
+    type: "string"
+    format: "uuid"
+
+  value:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Stable machine value, e.g. "red", "xl".
+
+  label:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Display label, resolved to the requested locale.
+
+  swatchHex:
+    type: "string"
+    pattern: "^#[0-9a-fA-F]{6}$"
+    # prettier-ignore
+    description: |-
+      Optional color swatch, relevant when the parent attribute represents a
+      color.
+
+  priceModifier:
+    $ref: "../../../shared/components/schemas/Money.yaml"
+    # prettier-ignore
+    description: |-
+      Optional additive delta applied to a variant's base price when this value
+      is selected, resolved to the requested currency. Absent means no price
+      change - most values (e.g. most colors) won't carry one.

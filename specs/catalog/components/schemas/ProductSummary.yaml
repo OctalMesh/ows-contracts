@@ -1,0 +1,67 @@
+type: "object"
+# prettier-ignore
+description: |-
+  A lightweight projection of a product for listing contexts (catalog browsing,
+  search results) - no variant graph, just enough to render a card and let the
+  customer decide whether to open the product page.
+
+required:
+  - "id"
+  - "slug"
+  - "name"
+  - "manufacturingType"
+  - "priceRange"
+  - "availabilityStatus"
+
+properties:
+  id:
+    type: "string"
+    format: "uuid"
+
+  slug:
+    type: "string"
+
+  name:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Resolved to the requested locale.
+
+  thumbnail:
+    type: "string"
+    format: "uri"
+
+  manufacturingType:
+    type: "string"
+    enum:
+      - "stock"
+      - "print_on_demand"
+
+  priceRange:
+    type: "object"
+    # prettier-ignore
+    description: |-
+      Lowest and highest variant price (incl. attribute modifiers), resolved to
+      the requested currency.
+    required:
+      - "min"
+      - "max"
+    properties:
+      min:
+        $ref: "../../../shared/components/schemas/Money.yaml"
+      max:
+        $ref: "../../../shared/components/schemas/Money.yaml"
+
+  availabilityStatus:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      The most favorable availability status across this product's variants, for
+      catalog-browsing badges.
+    enum:
+      - "in_stock"
+      - "low_stock"
+      - "made_to_order"
+      - "backorder"
+      - "out_of_stock"
+      - "discontinued"

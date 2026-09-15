@@ -103,14 +103,15 @@ graph TD
   GenSDK --> PubBranches[publish-branches <br/> git push, orphan branch + tag]
   PubBranches --> PubRegistries[publish-registries <br/> npm publish, mvn deploy]
 
-  style Version       fill:#f6d9f5,stroke:#b7a1b6,stroke-width:2px,color:#000
-  style Lint          fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000
-  style Bundle        fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000
-  style GenDocs       fill:#ccefff,stroke:#9cb7c4,stroke-width:2px,color:#000
-  style DeployDocs    fill:#e2f0cb,stroke:#a8b796,stroke-width:2px,color:#000
-  style GenSDK        fill:#ccefff,stroke:#9cb7c4,stroke-width:2px,color:#000
-  style PubBranches   fill:#f9cedc,stroke:#b79ca5,stroke-width:2px,color:#000
-  style PubRegistries fill:#e2f0cb,stroke:#a8b796,stroke-width:2px,color:#000
+  style Version       fill:#f6d9f5,stroke:#b7a1b6,stroke-width:2px,color:#000,rx:6,ry:6
+  style Lint          fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000,rx:6,ry:6
+  style Bundle        fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000,rx:6,ry:6
+  style GenDocs       fill:#ccefff,stroke:#9cb7c4,stroke-width:2px,color:#000,rx:6,ry:6
+  style DeployDocs    fill:#e2f0cb,stroke:#a8b796,stroke-width:2px,color:#000,rx:6,ry:6
+  style GenSDK        fill:#ccefff,stroke:#9cb7c4,stroke-width:2px,color:#000,rx:6,ry:6
+  style PubBranches   fill:#f9cedc,stroke:#b79ca5,stroke-width:2px,color:#000,rx:6,ry:6
+  style PubRegistries fill:#e2f0cb,stroke:#a8b796,stroke-width:2px,color:#000,rx:6,ry:6
+
 ```
 
 - **`generate-sdk`** (`seagull generate`) reads `seagull.yaml`, and for
@@ -155,11 +156,11 @@ bump.
 ### Local usage
 
 ```bash
-pnpm install
-pnpm run lint         # lint -> specs/
-pnpm run bundle       # bundle -> dist/specs
-pnpm run generate     # generate -> dist/sdk (all artifacts x all contracts, per seagull.yaml)
-pnpm run docs:preview # generate and preview the docs locally (dist/docs)
+pnpm install       # install dependencies
+pnpm run lint      # lint -> specs/
+pnpm run bundle    # bundle -> dist/specs
+pnpm run generate  # generate -> dist/sdk (all artifacts x all contracts, per seagull.yaml)
+pnpm run docs      # generate -> dist/docs, and serve the docs
 
 # Dry-run the branch/tag publishing without pushing anything:
 SDK_VERSION_OVERRIDE=0.1.0-local pnpm run publish:sdk -- --dry-run

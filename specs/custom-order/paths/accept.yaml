@@ -1,0 +1,42 @@
+post:
+  operationId: "acceptCustomOrderQuote"
+  # prettier-ignore
+  summary: |-
+    Accept the current quote for a custom-order request
+  # prettier-ignore
+  description: |-
+    Only valid while status is \"quoted\" and the quote has not expired. Once
+    accepted, the request id can be added to the cart as a custom_order cart
+    item.
+
+  tags:
+    - "CustomOrders"
+
+  security:
+    - BearerAuth: []
+
+  parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      schema:
+        type: "string"
+        format: "uuid"
+    - $ref: "../openapi.yaml#/components/parameters/IdempotencyKey"
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        Accepted
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/CustomOrderRequest.yaml"
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+    "404":
+      $ref: "../../shared/components/responses/NotFound.yaml"
+    "409":
+      $ref: "../../shared/components/responses/Conflict.yaml"

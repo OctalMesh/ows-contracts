@@ -1,6 +1,8 @@
 get:
   operationId: "getCurrentUser"
-  summary: "Get the authenticated user profile"
+  # prettier-ignore
+  summary: |-
+    Get the authenticated user profile
 
   tags:
     - "Auth"
@@ -10,7 +12,9 @@ get:
 
   responses:
     "200":
-      description: "Current user"
+      # prettier-ignore
+      description: |-
+        The current user
       content:
         application/json:
           schema:

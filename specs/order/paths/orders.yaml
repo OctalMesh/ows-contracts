@@ -1,6 +1,8 @@
 get:
   operationId: "listOrders"
-  summary: "List orders for the current user"
+  # prettier-ignore
+  summary: |-
+    List orders for the current user
 
   tags:
     - "Orders"
@@ -14,7 +16,9 @@ get:
 
   responses:
     "200":
-      description: "Order page"
+      # prettier-ignore
+      description: |-
+        Order page
       content:
         application/json:
           schema:

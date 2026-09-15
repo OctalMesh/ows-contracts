@@ -1,0 +1,62 @@
+get:
+  operationId: "listMyCustomOrderRequests"
+  # prettier-ignore
+  summary: |-
+    List the authenticated user's custom-order requests
+
+  tags:
+    - "CustomOrders"
+
+  security:
+    - BearerAuth: []
+
+  parameters:
+    - $ref: "../openapi.yaml#/components/parameters/Page"
+    - $ref: "../openapi.yaml#/components/parameters/Limit"
+
+  responses:
+    "200":
+      # prettier-ignore
+      description: |-
+        Request page
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/CustomOrderRequestPage.yaml"
+
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+
+post:
+  operationId: "submitCustomOrderRequest"
+  # prettier-ignore
+  summary: |-
+    Submit a new custom-order request
+
+  tags:
+    - "CustomOrders"
+
+  security:
+    - BearerAuth: []
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/NewCustomOrderRequest.yaml"
+
+  responses:
+    "201":
+      # prettier-ignore
+      description: |-
+        Request submitted
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/CustomOrderRequest.yaml"
+
+    "400":
+      $ref: "../../shared/components/responses/BadRequest.yaml"
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"

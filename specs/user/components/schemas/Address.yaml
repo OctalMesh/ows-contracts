@@ -1,0 +1,45 @@
+type: "object"
+required:
+  - "id"
+  - "recipientName"
+  - "country"
+  - "city"
+  - "postalCode"
+  - "line1"
+
+properties:
+  id:
+    type: "string"
+    format: "uuid"
+
+  label:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Customer-facing label, e.g. "Home", "Workshop".
+
+  recipientName:
+    type: "string"
+    minLength: 1
+
+  phone:
+    type: "string"
+
+  country:
+    type: "string"
+    pattern: "^[A-Z]{2}$"
+    # prettier-ignore
+    description: |-
+      ISO 3166-1 alpha-2 country code.
+
+  city:
+    type: "string"
+
+  postalCode:
+    type: "string"
+
+  line1:
+    type: "string"
+
+  line2:
+    type: "string"

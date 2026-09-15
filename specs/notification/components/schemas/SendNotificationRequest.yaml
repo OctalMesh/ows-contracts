@@ -1,0 +1,54 @@
+type: "object"
+# prettier-ignore
+description: |-
+  Internal, service-to-service trigger. Callers never compose the message text
+  themselves - they reference a template and its parameters, and this service
+  renders it in the recipient's locale and fans it out to their enabled
+  channels. This keeps translated copy in one place instead of duplicated across
+  every other service.
+
+required:
+  - "userId"
+  - "category"
+  - "templateKey"
+
+properties:
+  userId:
+    type: "string"
+    format: "uuid"
+
+  category:
+    type: "string"
+    enum:
+      - "order_update"
+      - "payment_update"
+      - "custom_order_update"
+      - "account"
+      - "system"
+
+  templateKey:
+    type: "string"
+    # prettier-ignore
+    description: |-
+      Identifies the message template, e.g. "order.shipped",
+      "custom_order.quoted".
+
+  params:
+    type: "object"
+    additionalProperties: true
+    # prettier-ignore
+    description: |-
+      Values interpolated into the template, e.g. { orderId, trackingUrl }.
+
+  channelsOverride:
+    type: "array"
+    # prettier-ignore
+    description: |-
+      Explicit channel override; by default resolved from the recipient's
+      preferences for this category.
+    items:
+      type: "string"
+      enum:
+        - "in_app"
+        - "email"
+        - "sms"

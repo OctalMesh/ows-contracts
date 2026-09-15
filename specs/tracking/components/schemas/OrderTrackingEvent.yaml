@@ -1,0 +1,20 @@
+type: "object"
+required:
+  - "stage"
+  - "occurredAt"
+
+properties:
+  stage:
+    type: "string"
+    enum:
+      - "received"
+      - "in_production"
+      - "quality_check"
+      - "ready"
+      - "shipped"
+      - "delivered"
+      - "cancelled"
+
+  occurredAt:
+    type: "string"
+    format: "date-time"

@@ -1,0 +1,60 @@
+type: "object"
+# prettier-ignore
+description: |-
+  A single purchasable SKU: one specific combination of the parent product's
+  attribute values. Carts and orders reference variants, never the parent
+  product directly.
+
+required:
+  - "id"
+  - "sku"
+  - "attributeValues"
+  - "basePrice"
+  - "availability"
+
+properties:
+  id:
+    type: "string"
+    format: "uuid"
+
+  sku:
+    type: "string"
+
+  attributeValues:
+    type: "array"
+    # prettier-ignore
+    description: |-
+      The attribute values selected for this variant. Empty for a product with
+      no configurable attributes.
+    items:
+      type: "object"
+      required:
+        - "attributeId"
+        - "valueId"
+      properties:
+        attributeId:
+          type: "string"
+          format: "uuid"
+        valueId:
+          type: "string"
+          format: "uuid"
+
+  images:
+    type: "array"
+    items:
+      type: "string"
+      format: "uri"
+    # prettier-ignore
+    description: |-
+      Overrides the parent product's images when present.
+
+  basePrice:
+    $ref: "../../../shared/components/schemas/Money.yaml"
+    # prettier-ignore
+    description: |-
+      Explicit, admin-set price before attribute price modifiers, resolved to
+      the requested currency. Add the selected attribute values' `priceModifier`
+      amounts to get the final price - no live FX conversion is ever applied.
+
+  availability:
+    $ref: "./Availability.yaml"

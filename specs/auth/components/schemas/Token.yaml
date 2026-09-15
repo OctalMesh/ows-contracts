@@ -1,11 +1,15 @@
 type: "object"
 required:
   - "accessToken"
+  - "refreshToken"
   - "tokenType"
   - "expiresIn"
 
 properties:
   accessToken:
+    type: "string"
+
+  refreshToken:
     type: "string"
 
   tokenType:
@@ -17,3 +21,7 @@ properties:
     type: "integer"
     format: "int32"
     minimum: 1
+    # prettier-ignore
+    description: |-
+      Access token lifetime in seconds. Refresh tokens are opaque and
+      long-lived; rotate on use.

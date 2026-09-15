@@ -1,0 +1,26 @@
+post:
+  operationId: "requestDataExport"
+  # prettier-ignore
+  summary: |-
+    Request an export of all personal data held about the user (GDPR right to
+    access)
+  # prettier-ignore
+  description: |-
+    Accepted asynchronously; the compiled export is delivered as a download
+    link via a notification once ready, rather than returned inline here.
+
+  tags:
+    - "Users"
+
+  security:
+    - BearerAuth: []
+
+  responses:
+    "202":
+      # prettier-ignore
+      description: |-
+        Export requested and queued
+    "401":
+      $ref: "../../shared/components/responses/Unauthorized.yaml"
+    "429":
+      $ref: "../../shared/components/responses/TooManyRequests.yaml"

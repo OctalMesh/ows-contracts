@@ -1,0 +1,19 @@
+type: "object"
+required:
+  - "channel"
+  - "identifier"
+  - "code"
+
+properties:
+  channel:
+    type: "string"
+    enum:
+      - "email"
+      - "sms"
+
+  identifier:
+    type: "string"
+
+  code:
+    type: "string"
+    pattern: "^[0-9]{6}$"

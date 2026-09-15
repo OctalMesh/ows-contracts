@@ -38,14 +38,6 @@ updates:
           - "typescript"
           - "typescript-*"
 
-      # ESLint ecosystem packages
-      eslint:
-        patterns:
-          - "eslint"
-          - "eslint-*"
-          - "@eslint/*"
-          - "typescript-eslint"
-
       # Prettier ecosystem packages
       prettier:
         patterns:
@@ -53,34 +45,11 @@ updates:
           - "prettier-*"
           - "@trivago/prettier-*"
 
-      # Testing-related packages
-      testing:
-        patterns:
-          - "vitest"
-          - "@vitest/*"
-          - "vite-*"
-          - "@vitejs/*"
-
-      # Build and CLI tools
-      dev-tools:
-        patterns:
-          - "tsup"
-          - "npm-check-updates"
-
-      # TypeScript types packages
-      types:
-        patterns:
-          - "@types/node"
-
     # Ignore major version updates for critical dependencies to prevent breaking
     # changes without manual review
     ignore:
       - dependency-name: "typescript"
         update-types: ["version-update:semver-major"]
-      - dependency-name: "eslint"
-        update-types: [ "version-update:semver-major" ]
-      - dependency-name: "typescript-eslint"
-        update-types: [ "version-update:semver-major" ]
 
   # Keep GitHub Actions up to date
   - package-ecosystem: "github-actions"
